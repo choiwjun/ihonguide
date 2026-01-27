@@ -1647,25 +1647,25 @@
 - **테스트:** 헤딩이 h1 > h2 > h3 순서 따름
 - **작업:** 헤딩 구조 감사 및 수정
 - **참조:** [05-DesignSystem.md](./05-DesignSystem.md) 섹션 8
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 4.2.2: 키보드 네비게이션 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 모든 인터랙티브 요소가 Tab으로 도달 가능
 - **작업:** 누락된 tabindex 또는 포커스 처리 수정
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 4.2.3: ARIA 라벨 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 스크린 리더가 모든 인터랙티브 요소 안내
 - **작업:** 필요한 곳에 aria-label 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 4.2.4: Lighthouse Accessibility 90+ 달성
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** Lighthouse 감사에서 Accessibility >= 90
 - **작업:** 남은 접근성 이슈 수정
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 ---
 
