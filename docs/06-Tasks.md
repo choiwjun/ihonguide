@@ -234,7 +234,8 @@
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** `npm run test`가 에러 없이 실행
 - **작업:** Vitest, @testing-library/react 설치, vitest.config.ts 설정
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** vitest v4, @testing-library/react, jsdom 설정 완료
 
 #### [S] Task 0.1.7: cn 유틸리티 함수 생성
 - **유형:** 구조적(STRUCTURAL)
