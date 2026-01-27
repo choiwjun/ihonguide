@@ -10,7 +10,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "db:types": "supabase gen types typescript --project-id $SUPABASE_PROJECT_REF --schema public > types/database.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.8.0",
@@ -40,6 +41,7 @@
     "jsdom": "^27.4.0",
     "postcss": "^8.5.6",
     "prettier": "^3.8.1",
+    "supabase": "^2.72.8",
     "tailwindcss": "^4.1.18",
     "typescript": "^5",
     "vitest": "^4.0.18"

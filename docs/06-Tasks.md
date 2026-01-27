@@ -365,7 +365,8 @@
 - **테스트:** `npm run db:types` 명령으로 타입 파일 생성
 - **작업:** supabase gen types 명령 설정, `src/types/database.types.ts` 생성
 - **참조:** [02-TRD.md](./02-TRD.md) 섹션 2.1
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** supabase CLI 설치, db:types 스크립트 추가, SUPABASE_PROJECT_REF 환경 변수 추가
 
 #### [S] Task 0.2.14: Supabase 서버 클라이언트 생성
 - **유형:** 구조적(STRUCTURAL)
