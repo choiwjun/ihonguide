@@ -1612,31 +1612,31 @@
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 이미지가 적절한 크기의 WebP로 제공
 - **작업:** 모든 이미지에 next/image 설정
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 4.1.2: 폰트 최적화 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 폰트가 display:swap으로 프리로드
 - **작업:** 폰트 로딩 전략 설정
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 4.1.3: 코드 스플리팅 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 동적 임포트가 초기 번들 크기 감소
 - **작업:** 무거운 컴포넌트에 동적 임포트 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 4.1.4: 블로그 SSG 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 블로그 페이지가 정적으로 생성
 - **작업:** 블로그용 generateStaticParams 설정
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 4.1.5: Lighthouse Performance 90+ 달성
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** Lighthouse 감사에서 Performance >= 90
 - **작업:** 남은 성능 이슈 수정
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 ---
 
