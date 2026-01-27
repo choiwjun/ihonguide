@@ -195,7 +195,8 @@
 - **테스트:** `npm run build`가 에러 없이 성공
 - **작업:** Next.js 14 App Router 프로젝트를 TypeScript로 초기화
 - **참조:** [07-CodingConvention.md](./07-CodingConvention.md) 섹션 2
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** Next.js 16.1.5 사용 (보안 패치 적용)
 
 #### [S] Task 0.1.2: ESLint 및 Prettier 설정
 - **유형:** 구조적(STRUCTURAL)
