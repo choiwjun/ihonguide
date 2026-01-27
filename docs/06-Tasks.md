@@ -370,16 +370,16 @@
 #### [S] Task 0.2.14: Supabase 서버 클라이언트 생성
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** 서버 컴포넌트에서 Supabase 클라이언트 사용 가능
-- **작업:** `src/lib/supabase/server.ts` 생성
+- **작업:** `lib/supabase/server.ts` 생성
 - **참조:** [07-CodingConvention.md](./07-CodingConvention.md) 섹션 2
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [S] Task 0.2.15: Supabase 관리자 클라이언트 생성
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** service_role 키로 RLS 우회 가능
-- **작업:** `src/lib/supabase/admin.ts` 생성
+- **작업:** `lib/supabase/admin.ts` 생성
 - **참조:** [07-CodingConvention.md](./07-CodingConvention.md) 섹션 2
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 ---
 
