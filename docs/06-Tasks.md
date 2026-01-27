@@ -211,7 +211,8 @@
 - **테스트:** 아키텍처에 따른 모든 필수 디렉토리 존재
 - **작업:** `src/app`, `src/components`, `src/lib`, `src/hooks`, `src/types`, `src/utils`, `src/styles` 생성
 - **참조:** [07-CodingConvention.md](./07-CodingConvention.md) 섹션 2
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** 코딩 컨벤션에 따라 src/ 없이 루트에 폴더 구조 생성
 
 #### [S] Task 0.1.4: Tailwind CSS 설치 및 설정
 - **유형:** 구조적(STRUCTURAL)
