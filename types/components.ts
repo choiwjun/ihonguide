@@ -3,7 +3,7 @@
  * 참조: docs/05-DesignSystem.md
  */
 
-import type { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode } from 'react';
+import type { ButtonHTMLAttributes, HTMLAttributes, InputHTMLAttributes, ReactNode } from 'react';
 
 /**
  * Button 컴포넌트 Props
@@ -60,3 +60,27 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   /** 전체 너비 사용 여부 */
   fullWidth?: boolean;
 }
+
+/**
+ * Card 컴포넌트 Props
+ * 참조: docs/05-DesignSystem.md 섹션 5.3
+ */
+export interface CardProps extends HTMLAttributes<HTMLDivElement> {
+  /** 카드 내용 */
+  children: ReactNode;
+  /** 인터랙티브 모드 (호버 효과) */
+  interactive?: boolean;
+  /** 패딩 크기 */
+  padding?: 'sm' | 'md' | 'lg';
+}
+
+/**
+ * Card 패딩 크기별 스타일 설정
+ */
+export const CARD_PADDINGS = {
+  sm: 'p-4',
+  md: 'p-6',
+  lg: 'p-8',
+} as const;
+
+export type CardPadding = keyof typeof CARD_PADDINGS;
