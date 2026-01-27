@@ -465,7 +465,8 @@
 - **테스트:** 헤딩이 Noto Serif KR로 렌더링
 - **작업:** Noto Serif KR용 next/font 설정
 - **참조:** [05-DesignSystem.md](./05-DesignSystem.md) 섹션 3
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** Google Fonts CDN으로 Noto Serif KR 로드 (Task 1.1.2에서 함께 구현)
 
 ---
 
