@@ -104,4 +104,29 @@ describe('Button', () => {
       expect(button).toBeDisabled();
     });
   });
+
+  describe('loading state', () => {
+    it('should be disabled when loading', () => {
+      render(<Button isLoading>Loading</Button>);
+
+      const button = screen.getByRole('button');
+      expect(button).toBeDisabled();
+    });
+
+    it('should show spinner when loading', () => {
+      render(<Button isLoading>Loading</Button>);
+
+      const button = screen.getByRole('button');
+      expect(button.textContent).toContain('⟳');
+    });
+  });
+
+  describe('fullWidth', () => {
+    it('should have full width class when fullWidth is true', () => {
+      render(<Button fullWidth>Full Width</Button>);
+
+      const button = screen.getByRole('button', { name: 'Full Width' });
+      expect(button).toHaveClass('w-full');
+    });
+  });
 });
