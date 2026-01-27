@@ -484,7 +484,8 @@
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** `<Button variant="primary">`가 sage-500 배경으로 렌더링
 - **작업:** primary 스타일로 Button 컴포넌트 생성
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** TDD로 Button 컴포넌트 구현, 8개 테스트 통과 (모든 variant, size, disabled 포함)
 
 #### [B] Task 1.2.3: Button secondary 변형 구현
 - **유형:** 동작적(BEHAVIORAL)
