@@ -269,84 +269,96 @@
 - **테스트:** Supabase 클라이언트가 에러 없이 초기화
 - **작업:** 적절한 타입과 함께 `src/lib/supabase/client.ts` 생성
 - **참조:** [02-TRD.md](./02-TRD.md) 섹션 2.1
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** client.ts, server.ts, admin.ts + Database 타입 정의
 
 #### [B] Task 0.2.2: users 테이블 생성
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** users 테이블에 삽입 및 조회 가능
 - **작업:** users 테이블 SQL 마이그레이션 실행
 - **참조:** [04-DatabaseDesign.md](./04-DatabaseDesign.md) 섹션 2.1
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** 001_create_users.sql
 
 #### [B] Task 0.2.3: diagnosis_results 테이블 생성
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** JSONB 응답과 함께 진단 결과 삽입 가능
 - **작업:** diagnosis_results 테이블 SQL 마이그레이션 실행
 - **참조:** [04-DatabaseDesign.md](./04-DatabaseDesign.md) 섹션 2.2
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** 002_create_diagnosis_results.sql
 
 #### [B] Task 0.2.4: calculator_results 테이블 생성
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** JSONB 입력/출력과 함께 계산기 결과 삽입 가능
 - **작업:** calculator_results 테이블 SQL 마이그레이션 실행
 - **참조:** [04-DatabaseDesign.md](./04-DatabaseDesign.md) 섹션 2.3
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** 003_create_calculator_results.sql
 
 #### [B] Task 0.2.5: consultations 테이블 생성
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 모든 필수 필드와 함께 상담 삽입 가능
 - **작업:** consultations 테이블 SQL 마이그레이션 실행
 - **참조:** [04-DatabaseDesign.md](./04-DatabaseDesign.md) 섹션 2.4
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** 004_create_consultations.sql
 
 #### [B] Task 0.2.6: 블로그 테이블 생성 (posts, categories)
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 카테고리 관계와 함께 게시물 삽입 가능
 - **작업:** blog_posts, blog_categories SQL 마이그레이션 실행
 - **참조:** [04-DatabaseDesign.md](./04-DatabaseDesign.md) 섹션 2.5, 2.6
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** 005_create_blog_tables.sql
 
 #### [B] Task 0.2.7: RLS 정책 적용
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 인증되지 않은 사용자가 users 테이블 읽기 불가
 - **작업:** 모든 RLS 정책 SQL 실행
 - **참조:** [04-DatabaseDesign.md](./04-DatabaseDesign.md) 섹션 4
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** 008_create_rls_policies.sql
 
 #### [B] Task 0.2.8: 데이터베이스 인덱스 생성
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 인덱스로 쿼리 성능 향상
 - **작업:** 모든 인덱스 SQL 실행
 - **참조:** [04-DatabaseDesign.md](./04-DatabaseDesign.md) 섹션 3
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** 각 테이블 마이그레이션에 인덱스 포함
 
 #### [B] Task 0.2.9: saved_contents 테이블 생성
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 사용자-게시물 관계로 저장 콘텐츠 삽입 가능
 - **작업:** saved_contents 테이블 SQL 마이그레이션 실행
 - **참조:** [04-DatabaseDesign.md](./04-DatabaseDesign.md) 섹션 2.7
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** 006_create_saved_contents.sql
 
 #### [B] Task 0.2.10: admin_settings 테이블 생성
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 키-값 설정 삽입 및 조회 가능
 - **작업:** admin_settings 테이블 SQL 마이그레이션 실행
 - **참조:** [04-DatabaseDesign.md](./04-DatabaseDesign.md) 섹션 2.8
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** 007_create_admin_settings.sql (초기 설정값 포함)
 
 #### [B] Task 0.2.11: 초기 데이터 삽입 - 블로그 카테고리
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 5개 기본 카테고리 존재 확인 (절차, 비용, 양육권, 재산분할, FAQ)
 - **작업:** 블로그 카테고리 시드 데이터 삽입
 - **참조:** [04-DatabaseDesign.md](./04-DatabaseDesign.md) 섹션 5.1
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** 009_seed_blog_categories.sql
 
 #### [B] Task 0.2.12: 초기 데이터 삽입 - 관리자 설정
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** site_name, contact_email 등 기본 설정값 존재 확인
 - **작업:** 관리자 설정 시드 데이터 삽입
 - **참조:** [04-DatabaseDesign.md](./04-DatabaseDesign.md) 섹션 5.2
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** 007_create_admin_settings.sql에 포함
 
 #### [S] Task 0.2.13: Supabase 타입 자동 생성 설정
 - **유형:** 구조적(STRUCTURAL)
