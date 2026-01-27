@@ -44,12 +44,12 @@ const certifications = [
 
 export function TrustSection() {
   return (
-    <section className="py-16 sm:py-24 bg-white">
+    <section className="py-16 sm:py-24 bg-white" aria-labelledby="trust-heading">
       <div className="container mx-auto px-4">
         <div className="max-w-5xl mx-auto">
           {/* 섹션 헤더 */}
           <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
+            <h2 id="trust-heading" className="text-2xl sm:text-3xl font-bold text-gray-900">
               믿을 수 있는 서비스
             </h2>
             <p className="mt-4 text-gray-600">
@@ -75,19 +75,19 @@ export function TrustSection() {
           </div>
 
           {/* 인증 배지 */}
-          <div className="flex flex-wrap justify-center gap-4">
+          <ul className="flex flex-wrap justify-center gap-4" aria-label="인증 목록">
             {certifications.map((cert, index) => (
-              <div
+              <li
                 key={index}
                 className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full text-sm text-gray-600"
               >
-                <svg className="w-4 h-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-4 h-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
                 {cert}
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </div>
     </section>

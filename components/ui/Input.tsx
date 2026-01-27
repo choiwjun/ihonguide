@@ -5,11 +5,17 @@ import type { InputProps } from '@/types';
 /**
  * Input 컴포넌트
  * 참조: docs/05-DesignSystem.md 섹션 5.2
+ * 접근성: aria-describedby, aria-invalid
  */
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, hint, error, fullWidth = false, className, id, ...props }, ref) => {
     const generatedId = useId();
     const inputId = id || generatedId;
+    const hintId = `${inputId}-hint`;
+    const errorId = `${inputId}-error`;
+
+    // aria-describedby 값 결정
+    const describedBy = error ? errorId : hint ? hintId : undefined;
 
     return (
       <div className={cn('flex flex-col gap-1', fullWidth && 'w-full')}>
@@ -24,6 +30,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <input
           ref={ref}
           id={inputId}
+          aria-describedby={describedBy}
+          aria-invalid={error ? 'true' : undefined}
           className={cn(
             // Base styles
             'h-12 px-4',
@@ -43,10 +51,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
         {hint && !error && (
-          <span className="text-xs text-text-muted">{hint}</span>
+          <span id={hintId} className="text-xs text-text-muted">
+            {hint}
+          </span>
         )}
         {error && (
-          <span className="text-xs text-error">{error}</span>
+          <span id={errorId} className="text-xs text-error" role="alert">
+            {error}
+          </span>
         )}
       </div>
     );

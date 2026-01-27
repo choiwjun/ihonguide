@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Providers } from './providers';
 import { Header, Footer } from '@/components/layout';
+import { SkipLink } from '@/components/a11y';
 import { notoSerifKr, PRETENDARD_CSS_URL } from '@/lib/fonts';
 import { defaultMetadata } from '@/lib/metadata';
 import './globals.css';
@@ -34,9 +35,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="min-h-screen flex flex-col bg-[#FDFBF7] font-sans antialiased">
+        <SkipLink />
         <Providers>
           <Header />
-          <main className="flex-1">{children}</main>
+          <main id="main-content" className="flex-1" tabIndex={-1}>
+            {children}
+          </main>
           <Footer />
         </Providers>
       </body>

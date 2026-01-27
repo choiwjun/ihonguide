@@ -5,6 +5,7 @@ import type { ProgressBarProps, ProgressStepsProps } from '@/types';
 /**
  * ProgressBar 컴포넌트
  * 참조: docs/05-DesignSystem.md 섹션 5.5
+ * 접근성: role=progressbar, aria-valuenow
  */
 export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
   ({ value, className, ...props }, ref) => {
@@ -17,6 +18,7 @@ export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
         aria-valuenow={clampedValue}
         aria-valuemin={0}
         aria-valuemax={100}
+        aria-label={`진행률 ${clampedValue}%`}
         className={cn(
           'h-2',
           'bg-surface',
@@ -45,6 +47,7 @@ ProgressBar.displayName = 'ProgressBar';
 /**
  * ProgressSteps 컴포넌트
  * 참조: docs/05-DesignSystem.md 섹션 5.5
+ * 접근성: role=list, aria-current
  */
 export const ProgressSteps = forwardRef<HTMLDivElement, ProgressStepsProps>(
   ({ current, total, className, ...props }, ref) => {
@@ -66,6 +69,7 @@ export const ProgressSteps = forwardRef<HTMLDivElement, ProgressStepsProps>(
       <div
         ref={ref}
         role="list"
+        aria-label={`${total}단계 중 ${current}단계 진행 중`}
         className={cn('flex justify-between', className)}
         {...props}
       >
@@ -75,6 +79,7 @@ export const ProgressSteps = forwardRef<HTMLDivElement, ProgressStepsProps>(
             <div
               key={step}
               role="listitem"
+              aria-current={state === 'active' ? 'step' : undefined}
               className={cn(
                 'w-8 h-8',
                 'rounded-full',
@@ -83,7 +88,11 @@ export const ProgressSteps = forwardRef<HTMLDivElement, ProgressStepsProps>(
                 stepStyles[state]
               )}
             >
-              {step}
+              <span className="sr-only">
+                {state === 'completed' ? '완료: ' : state === 'active' ? '현재: ' : ''}
+                {step}단계
+              </span>
+              <span aria-hidden="true">{step}</span>
             </div>
           );
         })}
