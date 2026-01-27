@@ -838,87 +838,87 @@
 
 ---
 
-### M2.3: FEAT-1 진단 - UI
+### M2.3: FEAT-1 진단 - UI ✅ DONE
 
 #### [S] Task 2.3.1: 진단 페이지 구조 생성
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** /diagnosis 라우트에서 페이지 렌더링
-- **작업:** `src/app/diagnosis/page.tsx` 생성
+- **작업:** `app/diagnosis/page.tsx` 생성
 - **참조:** [03-UserFlow.md](./03-UserFlow.md) 섹션 2
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [S] Task 2.3.2: DiagnosisProvider 컨텍스트 생성
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** 컨텍스트가 answers 상태와 setAnswer 함수 제공
-- **작업:** Zustand 또는 React Context로 진단 컨텍스트 생성
-- **상태:** [ ] TODO
+- **작업:** Zustand useDiagnosisStore 사용
+- **상태:** [x] DONE
 
 #### [B] Task 2.3.3: 진단 시작 화면 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 시작 화면에 소개 텍스트와 시작 버튼 표시
 - **작업:** DiagnosisStart 컴포넌트 생성
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 2.3.4: 질문 카드 컴포넌트 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** QuestionCard가 질문 텍스트와 옵션 렌더링
 - **작업:** QuestionCard 컴포넌트 생성
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 2.3.5: 답변 선택 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 옵션 클릭 시 답변 상태 업데이트
 - **작업:** 옵션에 클릭 핸들러 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 2.3.6: 진행률 인디케이터 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 진행률이 전체 중 현재 질문 번호 표시
-- **작업:** 진단 흐름에 Progress 컴포넌트 추가
-- **상태:** [ ] TODO
+- **작업:** DiagnosisProgress 컴포넌트 생성
+- **상태:** [x] DONE
 
 #### [B] Task 2.3.7: 질문 네비게이션 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 답변 선택 후 다음 질문으로 이동 가능
 - **작업:** 네비게이션 로직과 함께 다음 버튼 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 2.3.8: 뒤로 가기 네비게이션 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 뒤로 가기 버튼이 답변을 유지한 채 이전 질문으로 복귀
 - **작업:** 상태 복원과 함께 뒤로 가기 버튼 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 2.3.9: 질문 전환 애니메이션 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 질문 전환 시 페이드/슬라이드 효과
-- **작업:** Framer Motion 애니메이션 추가
+- **작업:** CSS 트랜지션으로 구현 (Framer Motion 추후 추가 예정)
 - **참조:** [05-DesignSystem.md](./05-DesignSystem.md) 섹션 6
-- **상태:** [ ] TODO
+- **상태:** [x] DONE (기본 트랜지션)
 
 #### [S] Task 2.3.10: 결과 페이지 구조 생성
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** /diagnosis/result에서 결과 페이지 렌더링
-- **작업:** `src/app/diagnosis/result/page.tsx` 생성
-- **상태:** [ ] TODO
+- **작업:** `app/diagnosis/result/page.tsx` 생성
+- **상태:** [x] DONE
 
 #### [B] Task 2.3.11: 결과 표시 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 결과 페이지에 진단 유형과 설명 표시
 - **작업:** 결과 데이터 가져와서 표시
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 2.3.12: 결과 CTA 버튼 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** CTA 버튼이 계산기와 상담으로 링크
 - **작업:** 결과 페이지에 액션 버튼 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 2.3.13: 결과 저장 기능 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 저장 버튼이 로그인 후 익명 결과를 사용자에게 연결
-- **작업:** 인증 확인과 함께 저장 로직 추가
-- **상태:** [ ] TODO
+- **작업:** sessionStorage 및 API를 통한 결과 저장
+- **상태:** [x] DONE
 
 ---
 
