@@ -564,19 +564,19 @@
 - **테스트:** CardProps 타입이 에러 없이 컴파일
 - **작업:** 타입에 CardProps 정의
 - **참조:** [05-DesignSystem.md](./05-DesignSystem.md) 섹션 5.3
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 1.4.2: Card 기본 컴포넌트 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** Card가 그림자와 둥근 모서리로 렌더링
 - **작업:** 기본 스타일로 Card 컴포넌트 생성
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 1.4.3: Card 호버 효과 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** Card가 호버 시 트랜지션과 함께 상승
 - **작업:** translateY와 함께 호버 상태 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE (Task 1.4.2에서 interactive prop으로 구현)
 
 ---
 

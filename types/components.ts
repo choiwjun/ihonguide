@@ -84,3 +84,18 @@ export const CARD_PADDINGS = {
 } as const;
 
 export type CardPadding = keyof typeof CARD_PADDINGS;
+
+/**
+ * Modal 컴포넌트 Props
+ * 참조: docs/05-DesignSystem.md 섹션 5.4
+ */
+export interface ModalProps {
+  /** 모달 열림 상태 */
+  isOpen: boolean;
+  /** 모달 닫기 핸들러 */
+  onClose: () => void;
+  /** 모달 내용 */
+  children: ReactNode;
+  /** 모달 제목 (선택) */
+  title?: string;
+}
