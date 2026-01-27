@@ -242,20 +242,23 @@
 - **테스트:** cn 함수가 클래스 이름을 올바르게 병합
 - **작업:** clsx + tailwind-merge로 `src/utils/cn.ts` 생성
 - **참조:** [07-CodingConvention.md](./07-CodingConvention.md) 섹션 4.3
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** lib/utils/cn.ts 생성, 테스트 통과
 
 #### [S] Task 0.1.8: Providers 컴포넌트 생성
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** Providers가 children을 올바르게 래핑
 - **작업:** `src/components/providers.tsx` 생성
 - **참조:** [07-CodingConvention.md](./07-CodingConvention.md) 섹션 2.1
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** app/providers.tsx 생성, layout.tsx에 적용, 테스트 통과
 
 #### [S] Task 0.1.9: 환경 변수 파일 생성
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** .env.example 파일이 필수 변수 목록 포함
 - **작업:** .env.local 및 .env.example 파일 생성
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** Supabase, OAuth(Kakao/Naver), GA4, App URL 변수 정의
 
 ---
 
