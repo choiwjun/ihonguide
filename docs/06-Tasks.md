@@ -449,7 +449,8 @@
 - **테스트:** globals.css에서 CSS 변수 접근 가능
 - **작업:** 모든 색상, 간격, 타이포그래피 CSS 변수 정의
 - **참조:** [05-DesignSystem.md](./05-DesignSystem.md) 섹션 2
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** :root에 색상, 폰트, 애니메이션 duration/easing CSS 변수 추가
 
 #### [B] Task 1.1.2: Pretendard 폰트 로드
 - **유형:** 동작적(BEHAVIORAL)
