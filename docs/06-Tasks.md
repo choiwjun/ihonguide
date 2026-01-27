@@ -1400,20 +1400,20 @@
 - **테스트:** next.config.js에 보안 헤더 설정 존재
 - **작업:** `next.config.js`에 securityHeaders 배열 추가
 - **참조:** [02-TRD.md](./02-TRD.md) 섹션 3.2
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.3.2: CSP (Content Security Policy) 헤더 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 응답 헤더에 Content-Security-Policy 포함
 - **작업:** CSP 정책 정의 및 적용 (script-src, style-src, img-src 등)
 - **참조:** [02-TRD.md](./02-TRD.md) 섹션 3.2 - XSS 방지
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.3.3: 추가 보안 헤더 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** X-Frame-Options, X-Content-Type-Options, Referrer-Policy 헤더 존재
 - **작업:** 클릭재킹 방지, MIME 스니핑 방지 헤더 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.3.4: CSRF 보호 구현
 - **유형:** 동작적(BEHAVIORAL)
@@ -1433,7 +1433,7 @@
 - **테스트:** validateRequest 함수가 Zod 스키마로 검증
 - **작업:** `src/lib/api/validate.ts` 생성
 - **참조:** [02-TRD.md](./02-TRD.md) 섹션 3.2 - 입력 검증
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.3.7: 진단 API 입력 검증 적용
 - **유형:** 동작적(BEHAVIORAL)
@@ -1452,14 +1452,14 @@
 - **테스트:** 프로덕션에서 에러 응답에 스택 트레이스 미포함
 - **작업:** 환경별 에러 메시지 분기 처리
 - **참조:** [07-CodingConvention.md](./07-CodingConvention.md) 섹션 7.3
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.3.10: 환경 변수 검증 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 필수 환경 변수 누락 시 앱 시작 실패
 - **작업:** 앱 시작 시 필수 환경 변수 존재 확인
 - **참조:** [plan.md](./plan.md) 섹션 7
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.3.11: 세션 토큰 자동 갱신 구현
 - **유형:** 동작적(BEHAVIORAL)
@@ -1473,13 +1473,13 @@
 - **테스트:** 블로그 콘텐츠에서 악성 스크립트 태그 제거
 - **작업:** DOMPurify 또는 유사 라이브러리로 HTML 정화
 - **참조:** [plan.md](./plan.md) 섹션 7 - XSS 방지
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.3.13: 민감 데이터 로깅 방지 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 로그에 전화번호, 이름 등 개인정보 미포함
 - **작업:** 로깅 유틸리티에 민감 데이터 마스킹 적용
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.3.14: 보안 감사 로깅 구현
 - **유형:** 동작적(BEHAVIORAL)
