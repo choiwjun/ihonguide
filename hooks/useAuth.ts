@@ -4,7 +4,7 @@
  * 인증 상태 관리 훅
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import type { User as SupabaseUser, Session, AuthChangeEvent } from '@supabase/supabase-js';
 
@@ -28,10 +28,20 @@ export function useAuth(): UseAuthReturn {
     error: null,
   });
 
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
   // 세션 및 사용자 정보 가져오기
   const fetchSession = useCallback(async () => {
+    if (!supabase) {
+      setState({
+        user: null,
+        session: null,
+        isLoading: false,
+        error: null,
+      });
+      return;
+    }
+
     try {
       setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
@@ -63,10 +73,12 @@ export function useAuth(): UseAuthReturn {
         error: err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다.',
       }));
     }
-  }, [supabase.auth]);
+  }, [supabase]);
 
   // 로그아웃
   const signOut = useCallback(async () => {
+    if (!supabase) return;
+
     try {
       await supabase.auth.signOut();
       setState({
@@ -81,7 +93,7 @@ export function useAuth(): UseAuthReturn {
         error: err instanceof Error ? err.message : '로그아웃 중 오류가 발생했습니다.',
       }));
     }
-  }, [supabase.auth]);
+  }, [supabase]);
 
   // 세션 새로고침
   const refresh = useCallback(async () => {
@@ -90,6 +102,16 @@ export function useAuth(): UseAuthReturn {
 
   // 초기 로드 및 인증 상태 변경 구독
   useEffect(() => {
+    if (!supabase) {
+      setState({
+        user: null,
+        session: null,
+        isLoading: false,
+        error: null,
+      });
+      return;
+    }
+
     fetchSession();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -106,7 +128,7 @@ export function useAuth(): UseAuthReturn {
     return () => {
       subscription.unsubscribe();
     };
-  }, [fetchSession, supabase.auth]);
+  }, [fetchSession, supabase]);
 
   return {
     ...state,

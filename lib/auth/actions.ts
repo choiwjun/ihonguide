@@ -3,7 +3,6 @@
  */
 
 import { createClient } from '@/lib/supabase/client';
-import type { OAuthProvider } from '@/types/auth';
 
 /**
  * OAuth 로그인을 위한 리다이렉트 URL 생성
@@ -18,6 +17,10 @@ function getRedirectUrl(): string {
  */
 export async function signInWithKakao() {
   const supabase = createClient();
+
+  if (!supabase) {
+    return { error: 'Supabase not configured' };
+  }
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'kakao',
@@ -39,6 +42,10 @@ export async function signInWithKakao() {
  */
 export async function signInWithNaver() {
   const supabase = createClient();
+
+  if (!supabase) {
+    return { error: 'Supabase not configured' };
+  }
 
   // Supabase는 네이버를 직접 지원하지 않으므로 커스텀 OAuth 사용
   // 네이버는 Supabase에서 지원하지 않아 별도 구현 필요
@@ -63,6 +70,10 @@ export async function signInWithNaver() {
 export async function signOut() {
   const supabase = createClient();
 
+  if (!supabase) {
+    return { error: 'Supabase not configured' };
+  }
+
   const { error } = await supabase.auth.signOut();
 
   if (error) {
@@ -84,6 +95,10 @@ export async function signOut() {
 export async function getSession() {
   const supabase = createClient();
 
+  if (!supabase) {
+    return { session: null, error: 'Supabase not configured' };
+  }
+
   const { data: { session }, error } = await supabase.auth.getSession();
 
   if (error) {
@@ -99,6 +114,10 @@ export async function getSession() {
  */
 export async function getUser() {
   const supabase = createClient();
+
+  if (!supabase) {
+    return { user: null, error: 'Supabase not configured' };
+  }
 
   const { data: { user }, error } = await supabase.auth.getUser();
 

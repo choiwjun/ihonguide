@@ -29,6 +29,11 @@ export async function GET(request: Request) {
   try {
     const supabase = await createClient();
 
+    if (!supabase) {
+      console.error('Supabase client not configured');
+      return NextResponse.redirect(`${origin}/login?error=supabase_not_configured`);
+    }
+
     // OAuth 코드를 세션으로 교환
     const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
 
