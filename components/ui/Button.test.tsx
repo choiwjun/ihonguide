@@ -33,6 +33,46 @@ describe('Button', () => {
     });
   });
 
+  describe('secondary variant', () => {
+    it('should have surface background color', () => {
+      render(<Button variant="secondary">Secondary</Button>);
+
+      const button = screen.getByRole('button', { name: 'Secondary' });
+      expect(button).toHaveClass('bg-surface');
+    });
+
+    it('should have border', () => {
+      render(<Button variant="secondary">Secondary</Button>);
+
+      const button = screen.getByRole('button', { name: 'Secondary' });
+      expect(button).toHaveClass('border');
+      expect(button).toHaveClass('border-border');
+    });
+
+    it('should have text color', () => {
+      render(<Button variant="secondary">Secondary</Button>);
+
+      const button = screen.getByRole('button', { name: 'Secondary' });
+      expect(button).toHaveClass('text-text');
+    });
+  });
+
+  describe('ghost variant', () => {
+    it('should have transparent background', () => {
+      render(<Button variant="ghost">Ghost</Button>);
+
+      const button = screen.getByRole('button', { name: 'Ghost' });
+      expect(button).toHaveClass('bg-transparent');
+    });
+
+    it('should have primary text color', () => {
+      render(<Button variant="ghost">Ghost</Button>);
+
+      const button = screen.getByRole('button', { name: 'Ghost' });
+      expect(button).toHaveClass('text-primary');
+    });
+  });
+
   describe('sizes', () => {
     it('should render medium size by default', () => {
       render(<Button>Medium</Button>);

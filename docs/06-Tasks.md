@@ -491,25 +491,29 @@
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** `<Button variant="secondary">`가 테두리 스타일로 렌더링
 - **작업:** Button에 secondary 변형 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** Task 1.2.2에서 구현 완료, 테스트 3개 추가
 
 #### [B] Task 1.2.4: Button ghost 변형 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** `<Button variant="ghost">`가 투명 배경으로 렌더링
 - **작업:** Button에 ghost 변형 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** Task 1.2.2에서 구현 완료, 테스트 2개 추가
 
 #### [B] Task 1.2.5: Button 크기 변형 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** Button이 sm, md, lg 크기에서 올바르게 렌더링
 - **작업:** size prop 처리 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** Task 1.2.2에서 구현 및 테스트 완료
 
 #### [B] Task 1.2.6: Button 비활성화 상태 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 비활성화된 Button이 투명도가 낮고 포인터 이벤트 없음
 - **작업:** 비활성화 상태 스타일 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** Task 1.2.2에서 구현 및 테스트 완료
 
 #### [B] Task 1.2.7: Button 로딩 상태 구현
 - **유형:** 동작적(BEHAVIORAL)
