@@ -219,14 +219,16 @@
 - **테스트:** Tailwind 클래스가 브라우저에서 올바르게 렌더링
 - **작업:** Tailwind CSS, PostCSS 설치, 기본 설정 생성
 - **참조:** [05-DesignSystem.md](./05-DesignSystem.md) 섹션 2
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** Tailwind CSS v4 사용 (@tailwindcss/postcss, CSS 기반 설정)
 
 #### [B] Task 0.1.5: Tailwind에 디자인 토큰 설정
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** `bg-sage-500`이 올바른 색상 `#7C9A82`로 렌더링
 - **작업:** tailwind.config.ts에 커스텀 색상, 폰트, 간격 추가
 - **참조:** [05-DesignSystem.md](./05-DesignSystem.md) 섹션 2, 3, 4
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** Tailwind v4 @theme 디렉티브로 globals.css에 디자인 토큰 설정 완료
 
 #### [S] Task 0.1.6: 테스트 프레임워크 설정 (Vitest + Testing Library)
 - **유형:** 구조적(STRUCTURAL)
