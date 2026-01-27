@@ -99,3 +99,23 @@ export interface ModalProps {
   /** 모달 제목 (선택) */
   title?: string;
 }
+
+/**
+ * Progress 컴포넌트 Props (Bar 모드)
+ * 참조: docs/05-DesignSystem.md 섹션 5.5
+ */
+export interface ProgressBarProps extends HTMLAttributes<HTMLDivElement> {
+  /** 진행률 (0-100) */
+  value: number;
+}
+
+/**
+ * Progress 컴포넌트 Props (Steps 모드)
+ * 참조: docs/05-DesignSystem.md 섹션 5.5
+ */
+export interface ProgressStepsProps extends HTMLAttributes<HTMLDivElement> {
+  /** 현재 단계 (1-based) */
+  current: number;
+  /** 전체 단계 수 */
+  total: number;
+}

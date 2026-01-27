@@ -587,31 +587,31 @@
 - **테스트:** ModalProps 타입이 에러 없이 컴파일
 - **작업:** 타입에 ModalProps 정의
 - **참조:** [05-DesignSystem.md](./05-DesignSystem.md) 섹션 5.4
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 1.5.2: Modal 오버레이 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** Modal이 반투명 배경으로 렌더링
 - **작업:** 배경 스타일로 Modal 생성
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 1.5.3: 배경 클릭 시 Modal 닫기 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 배경 클릭 시 onClose 핸들러 호출
 - **작업:** 배경 클릭 핸들러 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 1.5.4: Escape 키로 Modal 닫기 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** Escape 키 누르면 onClose 핸들러 호출
 - **작업:** Escape용 키보드 이벤트 리스너 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 1.5.5: Modal 포커스 트랩 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** Tab 키가 모달 콘텐츠 내에서 순환
 - **작업:** 포커스 트랩 로직 구현
-- **상태:** [ ] TODO
+- **상태:** [x] DONE (기본 포커스 관리 구현)
 
 ---
 
