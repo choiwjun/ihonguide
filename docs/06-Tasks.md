@@ -767,46 +767,46 @@
 
 ## Phase 2: 핵심 기능 (MVP)
 
-### M2.1: FEAT-1 진단 - 데이터 모델
+### M2.1: FEAT-1 진단 - 데이터 모델 ✅ DONE
 
 #### [S] Task 2.1.1: 진단 질문 타입 정의
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** DiagnosisQuestion 타입이 에러 없이 컴파일
-- **작업:** 질문/답변 타입과 함께 `src/types/diagnosis.ts` 생성
+- **작업:** `types/diagnosis.ts` 생성
 - **참조:** [04-DatabaseDesign.md](./04-DatabaseDesign.md) 섹션 2.2
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 2.1.2: 진단 질문 데이터 생성
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** Questions 배열이 유효한 구조로 10개 항목 포함
-- **작업:** `src/data/diagnosisQuestions.ts` 생성
+- **작업:** `data/diagnosisQuestions.ts` 생성
 - **참조:** [01-PRD.md](./01-PRD.md) FEAT-1
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 2.1.3: "협의이혼" 점수 계산 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 점수 25+ 시 result_type "협의" 반환
-- **작업:** `calculateDiagnosisResult` 함수 생성
-- **상태:** [ ] TODO
+- **작업:** `lib/diagnosis/calculator.ts` - determineResultType
+- **상태:** [x] DONE
 
 #### [B] Task 2.1.4: "조정이혼" 점수 계산 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 점수 15-24 시 result_type "조정" 반환
 - **작업:** 계산 함수에 조정 케이스 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 2.1.5: "소송이혼" 점수 계산 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 점수 15 미만 시 result_type "소송" 반환
 - **작업:** 계산 함수에 소송 케이스 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 2.1.6: 결과 상세 생성기 생성
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 결과에 reasons와 nextSteps 배열 포함
-- **작업:** `generateResultDetail` 함수 생성
+- **작업:** `lib/diagnosis/calculator.ts` - generateResultDetail
 - **참조:** [04-DatabaseDesign.md](./04-DatabaseDesign.md) result_detail JSONB
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 ---
 
