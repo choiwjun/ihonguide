@@ -3,7 +3,7 @@
  * 참조: docs/05-DesignSystem.md
  */
 
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import type { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode } from 'react';
 
 /**
  * Button 컴포넌트 Props
@@ -45,3 +45,18 @@ export const BUTTON_SIZES = {
 
 export type ButtonSize = keyof typeof BUTTON_SIZES;
 export type ButtonVariant = ButtonProps['variant'];
+
+/**
+ * Input 컴포넌트 Props
+ * 참조: docs/05-DesignSystem.md 섹션 5.2
+ */
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  /** 라벨 텍스트 */
+  label?: string;
+  /** 힌트 텍스트 */
+  hint?: string;
+  /** 에러 메시지 */
+  error?: string;
+  /** 전체 너비 사용 여부 */
+  fullWidth?: boolean;
+}

@@ -531,7 +531,8 @@
 - **테스트:** InputProps 타입이 에러 없이 컴파일
 - **작업:** 타입에 InputProps 정의
 - **참조:** [05-DesignSystem.md](./05-DesignSystem.md) 섹션 5.2
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** types/components.ts에 InputProps 추가 (label, hint, error, fullWidth)
 
 #### [B] Task 1.3.2: 텍스트 Input 구현
 - **유형:** 동작적(BEHAVIORAL)
