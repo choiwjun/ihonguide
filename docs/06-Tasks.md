@@ -1353,43 +1353,43 @@
 - **테스트:** /admin/blog 라우트에서 페이지 렌더링
 - **작업:** `src/app/admin/blog/page.tsx` 생성
 - **참조:** [03-UserFlow.md](./03-UserFlow.md) 섹션 6
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.2.2: 블로그 글 목록 관리 UI 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 관리자가 모든 게시물 조회 가능 (초안 포함)
 - **작업:** 관리자용 게시물 목록 테이블 생성
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [S] Task 3.2.3: 블로그 글 작성/수정 페이지 구조 생성
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** /admin/blog/new, /admin/blog/[id]/edit 라우트 렌더링
 - **작업:** 블로그 에디터 페이지 생성
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.2.4: 블로그 글 작성 폼 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 제목, 내용, 카테고리, SEO 메타 입력 가능
 - **작업:** 블로그 에디터 폼 컴포넌트 생성
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.2.5: 블로그 글 저장 API 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** POST /api/admin/blog로 새 게시물 생성
 - **작업:** 관리자용 블로그 POST API 구현
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.2.6: 블로그 글 수정 API 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** PUT /api/admin/blog/[id]로 게시물 수정
 - **작업:** 관리자용 블로그 PUT API 구현
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.2.7: 블로그 발행/비공개 토글 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 게시물 상태를 draft/published로 변경 가능
 - **작업:** 상태 변경 API 및 UI 구현
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 ---
 
