@@ -1196,62 +1196,62 @@
 - **테스트:** BlogPost, BlogCategory 타입이 에러 없이 컴파일
 - **작업:** `src/types/blog.ts` 생성
 - **참조:** [04-DatabaseDesign.md](./04-DatabaseDesign.md) 섹션 2.5, 2.6
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [S] Task 2.9.2: 블로그 API 라우트 구조 생성
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** API 라우트 파일이 올바른 경로에 존재
 - **작업:** `src/app/api/blog/route.ts`, `src/app/api/blog/[slug]/route.ts` 생성
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 2.9.3: GET /api/blog 구현 (목록)
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 발행된 게시물 목록 반환, 카테고리 필터링 지원
 - **작업:** 페이지네이션과 카테고리 필터 포함 GET 핸들러 구현
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 2.9.4: GET /api/blog/[slug] 구현 (상세)
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** slug로 특정 게시물 조회, 조회수 증가
 - **작업:** 상세 조회 GET 핸들러 구현
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [S] Task 2.9.5: 블로그 목록 페이지 구조 생성
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** /blog 라우트에서 페이지 렌더링
 - **작업:** `src/app/blog/page.tsx` 생성
 - **참조:** [01-PRD.md](./01-PRD.md) 섹션 6.1
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 2.9.6: 블로그 목록 UI 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 게시물 카드 그리드로 표시, 카테고리 탭 동작
 - **작업:** BlogList, BlogCard 컴포넌트 생성
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [S] Task 2.9.7: 블로그 상세 페이지 구조 생성
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** /blog/[slug] 라우트에서 페이지 렌더링
 - **작업:** `src/app/blog/[slug]/page.tsx` 생성
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 2.9.8: 블로그 상세 UI 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 게시물 제목, 본문, 작성일 표시
 - **작업:** BlogDetail 컴포넌트 생성
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 2.9.9: 블로그 저장 기능 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 로그인 사용자가 게시물 저장/취소 가능
 - **작업:** 저장 버튼 및 saved_contents API 연동
-- **상태:** [ ] TODO
+- **상태:** [ ] TODO (M2.10 마이페이지와 함께 구현)
 
 #### [B] Task 2.9.10: 관련 콘텐츠 표시 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 상세 페이지 하단에 같은 카테고리 게시물 표시
 - **작업:** 관련 게시물 섹션 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 ---
 
