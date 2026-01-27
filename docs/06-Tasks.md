@@ -810,31 +810,31 @@
 
 ---
 
-### M2.2: FEAT-1 진단 - API
+### M2.2: FEAT-1 진단 - API ✅ DONE
 
 #### [S] Task 2.2.1: 진단 API 라우트 구조 생성
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** API 라우트 파일이 올바른 경로에 존재
-- **작업:** `src/app/api/diagnosis/route.ts` 생성
-- **상태:** [ ] TODO
+- **작업:** `app/api/diagnosis/route.ts` 생성
+- **상태:** [x] DONE
 
 #### [B] Task 2.2.2: POST /api/diagnosis 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 유효한 응답으로 POST 시 계산된 결과 반환
 - **작업:** 검증과 함께 POST 핸들러 구현
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 2.2.3: 진단 결과 저장 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 결과가 diagnosis_results 테이블에 저장
 - **작업:** 계산 후 Supabase 삽입 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 2.2.4: 세션 기반 진단 처리 (비로그인)
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 인증되지 않은 사용자가 session_id로 저장 가능
 - **작업:** 익명 사용자를 위한 session_id 생성 및 사용
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 ---
 
