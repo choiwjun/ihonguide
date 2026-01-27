@@ -709,41 +709,41 @@
 
 ---
 
-### M1.8: 공유 컴포넌트
+### M1.8: 공유 컴포넌트 ✅ DONE
 
 #### [S] Task 1.8.1: Container 컴포넌트 생성
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** Container가 max-width와 padding 적용
-- **작업:** `src/components/layout/Container.tsx` 생성
+- **작업:** `components/layout/Container.tsx` 생성
 - **참조:** [07-CodingConvention.md](./07-CodingConvention.md) 섹션 2
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [S] Task 1.8.2: CTA 컴포넌트 생성
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** CTA 컴포넌트가 제목, 설명, 버튼 렌더링
-- **작업:** `src/components/shared/CTA.tsx` 생성
+- **작업:** `components/shared/CTA.tsx` 생성
 - **참조:** [07-CodingConvention.md](./07-CodingConvention.md) 섹션 2
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [S] Task 1.8.3: Disclaimer 컴포넌트 생성
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** Disclaimer가 면책 고지 텍스트 렌더링
-- **작업:** `src/components/shared/Disclaimer.tsx` 생성
+- **작업:** `components/shared/Disclaimer.tsx` 생성
 - **참조:** [07-CodingConvention.md](./07-CodingConvention.md) 섹션 2
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [S] Task 1.8.4: 네비게이션 상수 정의
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** NAVIGATION_ITEMS 배열이 메뉴 항목 포함
-- **작업:** `src/lib/constants/navigation.ts` 생성
+- **작업:** `lib/constants/navigation.ts` 생성
 - **참조:** [07-CodingConvention.md](./07-CodingConvention.md) 섹션 2
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [S] Task 1.8.5: 포맷팅 유틸리티 함수 생성
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** formatCurrency, formatPhone 등 함수가 올바르게 동작
-- **작업:** `src/lib/utils/format.ts` 생성
-- **상태:** [ ] TODO
+- **작업:** `lib/utils/format.ts` 생성
+- **상태:** [x] DONE
 
 ---
 
