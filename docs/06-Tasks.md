@@ -621,19 +621,19 @@
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** ProgressProps 타입이 에러 없이 컴파일
 - **작업:** 타입에 ProgressProps 정의
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 1.6.2: Progress 바 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** `<Progress value={50}>`이 50% 채워진 바 렌더링
 - **작업:** 동적 너비로 Progress 컴포넌트 생성
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 1.6.3: 단계 기반 Progress 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** `<Progress current={2} total={5}>`가 단계 인디케이터 렌더링
 - **작업:** 원형으로 단계 모드 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 ---
 
