@@ -644,68 +644,68 @@
 - **테스트:** Header 컴포넌트 파일이 존재하고 내보내기
 - **작업:** `src/components/layout/Header.tsx` 생성
 - **참조:** [05-DesignSystem.md](./05-DesignSystem.md) 섹션 7
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 1.7.2: Header 로고 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** Header가 홈으로 링크되는 로고 렌더링
 - **작업:** Next.js Link로 로고 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 1.7.3: Header 네비게이션 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** Header가 네비게이션 링크 렌더링
 - **작업:** 네비게이션 항목 추가: 홈, 이혼 유형 진단, 양육비 계산기, 가이드, 상담 신청
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 1.7.4: Header 인증 버튼 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** Header가 로그아웃 상태에서 로그인 버튼 표시
 - **작업:** 조건부 인증 UI 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 1.7.5: 모바일 네비게이션 메뉴 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 햄버거 메뉴가 모바일에서 네비게이션 드로어 열기
 - **작업:** 슬라이드 애니메이션으로 모바일 메뉴 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [S] Task 1.7.6: Footer 컴포넌트 구조 생성
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** Footer 컴포넌트 파일이 존재하고 내보내기
 - **작업:** `src/components/layout/Footer.tsx` 생성
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 1.7.7: Footer 콘텐츠 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** Footer가 저작권과 링크 렌더링
 - **작업:** 연락처 정보와 함께 footer 콘텐츠 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [S] Task 1.7.8: RootLayout 컴포넌트 생성
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** RootLayout이 페이지를 Header와 Footer로 감싸기
 - **작업:** `src/app/layout.tsx` 업데이트
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [S] Task 1.7.9: Error Boundary 컴포넌트 생성
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** error.tsx 파일이 에러를 캐치하고 폴백 UI 표시
 - **작업:** `src/app/error.tsx` 생성
 - **참조:** [plan.md](./plan.md) 섹션 6
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 1.7.10: 전역 로딩 UI 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 페이지 전환 시 로딩 인디케이터 표시
 - **작업:** `src/app/loading.tsx` 생성
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 1.7.11: 404 페이지 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 존재하지 않는 경로 접근 시 404 페이지 표시
 - **작업:** `src/app/not-found.tsx` 생성
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 ---
 
