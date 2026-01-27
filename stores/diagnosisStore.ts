@@ -4,12 +4,9 @@
  */
 
 import { create } from 'zustand';
+import type { DiagnosisAnswer } from '@/types/diagnosis';
 
-export interface DiagnosisAnswer {
-  questionId: string;
-  value: string | number | boolean;
-  metadata?: Record<string, unknown>;
-}
+export type { DiagnosisAnswer };
 
 interface DiagnosisState {
   answers: DiagnosisAnswer[];

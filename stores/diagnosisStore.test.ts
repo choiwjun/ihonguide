@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { useDiagnosisStore, DiagnosisAnswer } from './diagnosisStore';
+import { useDiagnosisStore } from './diagnosisStore';
+import type { DiagnosisAnswer } from '@/types/diagnosis';
 
 describe('diagnosisStore', () => {
   beforeEach(() => {
@@ -40,7 +41,8 @@ describe('diagnosisStore', () => {
     it('should add a new answer', () => {
       const answer: DiagnosisAnswer = {
         questionId: 'q1',
-        value: '예',
+        optionId: 'q1_opt1',
+        score: 3,
       };
 
       useDiagnosisStore.getState().setAnswer(answer);
@@ -51,17 +53,18 @@ describe('diagnosisStore', () => {
     });
 
     it('should update existing answer for same questionId', () => {
-      useDiagnosisStore.getState().setAnswer({ questionId: 'q1', value: '예' });
-      useDiagnosisStore.getState().setAnswer({ questionId: 'q1', value: '아니오' });
+      useDiagnosisStore.getState().setAnswer({ questionId: 'q1', optionId: 'q1_opt1', score: 3 });
+      useDiagnosisStore.getState().setAnswer({ questionId: 'q1', optionId: 'q1_opt2', score: 2 });
 
       const { answers } = useDiagnosisStore.getState();
       expect(answers).toHaveLength(1);
-      expect(answers[0].value).toBe('아니오');
+      expect(answers[0].optionId).toBe('q1_opt2');
+      expect(answers[0].score).toBe(2);
     });
 
     it('should add multiple answers for different questions', () => {
-      useDiagnosisStore.getState().setAnswer({ questionId: 'q1', value: '예' });
-      useDiagnosisStore.getState().setAnswer({ questionId: 'q2', value: '아니오' });
+      useDiagnosisStore.getState().setAnswer({ questionId: 'q1', optionId: 'q1_opt1', score: 3 });
+      useDiagnosisStore.getState().setAnswer({ questionId: 'q2', optionId: 'q2_opt1', score: 3 });
 
       const { answers } = useDiagnosisStore.getState();
       expect(answers).toHaveLength(2);
@@ -136,11 +139,12 @@ describe('diagnosisStore', () => {
 
   describe('getAnswer', () => {
     it('should return answer for specific questionId', () => {
-      useDiagnosisStore.getState().setAnswer({ questionId: 'q1', value: '예' });
-      useDiagnosisStore.getState().setAnswer({ questionId: 'q2', value: '아니오' });
+      useDiagnosisStore.getState().setAnswer({ questionId: 'q1', optionId: 'q1_opt1', score: 3 });
+      useDiagnosisStore.getState().setAnswer({ questionId: 'q2', optionId: 'q2_opt2', score: 2 });
 
       const answer = useDiagnosisStore.getState().getAnswer('q1');
-      expect(answer?.value).toBe('예');
+      expect(answer?.optionId).toBe('q1_opt1');
+      expect(answer?.score).toBe(3);
     });
 
     it('should return undefined for non-existent questionId', () => {
@@ -153,7 +157,7 @@ describe('diagnosisStore', () => {
     it('should reset all state to initial values', () => {
       // Set some state
       useDiagnosisStore.getState().setTotalSteps(5);
-      useDiagnosisStore.getState().setAnswer({ questionId: 'q1', value: '예' });
+      useDiagnosisStore.getState().setAnswer({ questionId: 'q1', optionId: 'q1_opt1', score: 3 });
       useDiagnosisStore.getState().nextStep();
       useDiagnosisStore.getState().nextStep();
 
