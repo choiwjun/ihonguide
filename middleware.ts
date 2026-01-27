@@ -8,6 +8,9 @@ import { NextResponse, type NextRequest } from 'next/server';
 // 인증이 필요한 경로
 const protectedPaths = ['/mypage'];
 
+// 관리자 권한이 필요한 경로
+const adminPaths = ['/admin'];
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -16,7 +19,13 @@ export async function middleware(request: NextRequest) {
     (path) => pathname === path || pathname.startsWith(`${path}/`)
   );
 
-  if (!isProtectedPath) {
+  // 관리자 경로인지 확인
+  const isAdminPath = adminPaths.some(
+    (path) => pathname === path || pathname.startsWith(`${path}/`)
+  );
+
+  // 보호된 경로도 아니고 관리자 경로도 아니면 통과
+  if (!isProtectedPath && !isAdminPath) {
     return NextResponse.next();
   }
 
@@ -56,6 +65,17 @@ export async function middleware(request: NextRequest) {
     const loginUrl = new URL('/auth/login', request.url);
     loginUrl.searchParams.set('redirectTo', pathname);
     return NextResponse.redirect(loginUrl);
+  }
+
+  // 관리자 경로인 경우 추가 권한 확인
+  if (isAdminPath) {
+    // 사용자 메타데이터에서 role 확인
+    const userRole = user.user_metadata?.role || user.app_metadata?.role;
+
+    if (userRole !== 'admin') {
+      // 관리자가 아니면 홈으로 리다이렉트
+      return NextResponse.redirect(new URL('/', request.url));
+    }
   }
 
   return response;
