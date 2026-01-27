@@ -457,7 +457,8 @@
 - **테스트:** 텍스트가 Pretendard 폰트 패밀리로 렌더링
 - **작업:** Pretendard용 next/font 설정
 - **참조:** [05-DesignSystem.md](./05-DesignSystem.md) 섹션 3
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** CDN으로 Pretendard 로드, fonts.ts 상수 파일 및 테스트 추가
 
 #### [B] Task 1.1.3: Noto Serif KR 폰트 로드
 - **유형:** 동작적(BEHAVIORAL)
