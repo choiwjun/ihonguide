@@ -747,21 +747,21 @@
 
 ---
 
-### M1.9: 상태 관리 (Zustand)
+### M1.9: 상태 관리 (Zustand) ✅ DONE
 
 #### [S] Task 1.9.1: Auth 스토어 생성
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** useAuthStore가 user, isAuthenticated 상태 제공
-- **작업:** `src/stores/authStore.ts` 생성
+- **작업:** `stores/authStore.ts` 생성
 - **참조:** [02-TRD.md](./02-TRD.md) 섹션 2.1
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [S] Task 1.9.2: Diagnosis 스토어 생성
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** useDiagnosisStore가 answers, currentStep 상태 제공
-- **작업:** `src/stores/diagnosisStore.ts` 생성
+- **작업:** `stores/diagnosisStore.ts` 생성
 - **참조:** [07-CodingConvention.md](./07-CodingConvention.md) 섹션 2
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 ---
 
