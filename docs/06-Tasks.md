@@ -203,7 +203,8 @@
 - **테스트:** `npm run lint`가 경고 없이 통과
 - **작업:** 프로젝트 컨벤션에 맞게 ESLint, Prettier 설정
 - **참조:** [07-CodingConvention.md](./07-CodingConvention.md) 섹션 5
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** ESLint 9 flat config, eslint-config-next, Prettier 설정 완료
 
 #### [S] Task 0.1.3: 폴더 구조 생성
 - **유형:** 구조적(STRUCTURAL)
