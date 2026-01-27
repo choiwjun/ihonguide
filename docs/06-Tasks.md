@@ -1501,43 +1501,43 @@
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** 분석 함수 파일 존재
 - **작업:** `src/lib/analytics.ts` 생성
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.4.2: GA4 스크립트 삽입 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** GA4 스크립트가 페이지에 로드
 - **작업:** 루트 레이아웃에 GA4 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.4.3: 페이지뷰 추적 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 페이지 네비게이션이 페이지뷰 이벤트 트리거
 - **작업:** 페이지뷰 추적 훅 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.4.4: diagnosis_start 이벤트 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 진단 시작 시 이벤트 발생
 - **작업:** 이벤트 추적 호출 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.4.5: diagnosis_complete 이벤트 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 진단 완료 시 결과 유형과 함께 이벤트 발생
 - **작업:** 이벤트 추적 호출 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.4.6: calculator_complete 이벤트 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 계산기 사용 시 이벤트 발생
 - **작업:** 이벤트 추적 호출 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.4.7: consultation_submit 이벤트 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 폼 제출 시 전환 이벤트 발생
 - **작업:** 이벤트 추적 호출 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 ---
 
@@ -1548,31 +1548,31 @@
 - **테스트:** generateMetadata 헬퍼 함수 존재
 - **작업:** `src/lib/metadata.ts` 생성
 - **참조:** [04-DatabaseDesign.md](./04-DatabaseDesign.md) seo_meta
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.5.2: 페이지별 메타데이터 설정
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 각 페이지에 적절한 title, description 설정
 - **작업:** 모든 페이지에 metadata export 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.5.3: sitemap.xml 생성 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** /sitemap.xml이 모든 공개 URL 포함
 - **작업:** `src/app/sitemap.ts` 생성
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.5.4: robots.txt 생성 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** /robots.txt가 크롤링 규칙 제공
 - **작업:** `src/app/robots.ts` 생성
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.5.5: Open Graph 이미지 기본 설정
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 소셜 공유 시 OG 이미지 표시
 - **작업:** 기본 OG 이미지 및 메타 태그 설정
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 ---
 
@@ -1582,25 +1582,25 @@
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** /terms 라우트에서 페이지 렌더링
 - **작업:** `src/app/terms/page.tsx` 생성
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.6.2: 이용약관 콘텐츠 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 이용약관 전체 내용 표시
 - **작업:** 이용약관 텍스트 작성 및 표시
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [S] Task 3.6.3: 개인정보처리방침 페이지 생성
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** /privacy 라우트에서 페이지 렌더링
 - **작업:** `src/app/privacy/page.tsx` 생성
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 3.6.4: 개인정보처리방침 콘텐츠 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 개인정보처리방침 전체 내용 표시
 - **작업:** 개인정보처리방침 텍스트 작성 및 표시
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 ---
 
