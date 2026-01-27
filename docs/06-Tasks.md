@@ -477,7 +477,8 @@
 - **테스트:** ButtonProps 타입이 에러 없이 컴파일
 - **작업:** ButtonProps와 함께 `src/types/components.ts` 정의
 - **참조:** [05-DesignSystem.md](./05-DesignSystem.md) 섹션 5.1
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
+- **비고:** types/components.ts 생성 (ButtonProps, BUTTON_SIZES 상수)
 
 #### [B] Task 1.2.2: Button primary 변형 구현
 - **유형:** 동작적(BEHAVIORAL)
