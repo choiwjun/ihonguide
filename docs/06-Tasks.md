@@ -388,54 +388,54 @@
 #### [S] Task 0.3.1: 인증 유틸리티 타입 생성
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** TypeScript가 인증 타입을 에러 없이 컴파일
-- **작업:** User, Session 타입과 함께 `src/types/auth.ts` 생성
-- **상태:** [ ] TODO
+- **작업:** User, Session 타입과 함께 `types/auth.ts` 생성
+- **상태:** [x] DONE
 
 #### [B] Task 0.3.2: 카카오 OAuth 로그인 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** `signInWithKakao()`가 카카오 OAuth로 리다이렉트
 - **작업:** Supabase 카카오 프로바이더 설정, 로그인 함수 생성
 - **참조:** [03-UserFlow.md](./03-UserFlow.md) 섹션 5
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 0.3.3: 네이버 OAuth 로그인 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** `signInWithNaver()`가 네이버 OAuth로 리다이렉트
 - **작업:** Supabase 네이버 프로바이더 설정, 로그인 함수 생성
 - **참조:** [03-UserFlow.md](./03-UserFlow.md) 섹션 5
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 0.3.4: 로그아웃 함수 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** `signOut()`이 세션을 지우고 리다이렉트
 - **작업:** signOut 유틸리티 함수 생성
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 0.3.5: 인증 상태 훅 생성
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** `useAuth()`가 현재 사용자 상태 반환
-- **작업:** `src/hooks/useAuth.ts` 생성
-- **상태:** [ ] TODO
+- **작업:** `hooks/useAuth.ts` 생성
+- **상태:** [x] DONE
 
 #### [B] Task 0.3.6: OAuth 콜백 라우트 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** /auth/callback이 OAuth 토큰을 처리하고 적절히 리다이렉트
-- **작업:** `src/app/auth/callback/route.ts` 생성
+- **작업:** `app/auth/callback/route.ts` 생성
 - **참조:** [03-UserFlow.md](./03-UserFlow.md) 섹션 5
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [S] Task 0.3.7: 로그인 모달 컴포넌트 구조 생성
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** LoginModal 컴포넌트 파일이 존재하고 내보내기
-- **작업:** `src/components/auth/LoginModal.tsx` 생성
+- **작업:** `components/auth/LoginModal.tsx` 생성
 - **참조:** [03-UserFlow.md](./03-UserFlow.md) 섹션 5
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 0.3.8: 로그인 모달 UI 구현
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 모달에 카카오/네이버 로그인 버튼 표시
 - **작업:** 소셜 로그인 버튼과 함께 로그인 모달 UI 구현
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 ---
 
