@@ -10,9 +10,10 @@ import { signInWithKakao, signInWithNaver } from '@/lib/auth';
 
 interface LoginContentProps {
   onSuccess?: () => void;
+  redirectTo?: string;
 }
 
-export function LoginContent({ onSuccess }: LoginContentProps) {
+export function LoginContent({ onSuccess, redirectTo }: LoginContentProps) {
   const [isLoading, setIsLoading] = useState<'kakao' | 'naver' | null>(null);
   const [error, setError] = useState<string | null>(null);
 
