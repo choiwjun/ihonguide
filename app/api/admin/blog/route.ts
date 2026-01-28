@@ -168,8 +168,10 @@ export async function POST(request: NextRequest) {
       content: body.content.trim(),
       excerpt: body.excerpt?.trim() || null,
       category_id: body.categoryId || null,
-      meta_title: body.metaTitle?.trim() || body.title.trim(),
-      meta_description: body.metaDescription?.trim() || body.excerpt?.trim() || null,
+      seo_meta: {
+        title: body.metaTitle?.trim() || body.title.trim(),
+        description: body.metaDescription?.trim() || body.excerpt?.trim() || null,
+      },
       status: body.status,
       published_at: body.status === 'published' ? new Date().toISOString() : null,
     };

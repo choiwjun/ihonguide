@@ -47,8 +47,7 @@ export async function GET(
         excerpt,
         status,
         view_count,
-        meta_title,
-        meta_description,
+        seo_meta,
         published_at,
         created_at,
         updated_at,
@@ -73,8 +72,8 @@ export async function GET(
         excerpt: post.excerpt,
         status: post.status,
         viewCount: post.view_count,
-        metaTitle: post.meta_title,
-        metaDescription: post.meta_description,
+        metaTitle: post.seo_meta?.title || null,
+        metaDescription: post.seo_meta?.description || null,
         publishedAt: post.published_at,
         createdAt: post.created_at,
         updatedAt: post.updated_at,
@@ -151,8 +150,14 @@ export async function PATCH(
     if (body.content !== undefined) updateData.content = body.content.trim();
     if (body.excerpt !== undefined) updateData.excerpt = body.excerpt?.trim() || null;
     if (body.categoryId !== undefined) updateData.category_id = body.categoryId || null;
-    if (body.metaTitle !== undefined) updateData.meta_title = body.metaTitle?.trim() || null;
-    if (body.metaDescription !== undefined) updateData.meta_description = body.metaDescription?.trim() || null;
+
+    // SEO 메타 업데이트
+    if (body.metaTitle !== undefined || body.metaDescription !== undefined) {
+      updateData.seo_meta = {
+        title: body.metaTitle?.trim() || null,
+        description: body.metaDescription?.trim() || null,
+      };
+    }
 
     // 상태 변경 처리
     if (body.status !== undefined) {
