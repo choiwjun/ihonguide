@@ -5,7 +5,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/client';
+import { createClient } from '@/lib/supabase/server';
 
 interface CreateBlogPostRequest {
   title: string;
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
     const page = Math.max(1, parseInt(searchParams.get('page') || '1'));
     const pageSize = Math.min(50, Math.max(1, parseInt(searchParams.get('pageSize') || '20')));
 
-    const supabase = createClient();
+    const supabase = await createClient();
 
     // Supabase 미설정 시 빈 목록 반환
     if (!supabase) {
@@ -118,7 +118,7 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     if (!supabase) {
       return NextResponse.json(

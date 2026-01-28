@@ -3,7 +3,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/client';
+import { createClient } from '@/lib/supabase/server';
 import type { BlogPost, BlogPostSummary, BlogDetailResponse } from '@/types/blog';
 
 interface RouteContext {
@@ -16,7 +16,7 @@ interface RouteContext {
 export async function GET(request: NextRequest, context: RouteContext) {
   try {
     const { slug } = await context.params;
-    const supabase = createClient();
+    const supabase = await createClient();
 
     if (!supabase) {
       return NextResponse.json(
