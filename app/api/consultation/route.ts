@@ -113,7 +113,7 @@ async function saveConsultation(
   if (!supabase) return null;
 
   try {
-    const { data: savedResult, error: saveError } = await supabase
+    const { data: savedResult, error: saveError } = await (supabase as any)
       .from('consultations')
       .insert({
         name: data.name,
@@ -132,9 +132,10 @@ async function saveConsultation(
       return null;
     }
 
+    const result = savedResult as any;
     return {
-      id: savedResult?.id ?? '',
-      ticketNumber: savedResult?.ticket_number ?? data.ticketNumber,
+      id: result?.id ?? '',
+      ticketNumber: result?.ticket_number ?? data.ticketNumber,
     };
   } catch (error) {
     console.error('Error saving consultation:', error);
