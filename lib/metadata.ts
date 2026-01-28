@@ -4,7 +4,7 @@
 
 import { Metadata } from 'next';
 
-const SITE_NAME = '아이혼가이드';
+const SITE_NAME = '이혼준비';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ihonguide.com';
 const DEFAULT_DESCRIPTION = '이혼 준비부터 양육비 계산까지, 법률 전문가가 함께하는 이혼 가이드. 무료 진단과 상담으로 현명한 이혼을 준비하세요.';
 
@@ -127,7 +127,7 @@ export const defaultMetadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description: DEFAULT_DESCRIPTION,
-  keywords: ['이혼', '양육비', '재산분할', '위자료', '협의이혼', '이혼상담', '법률상담', '아이혼가이드'],
+  keywords: ['이혼', '양육비', '재산분할', '위자료', '협의이혼', '이혼상담', '법률상담', '이혼준비'],
   metadataBase: new URL(SITE_URL),
   openGraph: {
     title: SITE_NAME,
