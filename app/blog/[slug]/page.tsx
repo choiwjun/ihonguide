@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
   try {
     const supabase = await createClient();
     if (!supabase) {
-      return { title: '블로그 | 아이혼가이드' };
+      return { title: '블로그 | 이혼준비' };
     }
 
     const { data: post } = await (supabase as any)
@@ -57,7 +57,7 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
       .single();
 
     if (!post) {
-      return { title: '게시물을 찾을 수 없습니다 | 아이혼가이드' };
+      return { title: '게시물을 찾을 수 없습니다 | 이혼준비' };
     }
 
     return generateBlogMetadata({
@@ -68,7 +68,7 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
       publishedAt: post.published_at,
     });
   } catch {
-    return { title: '블로그 | 아이혼가이드' };
+    return { title: '블로그 | 이혼준비' };
   }
 }
 

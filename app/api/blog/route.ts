@@ -18,11 +18,16 @@ export async function GET(request: NextRequest) {
 
     const supabase = createClient();
 
+    // Supabase가 설정되지 않은 경우 빈 목록 반환
     if (!supabase) {
-      return NextResponse.json(
-        { error: '서버 설정 오류가 발생했습니다.' },
-        { status: 500 }
-      );
+      const emptyResponse: BlogListResponse = {
+        posts: [],
+        total: 0,
+        page: 1,
+        pageSize,
+        totalPages: 0,
+      };
+      return NextResponse.json({ data: emptyResponse });
     }
 
     // 기본 쿼리 (use as any to avoid TypeScript issues with generated types)
