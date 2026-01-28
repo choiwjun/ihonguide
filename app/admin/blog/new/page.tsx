@@ -19,16 +19,21 @@ export default function NewBlogPostPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // TODO: API에서 카테고리 불러오기
-    const mockCategories: BlogCategory[] = [
-      { id: '1', name: '절차', slug: 'procedure' },
-      { id: '2', name: '양육권', slug: 'custody' },
-      { id: '3', name: '재산분할', slug: 'property' },
-      { id: '4', name: '위자료', slug: 'alimony' },
-      { id: '5', name: '기타', slug: 'etc' },
-    ];
-    setCategories(mockCategories);
-    setIsLoading(false);
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch('/api/admin/categories');
+        const result = await response.json();
+        if (result.data) {
+          setCategories(result.data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch categories:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCategories();
   }, []);
 
   if (isLoading) {

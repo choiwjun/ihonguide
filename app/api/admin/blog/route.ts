@@ -161,13 +161,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // categoryId 검증 (UUID 형식이 아니면 null)
+    const isValidUUID = (id: string) => {
+      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      return uuidRegex.test(id);
+    };
+
+    const categoryId = body.categoryId && isValidUUID(body.categoryId) ? body.categoryId : null;
+
     // 게시물 생성
     const postData = {
       title: body.title.trim(),
       slug,
       content: body.content.trim(),
       excerpt: body.excerpt?.trim() || null,
-      category_id: body.categoryId || null,
+      category_id: categoryId,
       seo_meta: {
         title: body.metaTitle?.trim() || body.title.trim(),
         description: body.metaDescription?.trim() || body.excerpt?.trim() || null,
