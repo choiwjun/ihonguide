@@ -15,24 +15,27 @@ interface Consultation {
   phone: string;
   email?: string;
   consultationType: string;
-  message: string;
+  description?: string;
   status: string;
   createdAt: string;
 }
 
-type StatusFilter = 'all' | '접수완료' | '상담중' | '상담완료';
+type StatusFilter = 'all' | 'pending' | 'contacted' | 'in_progress' | 'completed';
 
 const statusOptions: { value: StatusFilter; label: string }[] = [
   { value: 'all', label: '전체' },
-  { value: '접수완료', label: '접수완료' },
-  { value: '상담중', label: '상담중' },
-  { value: '상담완료', label: '상담완료' },
+  { value: 'pending', label: '접수대기' },
+  { value: 'contacted', label: '연락완료' },
+  { value: 'in_progress', label: '상담중' },
+  { value: 'completed', label: '상담완료' },
 ];
 
 const statusMap: Record<string, { label: string; color: string }> = {
-  접수완료: { label: '접수완료', color: 'bg-blue-100 text-blue-700' },
-  상담중: { label: '상담중', color: 'bg-yellow-100 text-yellow-700' },
-  상담완료: { label: '상담완료', color: 'bg-green-100 text-green-700' },
+  pending: { label: '접수대기', color: 'bg-blue-100 text-blue-700' },
+  contacted: { label: '연락완료', color: 'bg-purple-100 text-purple-700' },
+  in_progress: { label: '상담중', color: 'bg-yellow-100 text-yellow-700' },
+  completed: { label: '상담완료', color: 'bg-green-100 text-green-700' },
+  cancelled: { label: '취소', color: 'bg-gray-100 text-gray-700' },
 };
 
 export default function ConsultationsPage() {
@@ -43,58 +46,24 @@ export default function ConsultationsPage() {
   const fetchConsultations = useCallback(async () => {
     setIsLoading(true);
     try {
-      // TODO: API에서 데이터 불러오기
-      // 현재는 더미 데이터
-      const mockData: Consultation[] = [
-        {
-          id: '1',
-          ticketNumber: 'CST-20260127-0001',
-          name: '홍길동',
-          phone: '010-1234-5678',
-          email: 'hong@example.com',
-          consultationType: '이혼상담',
-          message: '이혼 절차에 대해 상담 받고 싶습니다.',
-          status: '접수완료',
-          createdAt: '2026-01-27T10:30:00Z',
-        },
-        {
-          id: '2',
-          ticketNumber: 'CST-20260127-0002',
-          name: '김철수',
-          phone: '010-9876-5432',
-          consultationType: '양육비상담',
-          message: '양육비 산정에 대해 문의드립니다.',
-          status: '상담중',
-          createdAt: '2026-01-27T09:15:00Z',
-        },
-        {
-          id: '3',
-          ticketNumber: 'CST-20260126-0005',
-          name: '이영희',
-          phone: '010-1111-2222',
-          email: 'lee@example.com',
-          consultationType: '재산분할상담',
-          message: '재산 분할 관련 상담 요청합니다.',
-          status: '상담완료',
-          createdAt: '2026-01-26T16:45:00Z',
-        },
-        {
-          id: '4',
-          ticketNumber: 'CST-20260126-0004',
-          name: '박민수',
-          phone: '010-3333-4444',
-          consultationType: '이혼상담',
-          message: '협의이혼 절차가 궁금합니다.',
-          status: '접수완료',
-          createdAt: '2026-01-26T14:20:00Z',
-        },
-      ];
+      const params = new URLSearchParams();
+      if (filter !== 'all') {
+        params.set('status', filter);
+      }
 
-      const filtered = filter === 'all'
-        ? mockData
-        : mockData.filter((c) => c.status === filter);
+      const response = await fetch(`/api/admin/consultations?${params.toString()}`);
+      const result = await response.json();
 
-      setConsultations(filtered);
+      if (result.error) {
+        console.error('Failed to fetch consultations:', result.error);
+        setConsultations([]);
+        return;
+      }
+
+      setConsultations(result.data?.consultations || []);
+    } catch (error) {
+      console.error('Failed to fetch consultations:', error);
+      setConsultations([]);
     } finally {
       setIsLoading(false);
     }
@@ -105,10 +74,26 @@ export default function ConsultationsPage() {
   }, [fetchConsultations]);
 
   const handleStatusChange = async (id: string, newStatus: string) => {
-    // TODO: API 호출로 상태 업데이트
-    setConsultations((prev) =>
-      prev.map((c) => (c.id === id ? { ...c, status: newStatus } : c))
-    );
+    try {
+      const response = await fetch(`/api/admin/consultations/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      const result = await response.json();
+
+      if (result.error) {
+        alert(result.error);
+        return;
+      }
+
+      setConsultations((prev) =>
+        prev.map((c) => (c.id === id ? { ...c, status: newStatus } : c))
+      );
+    } catch (error) {
+      console.error('Failed to update status:', error);
+      alert('상태 변경에 실패했습니다.');
+    }
   };
 
   return (
@@ -182,9 +167,11 @@ export default function ConsultationsPage() {
                           statusMap[consultation.status]?.color || 'bg-gray-100 text-gray-700'
                         }`}
                       >
-                        <option value="접수완료">접수완료</option>
-                        <option value="상담중">상담중</option>
-                        <option value="상담완료">상담완료</option>
+                        <option value="pending">접수대기</option>
+                        <option value="contacted">연락완료</option>
+                        <option value="in_progress">상담중</option>
+                        <option value="completed">상담완료</option>
+                        <option value="cancelled">취소</option>
                       </select>
                     </td>
                     <td className="py-3 px-4 text-gray-500">
