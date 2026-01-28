@@ -6,7 +6,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { createApiClient } from '@/lib/supabase/api';
 
 interface UpdateBlogPostRequest {
   title?: string;
@@ -28,7 +28,7 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const supabase = await createClient();
+    const supabase = createApiClient();
 
     if (!supabase) {
       return NextResponse.json(
@@ -99,7 +99,7 @@ export async function PATCH(
 ) {
   try {
     const { id } = await params;
-    const supabase = await createClient();
+    const supabase = createApiClient();
 
     if (!supabase) {
       return NextResponse.json(
@@ -203,7 +203,7 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    const supabase = await createClient();
+    const supabase = createApiClient();
 
     if (!supabase) {
       return NextResponse.json(
