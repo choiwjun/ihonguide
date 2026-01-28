@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
     }
 
     // 기본 쿼리
-    let query = supabase
+    let query = (supabase as any)
       .from('consultations')
       .select('*', { count: 'exact' });
 

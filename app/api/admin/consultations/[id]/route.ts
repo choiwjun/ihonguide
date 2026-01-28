@@ -25,7 +25,7 @@ export async function GET(
       );
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from('consultations')
       .select('*')
       .eq('id', id)
@@ -38,22 +38,23 @@ export async function GET(
       );
     }
 
+    const item = data as any;
     return NextResponse.json({
       data: {
-        id: data.id,
-        ticketNumber: data.ticket_number,
-        name: data.name,
-        phone: data.phone,
-        email: data.email,
-        consultationType: data.consultation_type,
-        preferredTime: data.preferred_time,
-        status: data.status,
-        currentSituation: data.current_situation,
-        description: data.description,
-        adminNotes: data.admin_notes,
-        createdAt: data.created_at,
-        contactedAt: data.contacted_at,
-        completedAt: data.completed_at,
+        id: item.id,
+        ticketNumber: item.ticket_number,
+        name: item.name,
+        phone: item.phone,
+        email: item.email,
+        consultationType: item.consultation_type,
+        preferredTime: item.preferred_time,
+        status: item.status,
+        currentSituation: item.current_situation,
+        description: item.description,
+        adminNotes: item.admin_notes,
+        createdAt: item.created_at,
+        contactedAt: item.contacted_at,
+        completedAt: item.completed_at,
       }
     });
   } catch (error) {
@@ -104,7 +105,7 @@ export async function PATCH(
       updateData.admin_notes = body.adminNotes;
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from('consultations')
       .update(updateData)
       .eq('id', id)
