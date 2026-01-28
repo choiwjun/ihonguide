@@ -4,23 +4,14 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
-import type { ConsultationInput, ConsultationType, ConsultationStatus } from '@/types/consultation';
-import type { SupabaseClient } from '@supabase/supabase-js';
-import type { Database } from '@/types/database';
+import { createApiClient } from '@/lib/supabase/api';
+import type { ConsultationInput, ConsultationType } from '@/types/consultation';
 
 interface ConsultationRequestBody extends Partial<ConsultationInput> {
-  sessionId?: string;
+  message?: string;
 }
 
 const VALID_CONSULTATION_TYPES: ConsultationType[] = ['이혼상담', '양육비상담', '재산분할상담', '기타'];
-
-/**
- * 세션 ID 생성
- */
-function generateSessionId(): string {
-  return `session_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`;
-}
 
 /**
  * 접수 번호 생성
@@ -109,37 +100,29 @@ function validateInput(body: ConsultationRequestBody): { valid: boolean; error?:
  * 상담 신청 저장
  */
 async function saveConsultation(
-  supabase: SupabaseClient<Database>,
+  supabase: ReturnType<typeof createApiClient>,
   data: {
-    userId: string | null;
-    sessionId: string;
     name: string;
     phone: string;
     email?: string;
     consultationType: ConsultationType;
-    message: string;
-    privacyConsent: boolean;
-    marketingConsent: boolean;
+    description: string;
     ticketNumber: string;
-    status: ConsultationStatus;
   }
 ): Promise<{ id: string; ticketNumber: string } | null> {
+  if (!supabase) return null;
+
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { data: savedResult, error: saveError } = await (supabase as any)
+    const { data: savedResult, error: saveError } = await supabase
       .from('consultations')
       .insert({
-        user_id: data.userId,
-        session_id: data.sessionId,
         name: data.name,
         phone: data.phone,
         email: data.email || null,
         consultation_type: data.consultationType,
-        message: data.message,
-        privacy_consent: data.privacyConsent,
-        marketing_consent: data.marketingConsent,
+        description: data.description,
         ticket_number: data.ticketNumber,
-        status: data.status,
+        status: 'pending',
       })
       .select('id, ticket_number')
       .single();
@@ -166,7 +149,6 @@ async function saveConsultation(
 export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as ConsultationRequestBody;
-    const { sessionId: providedSessionId } = body;
 
     // 입력값 검증
     const validation = validateInput(body);
@@ -178,45 +160,27 @@ export async function POST(request: NextRequest) {
     }
 
     // Supabase 클라이언트 생성
-    const supabase = await createClient();
-
-    // 사용자 정보 확인
-    let userId: string | null = null;
-    if (supabase) {
-      const { data: { user } } = await supabase.auth.getUser();
-      userId = user?.id ?? null;
-    }
-
-    // 세션 ID 결정
-    const sessionId = providedSessionId || generateSessionId();
+    const supabase = createApiClient();
 
     // 접수 번호 생성
     const ticketNumber = generateTicketNumber();
 
-    // 결과 저장 (Supabase 클라이언트가 있는 경우)
-    let savedData: { id: string; ticketNumber: string } | null = null;
-    if (supabase) {
-      savedData = await saveConsultation(supabase, {
-        userId,
-        sessionId,
-        name: body.name!.trim(),
-        phone: body.phone!.replace(/\D/g, ''),
-        email: body.email?.trim(),
-        consultationType: body.consultationType as ConsultationType,
-        message: body.message!.trim(),
-        privacyConsent: true,
-        marketingConsent: body.marketingConsent ?? false,
-        ticketNumber,
-        status: '접수',
-      });
-    }
+    // 결과 저장
+    const savedData = await saveConsultation(supabase, {
+      name: body.name!.trim(),
+      phone: body.phone!.replace(/\D/g, ''),
+      email: body.email?.trim(),
+      consultationType: body.consultationType as ConsultationType,
+      description: body.message!.trim(),
+      ticketNumber,
+    });
 
     return NextResponse.json({
       success: true,
       data: {
         id: savedData?.id ?? null,
         ticketNumber: savedData?.ticketNumber ?? ticketNumber,
-        status: '접수' as ConsultationStatus,
+        status: 'pending',
         createdAt: new Date().toISOString(),
       },
     });
