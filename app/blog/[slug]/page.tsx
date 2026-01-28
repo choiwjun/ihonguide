@@ -8,7 +8,7 @@ import { notFound } from 'next/navigation';
 import { Container } from '@/components/layout';
 import { BlogDetail } from '@/components/blog';
 import { generateBlogMetadata } from '@/lib/metadata';
-import { createClient } from '@/lib/supabase/server';
+import { createApiClient } from '@/lib/supabase/api';
 import type { BlogPost, BlogPostSummary } from '@/types/blog';
 
 interface BlogDetailPageProps {
@@ -21,7 +21,7 @@ export const revalidate = 3600;
 // SSG: 빌드 시 정적 페이지 생성
 export async function generateStaticParams() {
   try {
-    const supabase = await createClient();
+    const supabase = createApiClient();
     if (!supabase) return [];
 
     const { data: posts } = await (supabase as any)
@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
   const { slug } = await params;
 
   try {
-    const supabase = await createClient();
+    const supabase = createApiClient();
     if (!supabase) {
       return { title: '블로그 | 이혼준비' };
     }
@@ -74,7 +74,7 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
 
 async function fetchBlogPost(slug: string): Promise<{ post: BlogPost | null; relatedPosts: BlogPostSummary[] }> {
   try {
-    const supabase = await createClient();
+    const supabase = createApiClient();
     if (!supabase) {
       return { post: null, relatedPosts: [] };
     }
