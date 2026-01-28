@@ -1,12 +1,12 @@
 /**
  * 랜딩 페이지
+ * Light Transparency Variant 3
  */
 
 import {
   HeroSection,
-  ProblemSolutionSection,
+  StatsSection,
   FeaturesSection,
-  TrustSection,
   CTASection,
 } from '@/components/landing';
 
@@ -14,9 +14,9 @@ export default function Home() {
   return (
     <main>
       <HeroSection />
-      <ProblemSolutionSection />
+      {/* StatsSection 임시 주석 처리 */}
+      {/* <StatsSection /> */}
       <FeaturesSection />
-      <TrustSection />
       <CTASection />
     </main>
   );

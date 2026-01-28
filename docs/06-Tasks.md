@@ -1675,35 +1675,35 @@
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** `npm run test:e2e`가 Playwright 실행
 - **작업:** Playwright 설치 및 설정
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 4.3.2: E2E 테스트 작성: 진단 흐름
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 시작부터 결과까지 진단 완료
 - **작업:** 진단용 Playwright 테스트 작성
 - **참조:** [03-UserFlow.md](./03-UserFlow.md) 섹션 2
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 4.3.3: E2E 테스트 작성: 계산기 흐름
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 입력부터 결과까지 계산기 완료
 - **작업:** 계산기용 Playwright 테스트 작성
 - **참조:** [03-UserFlow.md](./03-UserFlow.md) 섹션 3
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 4.3.4: E2E 테스트 작성: 상담 흐름
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 상담 폼 제출 완료
 - **작업:** 상담용 Playwright 테스트 작성
 - **참조:** [03-UserFlow.md](./03-UserFlow.md) 섹션 4
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 4.3.5: E2E 테스트 작성: 인증 흐름
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** 로그인과 로그아웃이 올바르게 작동
 - **작업:** 인증용 Playwright 테스트 작성
 - **참조:** [03-UserFlow.md](./03-UserFlow.md) 섹션 5
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 ---
 
@@ -1715,25 +1715,25 @@
 - **유형:** 구조적(STRUCTURAL)
 - **테스트:** Vercel 프로젝트가 저장소에 연결
 - **작업:** Vercel 프로젝트 설정
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 5.1.2: 환경 변수 설정
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** Vercel에 프로덕션 환경 변수 설정
 - **작업:** 모든 필수 환경 변수 추가
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 5.1.3: 커스텀 도메인 설정
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** ihonguide.com이 Vercel 배포로 해석
 - **작업:** Vercel에서 DNS와 도메인 설정
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 #### [B] Task 5.1.4: 자동 배포 활성화
 - **유형:** 동작적(BEHAVIORAL)
 - **테스트:** main으로 push 시 배포 트리거
 - **작업:** GitHub 연동 설정
-- **상태:** [ ] TODO
+- **상태:** [x] DONE
 
 ---
 

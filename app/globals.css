@@ -2,131 +2,172 @@
 
 /* ===========================================
    CSS Variables (Design Tokens)
-   참조: docs/05-DesignSystem.md
+   Light Transparency Variant 3 (Ihon Guide Design System)
    =========================================== */
 :root {
-  /* Primary Colors */
-  --color-primary: #7c9a82;
-  --color-primary-light: #a8c5ae;
-  --color-primary-dark: #5a7a60;
+  /* Primary Colors - Deep Teal */
+  --color-primary: #0f766e;
+  --color-primary-hover: #115e59;
+  --color-primary-light: #f0fdfa;
+  --color-primary-bg: #f0fdfa;
 
-  /* Background & Surface */
-  --color-bg: #fdfbf7;
-  --color-surface: #f7f4ef;
-  --color-border: #e8e4df;
+  /* Background & Surface - Warm Sand */
+  --color-bg: #F9F8F6;
+  --color-surface: #FFFFFF;
+  --color-surface-glass: rgba(255, 255, 255, 0.65);
+  --color-border: #E2E8F0;
+  --color-border-light: rgba(255, 255, 255, 0.6);
 
   /* Text Colors */
-  --color-text: #2d2d2d;
-  --color-text-secondary: #6b6560;
-  --color-text-muted: #9c958e;
+  --color-text: #1e293b;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748b;
+  --color-text-disabled: #94a3b8;
 
-  /* Accent Color */
-  --color-accent: #e8a598;
+  /* Accent Colors */
+  --color-muted-blue: #475569;
+  --color-accent-sky: #38bdf8;
+  --color-accent-rose: #FB7185;
+  --color-accent-amber: #FBBF24;
 
   /* Feedback Colors */
-  --color-success: #7cb77c;
-  --color-warning: #d4a574;
-  --color-error: #d4847c;
-  --color-info: #7c9ab0;
+  --color-success: #10B981;
+  --color-warning: #FBBF24;
+  --color-error: #FB7185;
+  --color-info: #38BDF8;
 
   /* Font Family */
-  --font-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-serif: 'Noto Serif KR', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 
-  /* Animation Duration */
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+
+  /* Border Radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+  --radius-full: 9999px;
+
+  /* Shadows - Soft with Teal tint */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-soft: 0 4px 20px -2px rgba(15, 118, 110, 0.08), 0 0 8px -2px rgba(0, 0, 0, 0.02);
+  --shadow-soft-lg: 0 10px 30px -5px rgba(15, 118, 110, 0.12), 0 0 15px -3px rgba(0, 0, 0, 0.03);
+  --shadow-glass: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --shadow-inner-glow: inset 0 0 20px rgba(255, 255, 255, 0.5);
+
+  /* Animation */
   --duration-fast: 150ms;
   --duration-base: 200ms;
   --duration-slow: 300ms;
-  --duration-slower: 500ms;
-
-  /* Animation Easing */
-  --ease-out: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 @theme {
-  /* Colors - Primary */
-  --color-primary: #7c9a82;
-  --color-primary-light: #a8c5ae;
-  --color-primary-dark: #5a7a60;
+  /* Colors - Primary (Deep Teal) */
+  --color-primary: #0f766e;
+  --color-primary-hover: #115e59;
+  --color-primary-light: #f0fdfa;
+  --color-primary-bg: #f0fdfa;
 
   /* Colors - Surface & Background */
-  --color-surface: #f7f4ef;
-  --color-bg: #fdfbf7;
-  --color-border: #e8e4df;
+  --color-surface: #FFFFFF;
+  --color-bg: #F9F8F6;
+  --color-border: #E2E8F0;
 
   /* Colors - Text */
-  --color-text: #2d2d2d;
-  --color-text-secondary: #6b6560;
-  --color-text-muted: #9c958e;
+  --color-text: #1e293b;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748b;
 
   /* Colors - Accent */
-  --color-accent: #e8a598;
+  --color-muted-blue: #475569;
+  --color-accent-sky: #38bdf8;
+  --color-accent-rose: #FB7185;
 
   /* Colors - Feedback */
-  --color-success: #7cb77c;
-  --color-warning: #d4a574;
-  --color-error: #d4847c;
-  --color-info: #7c9ab0;
+  --color-success: #10B981;
+  --color-warning: #FBBF24;
+  --color-error: #FB7185;
+  --color-info: #38BDF8;
 
   /* Font Family */
-  --font-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-serif: 'Noto Serif KR', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 
   /* Font Size */
-  --font-size-display: 3rem;
-  --font-size-h1: 2.25rem;
-  --font-size-h2: 1.75rem;
-  --font-size-h3: 1.375rem;
-  --font-size-h4: 1.125rem;
+  --font-size-display: 3.75rem;
+  --font-size-h1: 3rem;
+  --font-size-h2: 2.5rem;
+  --font-size-h3: 1.875rem;
+  --font-size-h4: 1.25rem;
   --font-size-body-lg: 1.125rem;
   --font-size-body: 1rem;
   --font-size-body-sm: 0.875rem;
   --font-size-caption: 0.75rem;
+
+  /* Border Radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+  --radius-full: 9999px;
+}
+
+/* Base Styles */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-sans);
+  font-feature-settings: 'ss01' on, 'ss02' on;
+  letter-spacing: -0.02em;
 }
 
 /* ===========================================
    Accessibility Styles
-   참조: docs/05-DesignSystem.md 섹션 8
    =========================================== */
 
-/* 포커스 스타일 - 키보드 탐색 시 명확한 시각적 표시 */
 :focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
-/* 마우스 클릭 시 outline 숨김 */
 :focus:not(:focus-visible) {
   outline: none;
 }
 
-/* Skip to content 링크 - 키보드 사용자용 */
 .skip-link {
   position: absolute;
-  top: -40px;
-  left: 0;
+  top: -48px;
+  left: 16px;
   background: var(--color-primary);
   color: white;
-  padding: 8px 16px;
+  padding: 12px 24px;
   z-index: 100;
   text-decoration: none;
-  font-weight: 500;
-  border-radius: 0 0 8px 0;
-  transition: top 0.2s ease;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  transition: top 0.2s var(--ease-out);
+  box-shadow: var(--shadow-soft);
 }
 
 .skip-link:focus {
-  top: 0;
+  top: 16px;
 }
 
-/* 스크린 리더 전용 텍스트 */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -139,7 +180,6 @@ body {
   border: 0;
 }
 
-/* 포커스 시 sr-only 해제 */
 .sr-only-focusable:focus {
   position: static;
   width: auto;
@@ -151,7 +191,6 @@ body {
   white-space: normal;
 }
 
-/* 감소된 모션 선호 사용자를 위한 설정 */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -160,4 +199,119 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ===========================================
+   Light Transparency Component Utilities
+   =========================================== */
+
+/* Glass Card Effect */
+.glass-card {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: var(--shadow-glass);
+}
+
+/* Focus Shadow on Hover */
+.focus-shadow {
+  transition: box-shadow 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
+}
+
+.focus-shadow:hover {
+  box-shadow: 0 10px 40px -10px rgba(15, 118, 110, 0.15);
+  border-color: rgba(15, 118, 110, 0.2);
+}
+
+/* Gradient Text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Smooth Hover Lift */
+.hover-lift {
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-soft-lg);
+}
+
+/* Card Styles - Glass */
+.card-glass {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: var(--shadow-glass);
+  transition: all 0.3s var(--ease-out);
+}
+
+.card-glass:hover {
+  box-shadow: 0 10px 40px -10px rgba(15, 118, 110, 0.15);
+  border-color: rgba(15, 118, 110, 0.2);
+}
+
+/* Button Base */
+.btn-warm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  transition: all 0.2s var(--ease-out);
+  cursor: pointer;
+}
+
+.btn-warm:active {
+  transform: scale(0.98);
+}
+
+/* Primary Button */
+.btn-primary {
+  background: var(--color-primary);
+  color: white;
+  box-shadow: var(--shadow-soft);
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-hover);
+  box-shadow: var(--shadow-soft-lg);
+}
+
+/* Section Padding */
+.section-padding {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding-top: 128px;
+    padding-bottom: 128px;
+  }
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F9F8F6;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }

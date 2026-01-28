@@ -2,92 +2,75 @@
 
 /**
  * 신뢰 섹션 컴포넌트
- * 서비스 신뢰도를 높이기 위한 통계 및 인증 배지
+ * Warm Professional Style (Ihon Guide Design System)
  */
 
-import { Card } from '@/components/ui';
-
-interface TrustStat {
-  value: string;
-  label: string;
-  description: string;
-}
-
-const trustStats: TrustStat[] = [
-  {
-    value: '10,000+',
-    label: '누적 상담',
-    description: '성공적인 상담 케이스',
-  },
-  {
-    value: '98%',
-    label: '만족도',
-    description: '고객 만족도 평가',
-  },
-  {
-    value: '50+',
-    label: '전문가',
-    description: '이혼 전문 변호사/상담사',
-  },
-  {
-    value: '24시간',
-    label: '응답',
-    description: '평균 상담 응답 시간',
-  },
-];
-
 const certifications = [
-  '대한변호사협회 등록',
-  '개인정보보호 인증',
-  '법률서비스 품질인증',
+  { icon: '⚖️', label: '대한변호사협회 등록' },
+  { icon: '🔒', label: '개인정보보호 인증' },
+  { icon: '✓', label: '법률서비스 품질인증' },
 ];
 
 export function TrustSection() {
   return (
-    <section className="py-16 sm:py-24 bg-white" aria-labelledby="trust-heading">
+    <section className="py-20 sm:py-28 bg-[#F9F7F2]" aria-labelledby="trust-heading">
       <div className="container mx-auto px-4">
-        <div className="max-w-5xl mx-auto">
-          {/* 섹션 헤더 */}
-          <div className="text-center mb-12">
-            <h2 id="trust-heading" className="text-2xl sm:text-3xl font-bold text-gray-900">
-              믿을 수 있는 서비스
+        <div className="max-w-4xl mx-auto">
+          {/* Section Header */}
+          <div className="text-center mb-14">
+            <span className="inline-block px-4 py-1.5 bg-[#E0F2F1] text-[#107B6A] text-sm font-medium rounded-full mb-4">
+              신뢰할 수 있는 서비스
+            </span>
+            <h2 id="trust-heading" className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
+              전문가가 만든 서비스입니다
             </h2>
-            <p className="mt-4 text-gray-600">
-              많은 분들이 이혼가이드와 함께 새로운 시작을 준비했습니다
+            <p className="mt-4 text-lg text-slate-600">
+              변호사 감수와 보안 인증으로 안심하고 이용하세요
             </p>
           </div>
 
-          {/* 통계 카드 */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-            {trustStats.map((stat, index) => (
-              <Card key={index} className="text-center p-6">
-                <div className="text-2xl sm:text-3xl font-bold text-brand-primary mb-1">
-                  {stat.value}
+          {/* Trust Cards */}
+          <div className="bg-white/70 backdrop-blur-[20px] rounded-3xl p-8 sm:p-12 border border-white/80 shadow-[0_4px_20px_-2px_rgba(16,123,106,0.08),0_0_8px_-2px_rgba(0,0,0,0.02)]">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              {certifications.map((cert, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col items-center text-center p-6 bg-white rounded-2xl border border-stone-200/60 shadow-sm"
+                >
+                  <div className="w-14 h-14 bg-[#E0F2F1] rounded-lg flex items-center justify-center text-2xl mb-4">
+                    {cert.icon}
+                  </div>
+                  <span className="text-sm font-medium text-slate-800">
+                    {cert.label}
+                  </span>
                 </div>
-                <div className="text-sm font-medium text-gray-900 mb-1">
-                  {stat.label}
-                </div>
-                <div className="text-xs text-gray-500">
-                  {stat.description}
-                </div>
-              </Card>
-            ))}
-          </div>
+              ))}
+            </div>
 
-          {/* 인증 배지 */}
-          <ul className="flex flex-wrap justify-center gap-4" aria-label="인증 목록">
-            {certifications.map((cert, index) => (
-              <li
-                key={index}
-                className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full text-sm text-gray-600"
-              >
-                <svg className="w-4 h-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-                {cert}
-              </li>
-            ))}
-          </ul>
+            {/* Additional Trust Info */}
+            <div className="mt-8 pt-8 border-t border-stone-200">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-center">
+                <div className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-[#107B6A]" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  <span className="text-sm text-slate-600">SSL 암호화 적용</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-[#107B6A]" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  <span className="text-sm text-slate-600">개인정보 수집 최소화</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-[#107B6A]" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  <span className="text-sm text-slate-600">상담 내용 비공개</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

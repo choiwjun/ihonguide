@@ -10,11 +10,11 @@ describe('Card', () => {
       expect(screen.getByText('Card content')).toBeInTheDocument();
     });
 
-    it('should have white background', () => {
+    it('should have glass panel background', () => {
       render(<Card>Content</Card>);
 
       const card = screen.getByText('Content').closest('div');
-      expect(card).toHaveClass('bg-white');
+      expect(card).toHaveClass('bg-white/65');
     });
 
     it('should have border', () => {
@@ -22,21 +22,13 @@ describe('Card', () => {
 
       const card = screen.getByText('Content').closest('div');
       expect(card).toHaveClass('border');
-      expect(card).toHaveClass('border-border');
     });
 
-    it('should have rounded corners (rounded-xl)', () => {
+    it('should have rounded corners (rounded-2xl)', () => {
       render(<Card>Content</Card>);
 
       const card = screen.getByText('Content').closest('div');
-      expect(card).toHaveClass('rounded-xl');
-    });
-
-    it('should have shadow', () => {
-      render(<Card>Content</Card>);
-
-      const card = screen.getByText('Content').closest('div');
-      expect(card).toHaveClass('shadow-sm');
+      expect(card).toHaveClass('rounded-2xl');
     });
   });
 
@@ -60,6 +52,13 @@ describe('Card', () => {
 
       const card = screen.getByText('Content').closest('div');
       expect(card).toHaveClass('p-8');
+    });
+
+    it('should have no padding when padding="none"', () => {
+      render(<Card padding="none">Content</Card>);
+
+      const card = screen.getByText('Content').closest('div');
+      expect(card).toHaveClass('p-0');
     });
   });
 
@@ -86,7 +85,7 @@ describe('Card', () => {
 
       const card = screen.getByText('Content').closest('div');
       expect(card).toHaveClass('custom-class');
-      expect(card).toHaveClass('bg-white');
+      expect(card).toHaveClass('bg-white/65');
     });
   });
 });

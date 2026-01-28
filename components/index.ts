@@ -2,4 +2,4 @@
  * Components barrel export
  */
 
-export * from './auth';
+// Auth components removed - no login functionality

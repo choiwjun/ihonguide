@@ -2,4 +2,4 @@
  * Hooks barrel export
  */
 
-export { useAuth } from './useAuth';
+// No hooks currently exported

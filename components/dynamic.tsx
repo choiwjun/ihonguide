@@ -5,15 +5,6 @@
 
 import dynamic from 'next/dynamic';
 
-// 모달 컴포넌트 - 초기 렌더링에 필요 없음
-export const DynamicLoginModal = dynamic(
-  () => import('@/components/auth/LoginModal').then((mod) => mod.LoginModal),
-  {
-    loading: () => null,
-    ssr: false,
-  }
-);
-
 // 블로그 에디터 - 관리자만 사용
 export const DynamicBlogEditor = dynamic(
   () => import('@/components/admin/BlogEditor').then((mod) => mod.BlogEditor),

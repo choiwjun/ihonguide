@@ -16,7 +16,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  themeColor: '#1B4D3E',
+  themeColor: '#0f766e',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href={PRETENDARD_CSS_URL}
         />
       </head>
-      <body className="min-h-screen flex flex-col bg-[#FDFBF7] font-sans antialiased">
+      <body className="min-h-screen flex flex-col bg-[#F9F8F6] font-sans antialiased">
         <SkipLink />
         <Providers>
           <Header />

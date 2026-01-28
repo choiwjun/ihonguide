@@ -7,16 +7,6 @@ vi.mock('next/navigation', () => ({
   usePathname: () => '/',
 }));
 
-// Mock useAuth hook
-const mockSignOut = vi.fn();
-vi.mock('@/hooks/useAuth', () => ({
-  useAuth: () => ({
-    user: null,
-    isLoading: false,
-    signOut: mockSignOut,
-  }),
-}));
-
 describe('Header', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -32,9 +22,14 @@ describe('Header', () => {
     it('should render logo with link to home', () => {
       render(<Header />);
 
-      const logo = screen.getByRole('link', { name: '이혼준비' });
-      expect(logo).toBeInTheDocument();
-      expect(logo).toHaveAttribute('href', '/');
+      const logoLink = screen.getAllByRole('link').find(link => link.getAttribute('href') === '/');
+      expect(logoLink).toBeInTheDocument();
+    });
+
+    it('should render brand name', () => {
+      render(<Header />);
+
+      expect(screen.getByText('이혼준비')).toBeInTheDocument();
     });
   });
 
@@ -42,27 +37,22 @@ describe('Header', () => {
     it('should render navigation links', () => {
       render(<Header />);
 
-      expect(screen.getByRole('link', { name: '홈' })).toBeInTheDocument();
-      expect(screen.getByRole('link', { name: '이혼 유형 진단' })).toBeInTheDocument();
-      expect(screen.getByRole('link', { name: '양육비 계산기' })).toBeInTheDocument();
-      expect(screen.getByRole('link', { name: '가이드' })).toBeInTheDocument();
-      expect(screen.getByRole('link', { name: '상담 신청' })).toBeInTheDocument();
+      expect(screen.getAllByRole('link', { name: '이혼 유형 진단' }).length).toBeGreaterThan(0);
+      expect(screen.getAllByRole('link', { name: '양육비 계산기' }).length).toBeGreaterThan(0);
+      expect(screen.getAllByRole('link', { name: '상담 신청' }).length).toBeGreaterThan(0);
     });
 
     it('should have correct href for nav items', () => {
       render(<Header />);
 
-      expect(screen.getByRole('link', { name: '이혼 유형 진단' })).toHaveAttribute('href', '/diagnosis');
-      expect(screen.getByRole('link', { name: '양육비 계산기' })).toHaveAttribute('href', '/calculator');
-    });
-  });
+      const diagnosisLinks = screen.getAllByRole('link', { name: '이혼 유형 진단' });
+      expect(diagnosisLinks[0]).toHaveAttribute('href', '/diagnosis');
 
-  describe('auth buttons', () => {
-    it('should show login link when not authenticated', () => {
-      render(<Header />);
+      const calculatorLinks = screen.getAllByRole('link', { name: '양육비 계산기' });
+      expect(calculatorLinks[0]).toHaveAttribute('href', '/calculator');
 
-      const loginLinks = screen.getAllByRole('link', { name: '로그인' });
-      expect(loginLinks.length).toBeGreaterThan(0);
+      const consultationLinks = screen.getAllByRole('link', { name: '상담 신청' });
+      expect(consultationLinks[0]).toHaveAttribute('href', '/consultation');
     });
   });
 
@@ -103,7 +93,7 @@ describe('Header', () => {
       render(<Header />);
 
       const header = screen.getByRole('banner');
-      expect(header).toHaveClass('backdrop-blur-sm');
+      expect(header).toHaveClass('backdrop-blur-md');
     });
   });
 });

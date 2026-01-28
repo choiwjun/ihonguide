@@ -16,9 +16,41 @@ describe('Footer', () => {
       const currentYear = new Date().getFullYear();
       expect(screen.getByText(new RegExp(`© ${currentYear}`))).toBeInTheDocument();
     });
+
+    it('should render brand name', () => {
+      render(<Footer />);
+
+      expect(screen.getByText('이혼준비')).toBeInTheDocument();
+    });
   });
 
-  describe('links', () => {
+  describe('service links', () => {
+    it('should render diagnosis link', () => {
+      render(<Footer />);
+
+      const link = screen.getByRole('link', { name: '이혼 유형 진단' });
+      expect(link).toBeInTheDocument();
+      expect(link).toHaveAttribute('href', '/diagnosis');
+    });
+
+    it('should render calculator link', () => {
+      render(<Footer />);
+
+      const link = screen.getByRole('link', { name: '양육비 계산기' });
+      expect(link).toBeInTheDocument();
+      expect(link).toHaveAttribute('href', '/calculator');
+    });
+
+    it('should render consultation link', () => {
+      render(<Footer />);
+
+      const link = screen.getByRole('link', { name: '상담 신청' });
+      expect(link).toBeInTheDocument();
+      expect(link).toHaveAttribute('href', '/consultation');
+    });
+  });
+
+  describe('support links', () => {
     it('should render privacy policy link', () => {
       render(<Footer />);
 
@@ -34,37 +66,23 @@ describe('Footer', () => {
       expect(link).toBeInTheDocument();
       expect(link).toHaveAttribute('href', '/terms');
     });
-
-    it('should render contact link', () => {
-      render(<Footer />);
-
-      const link = screen.getByRole('link', { name: '문의하기' });
-      expect(link).toBeInTheDocument();
-      expect(link).toHaveAttribute('href', '/contact');
-    });
   });
 
   describe('contact info', () => {
     it('should render contact email', () => {
       render(<Footer />);
 
-      expect(screen.getByText(/support@ihonguide.com/)).toBeInTheDocument();
+      const emailLink = screen.getByRole('link', { name: '문의하기' });
+      expect(emailLink).toHaveAttribute('href', 'mailto:support@ihonguide.com');
     });
   });
 
   describe('styling', () => {
-    it('should have surface background', () => {
+    it('should have dark background', () => {
       render(<Footer />);
 
       const footer = screen.getByRole('contentinfo');
-      expect(footer).toHaveClass('bg-surface');
-    });
-
-    it('should have top border', () => {
-      render(<Footer />);
-
-      const footer = screen.getByRole('contentinfo');
-      expect(footer).toHaveClass('border-t');
+      expect(footer).toHaveClass('bg-[#1c1917]');
     });
   });
 });
