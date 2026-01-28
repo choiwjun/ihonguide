@@ -8,7 +8,7 @@ import './globals.css';
 
 export const metadata: Metadata = {
   ...defaultMetadata,
-  title: '아이혼가이드 - 이혼 준비의 시작',
+  title: '이혼준비 - 이혼 절차, 양육비, 재산분할 정보',
   description: '이혼을 고민하거나 준비하는 사람들에게 체계적인 정보와 도구를 제공하는 플랫폼',
 };
 

@@ -51,8 +51,8 @@ export function Footer() {
         <div>
           <h4 className="text-white font-semibold mb-4">고객지원</h4>
           <nav className="space-y-2 text-stone-400">
-            <Link href="/faq" className="block hover:text-[#0f766e] transition-colors">
-              자주 묻는 질문
+            <Link href="/guide" className="block hover:text-[#0f766e] transition-colors">
+              이혼 가이드
             </Link>
             <Link href="/terms" className="block hover:text-[#0f766e] transition-colors">
               이용약관

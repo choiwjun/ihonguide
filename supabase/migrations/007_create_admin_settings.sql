@@ -12,7 +12,8 @@ COMMENT ON TABLE admin_settings IS '관리자 설정 (key-value 형태)';
 
 -- Initial settings
 INSERT INTO admin_settings (key, value) VALUES
-  ('site_name', '"이혼준비 - ihonguide"'),
+  ('site_name', '"이혼준비"'),
+  ('site_description', '"이혼 절차, 양육비, 재산분할 정보를 한눈에"'),
   ('contact_email', '"contact@ihonguide.com"'),
   ('consultation_notification_enabled', 'true')
 ON CONFLICT (key) DO NOTHING;
