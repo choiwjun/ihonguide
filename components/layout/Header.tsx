@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils/cn';
 const NAV_ITEMS = [
   { href: '/diagnosis', label: '이혼 유형 진단' },
   { href: '/calculator', label: '양육비 계산기' },
+  { href: '/blog', label: '블로그' },
   { href: '/consultation', label: '상담 신청' },
 ];
 
