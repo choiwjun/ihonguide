@@ -1,10 +1,11 @@
 /**
- * 관리자 블로그 API - 게시물 생성
- * POST /api/admin/blog
+ * 관리자 블로그 API
+ * GET /api/admin/blog - 게시물 목록 조회
+ * POST /api/admin/blog - 게시물 생성
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/client';
 
 interface CreateBlogPostRequest {
   title: string;
@@ -17,32 +18,112 @@ interface CreateBlogPostRequest {
   status: 'draft' | 'published';
 }
 
-export async function POST(request: NextRequest) {
+/**
+ * GET /api/admin/blog - 관리자용 게시물 목록 조회 (모든 상태)
+ */
+export async function GET(request: NextRequest) {
   try {
-    const supabase = await createClient();
+    const { searchParams } = new URL(request.url);
+    const status = searchParams.get('status'); // 'all', 'draft', 'published'
+    const page = Math.max(1, parseInt(searchParams.get('page') || '1'));
+    const pageSize = Math.min(50, Math.max(1, parseInt(searchParams.get('pageSize') || '20')));
 
+    const supabase = createClient();
+
+    // Supabase 미설정 시 빈 목록 반환
     if (!supabase) {
+      return NextResponse.json({
+        data: {
+          posts: [],
+          total: 0,
+          page: 1,
+          pageSize,
+          totalPages: 0,
+        }
+      });
+    }
+
+    // 기본 쿼리
+    let query = (supabase as any)
+      .from('blog_posts')
+      .select(`
+        id,
+        slug,
+        title,
+        excerpt,
+        status,
+        view_count,
+        published_at,
+        created_at,
+        updated_at,
+        category:blog_categories(id, name, slug)
+      `, { count: 'exact' });
+
+    // 상태 필터
+    if (status && status !== 'all') {
+      query = query.eq('status', status);
+    }
+
+    // 정렬 및 페이지네이션
+    const offset = (page - 1) * pageSize;
+    const { data, error, count } = await query
+      .order('created_at', { ascending: false })
+      .range(offset, offset + pageSize - 1);
+
+    if (error) {
+      console.error('Admin blog list error:', error);
       return NextResponse.json(
-        { error: '서버 오류가 발생했습니다.' },
+        { error: '게시물 목록을 불러오는데 실패했습니다.' },
         { status: 500 }
       );
     }
 
-    // 인증 확인
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    if (authError || !user) {
-      return NextResponse.json(
-        { error: '인증이 필요합니다.' },
-        { status: 401 }
-      );
-    }
+    // 응답 변환
+    const posts = (data || []).map((post: any) => ({
+      id: post.id,
+      slug: post.slug,
+      title: post.title,
+      excerpt: post.excerpt,
+      status: post.status,
+      viewCount: post.view_count,
+      publishedAt: post.published_at,
+      createdAt: post.created_at,
+      updatedAt: post.updated_at,
+      category: post.category,
+    }));
 
-    // 관리자 권한 확인
-    const userRole = user.user_metadata?.role || user.app_metadata?.role;
-    if (userRole !== 'admin') {
+    const total = count || 0;
+    const totalPages = Math.ceil(total / pageSize);
+
+    return NextResponse.json({
+      data: {
+        posts,
+        total,
+        page,
+        pageSize,
+        totalPages,
+      }
+    });
+  } catch (error) {
+    console.error('Admin blog API error:', error);
+    return NextResponse.json(
+      { error: '서버 오류가 발생했습니다.' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * POST /api/admin/blog - 게시물 생성
+ */
+export async function POST(request: NextRequest) {
+  try {
+    const supabase = createClient();
+
+    if (!supabase) {
       return NextResponse.json(
-        { error: '관리자 권한이 필요합니다.' },
-        { status: 403 }
+        { error: '서버 설정 오류가 발생했습니다.' },
+        { status: 500 }
       );
     }
 
@@ -90,7 +171,6 @@ export async function POST(request: NextRequest) {
       meta_title: body.metaTitle?.trim() || body.title.trim(),
       meta_description: body.metaDescription?.trim() || body.excerpt?.trim() || null,
       status: body.status,
-      author_id: user.id,
       published_at: body.status === 'published' ? new Date().toISOString() : null,
     };
 

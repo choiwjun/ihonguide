@@ -1,11 +1,12 @@
 /**
- * 관리자 블로그 API - 게시물 수정/삭제
- * PUT /api/admin/blog/[id]
- * DELETE /api/admin/blog/[id]
+ * 관리자 블로그 API - 게시물 조회/수정/삭제
+ * GET /api/admin/blog/[id] - 단일 게시물 조회
+ * PATCH /api/admin/blog/[id] - 게시물 수정
+ * DELETE /api/admin/blog/[id] - 게시물 삭제
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/client';
 
 interface UpdateBlogPostRequest {
   title?: string;
@@ -18,36 +19,92 @@ interface UpdateBlogPostRequest {
   status?: 'draft' | 'published';
 }
 
-export async function PUT(
+/**
+ * GET /api/admin/blog/[id] - 단일 게시물 조회
+ */
+export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params;
-    const supabase = await createClient();
+    const supabase = createClient();
 
     if (!supabase) {
       return NextResponse.json(
-        { error: '서버 오류가 발생했습니다.' },
+        { error: '서버 설정 오류가 발생했습니다.' },
         { status: 500 }
       );
     }
 
-    // 인증 확인
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    if (authError || !user) {
+    const { data: post, error } = await (supabase as any)
+      .from('blog_posts')
+      .select(`
+        id,
+        slug,
+        title,
+        content,
+        excerpt,
+        status,
+        view_count,
+        meta_title,
+        meta_description,
+        published_at,
+        created_at,
+        updated_at,
+        category:blog_categories(id, name, slug)
+      `)
+      .eq('id', id)
+      .single();
+
+    if (error || !post) {
       return NextResponse.json(
-        { error: '인증이 필요합니다.' },
-        { status: 401 }
+        { error: '게시물을 찾을 수 없습니다.' },
+        { status: 404 }
       );
     }
 
-    // 관리자 권한 확인
-    const userRole = user.user_metadata?.role || user.app_metadata?.role;
-    if (userRole !== 'admin') {
+    return NextResponse.json({
+      data: {
+        id: post.id,
+        slug: post.slug,
+        title: post.title,
+        content: post.content,
+        excerpt: post.excerpt,
+        status: post.status,
+        viewCount: post.view_count,
+        metaTitle: post.meta_title,
+        metaDescription: post.meta_description,
+        publishedAt: post.published_at,
+        createdAt: post.created_at,
+        updatedAt: post.updated_at,
+        category: post.category,
+      }
+    });
+  } catch (error) {
+    console.error('Admin blog API error:', error);
+    return NextResponse.json(
+      { error: '서버 오류가 발생했습니다.' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * PATCH /api/admin/blog/[id] - 게시물 수정
+ */
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const supabase = createClient();
+
+    if (!supabase) {
       return NextResponse.json(
-        { error: '관리자 권한이 필요합니다.' },
-        { status: 403 }
+        { error: '서버 설정 오류가 발생했습니다.' },
+        { status: 500 }
       );
     }
 
@@ -137,36 +194,35 @@ export async function PUT(
   }
 }
 
+/**
+ * DELETE /api/admin/blog/[id] - 게시물 삭제
+ */
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params;
-    const supabase = await createClient();
+    const supabase = createClient();
 
     if (!supabase) {
       return NextResponse.json(
-        { error: '서버 오류가 발생했습니다.' },
+        { error: '서버 설정 오류가 발생했습니다.' },
         { status: 500 }
       );
     }
 
-    // 인증 확인
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    if (authError || !user) {
-      return NextResponse.json(
-        { error: '인증이 필요합니다.' },
-        { status: 401 }
-      );
-    }
+    // 게시물 존재 확인
+    const { data: existingPost } = await (supabase as any)
+      .from('blog_posts')
+      .select('id')
+      .eq('id', id)
+      .single();
 
-    // 관리자 권한 확인
-    const userRole = user.user_metadata?.role || user.app_metadata?.role;
-    if (userRole !== 'admin') {
+    if (!existingPost) {
       return NextResponse.json(
-        { error: '관리자 권한이 필요합니다.' },
-        { status: 403 }
+        { error: '게시물을 찾을 수 없습니다.' },
+        { status: 404 }
       );
     }
 

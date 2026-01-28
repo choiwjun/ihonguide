@@ -29,46 +29,24 @@ export default function AdminBlogPage() {
   const fetchPosts = useCallback(async () => {
     setIsLoading(true);
     try {
-      // TODO: API에서 데이터 불러오기
-      // 현재는 더미 데이터
-      const mockData: BlogPostAdmin[] = [
-        {
-          id: '1',
-          slug: 'divorce-procedure-guide',
-          title: '이혼 절차 완벽 가이드 2026',
-          category: { name: '절차' },
-          status: 'published',
-          viewCount: 1234,
-          publishedAt: '2026-01-15T00:00:00Z',
-          createdAt: '2026-01-10T00:00:00Z',
-        },
-        {
-          id: '2',
-          slug: 'child-support-calculation',
-          title: '양육비 계산 방법과 기준',
-          category: { name: '양육권' },
-          status: 'published',
-          viewCount: 856,
-          publishedAt: '2026-01-20T00:00:00Z',
-          createdAt: '2026-01-18T00:00:00Z',
-        },
-        {
-          id: '3',
-          slug: 'property-division-tips',
-          title: '재산분할 시 알아야 할 5가지',
-          category: { name: '재산분할' },
-          status: 'draft',
-          viewCount: 0,
-          publishedAt: null,
-          createdAt: '2026-01-25T00:00:00Z',
-        },
-      ];
+      const params = new URLSearchParams();
+      if (filter !== 'all') {
+        params.set('status', filter);
+      }
 
-      const filtered = filter === 'all'
-        ? mockData
-        : mockData.filter((p) => p.status === filter);
+      const response = await fetch(`/api/admin/blog?${params.toString()}`);
+      const result = await response.json();
 
-      setPosts(filtered);
+      if (result.error) {
+        console.error('Failed to fetch posts:', result.error);
+        setPosts([]);
+        return;
+      }
+
+      setPosts(result.data?.posts || []);
+    } catch (error) {
+      console.error('Failed to fetch posts:', error);
+      setPosts([]);
     } finally {
       setIsLoading(false);
     }
@@ -80,24 +58,58 @@ export default function AdminBlogPage() {
 
   const handleDelete = async (id: string) => {
     if (!confirm('정말 삭제하시겠습니까?')) return;
-    // TODO: API 호출로 삭제
-    setPosts((prev) => prev.filter((p) => p.id !== id));
+
+    try {
+      const response = await fetch(`/api/admin/blog/${id}`, {
+        method: 'DELETE',
+      });
+      const result = await response.json();
+
+      if (result.error) {
+        alert(result.error);
+        return;
+      }
+
+      setPosts((prev) => prev.filter((p) => p.id !== id));
+    } catch (error) {
+      console.error('Failed to delete post:', error);
+      alert('삭제에 실패했습니다.');
+    }
   };
 
   const handleStatusToggle = async (id: string, currentStatus: string) => {
     const newStatus = currentStatus === 'published' ? 'draft' : 'published';
-    // TODO: API 호출로 상태 업데이트
-    setPosts((prev) =>
-      prev.map((p) =>
-        p.id === id
-          ? {
-              ...p,
-              status: newStatus as 'draft' | 'published',
-              publishedAt: newStatus === 'published' ? new Date().toISOString() : null,
-            }
-          : p
-      )
-    );
+
+    try {
+      const response = await fetch(`/api/admin/blog/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      const result = await response.json();
+
+      if (result.error) {
+        alert(result.error);
+        return;
+      }
+
+      setPosts((prev) =>
+        prev.map((p) =>
+          p.id === id
+            ? {
+                ...p,
+                status: newStatus as 'draft' | 'published',
+                publishedAt: newStatus === 'published' ? new Date().toISOString() : p.publishedAt,
+              }
+            : p
+        )
+      );
+    } catch (error) {
+      console.error('Failed to update status:', error);
+      alert('상태 변경에 실패했습니다.');
+    }
   };
 
   return (
