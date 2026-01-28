@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
 
     const { data: post } = await (supabase as any)
       .from('blog_posts')
-      .select('title, excerpt, meta_title, meta_description, published_at, category:blog_categories(name)')
+      .select('title, excerpt, seo_meta, published_at, category:blog_categories(name)')
       .eq('slug', slug)
       .eq('status', 'published')
       .single();
@@ -61,8 +61,8 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
     }
 
     return generateBlogMetadata({
-      title: post.meta_title || post.title,
-      description: post.meta_description || post.excerpt || '',
+      title: post.seo_meta?.title || post.title,
+      description: post.seo_meta?.description || post.excerpt || '',
       slug,
       category: post.category?.name,
       publishedAt: post.published_at,
@@ -88,8 +88,7 @@ async function fetchBlogPost(slug: string): Promise<{ post: BlogPost | null; rel
         title,
         content,
         excerpt,
-        meta_title,
-        meta_description,
+        seo_meta,
         view_count,
         published_at,
         created_at,
@@ -131,8 +130,8 @@ async function fetchBlogPost(slug: string): Promise<{ post: BlogPost | null; rel
         category: post.category,
         status: 'published' as const,
         seoMeta: {
-          title: post.meta_title,
-          description: post.meta_description,
+          title: post.seo_meta?.title || null,
+          description: post.seo_meta?.description || null,
         },
         viewCount: post.view_count,
         publishedAt: post.published_at,
