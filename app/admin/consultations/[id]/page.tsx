@@ -188,8 +188,8 @@ export default function ConsultationDetailPage({ params }: ConsultationDetailPag
       {/* 상담 내용 */}
       <Card>
         <h2 className="text-lg font-semibold text-gray-900 mb-4">상담 내용</h2>
-        <div className="p-4 bg-gray-50 rounded-lg">
-          <p className="whitespace-pre-wrap text-gray-700">{consultation.description || '내용 없음'}</p>
+        <div className="p-4 bg-gray-50 rounded-lg overflow-hidden">
+          <p className="whitespace-pre-wrap break-all text-gray-700">{consultation.description || '내용 없음'}</p>
         </div>
       </Card>
 
@@ -197,8 +197,8 @@ export default function ConsultationDetailPage({ params }: ConsultationDetailPag
       {consultation.adminNotes && (
         <Card>
           <h2 className="text-lg font-semibold text-gray-900 mb-4">관리자 메모</h2>
-          <div className="p-4 bg-yellow-50 rounded-lg">
-            <p className="whitespace-pre-wrap text-gray-700">{consultation.adminNotes}</p>
+          <div className="p-4 bg-yellow-50 rounded-lg overflow-hidden">
+            <p className="whitespace-pre-wrap break-all text-gray-700">{consultation.adminNotes}</p>
           </div>
         </Card>
       )}
