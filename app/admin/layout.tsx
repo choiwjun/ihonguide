@@ -5,8 +5,9 @@
  * Light Transparency Design System
  */
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Container } from '@/components/layout';
 
 interface AdminLayoutProps {
@@ -19,8 +20,67 @@ const adminMenuItems = [
   { href: '/admin/blog', label: '블로그 관리', icon: 'document' },
 ];
 
+// 세션 유효 시간 (4시간)
+const SESSION_DURATION = 4 * 60 * 60 * 1000;
+
 export default function AdminLayout({ children }: AdminLayoutProps) {
   const pathname = usePathname();
+  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    // 로그인 페이지는 인증 체크 안함
+    if (pathname === '/admin/login') {
+      setIsAuthenticated(true);
+      return;
+    }
+
+    // 인증 상태 확인
+    const auth = sessionStorage.getItem('adminAuth');
+    const authTime = sessionStorage.getItem('adminAuthTime');
+
+    if (auth === 'true' && authTime) {
+      const elapsed = Date.now() - parseInt(authTime);
+      if (elapsed < SESSION_DURATION) {
+        setIsAuthenticated(true);
+        return;
+      }
+    }
+
+    // 인증 안됨 - 로그인 페이지로 이동
+    sessionStorage.removeItem('adminAuth');
+    sessionStorage.removeItem('adminAuthTime');
+    setIsAuthenticated(false);
+    router.push('/admin/login');
+  }, [pathname, router]);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('adminAuth');
+    sessionStorage.removeItem('adminAuthTime');
+    router.push('/admin/login');
+  };
+
+  // 로그인 페이지는 레이아웃 없이 렌더링
+  if (pathname === '/admin/login') {
+    return <>{children}</>;
+  }
+
+  // 인증 확인 중
+  if (isAuthenticated === null) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block w-8 h-8 border-4 border-teal-600/30 border-t-teal-600 rounded-full animate-spin" />
+          <p className="mt-4 text-gray-600">확인 중...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // 인증 안됨
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <Container size="xl" className="py-8">
@@ -76,8 +136,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               })}
             </nav>
 
-            {/* 홈으로 돌아가기 */}
-            <div className="mt-6 pt-4 border-t border-gray-200/60">
+            {/* 하단 메뉴 */}
+            <div className="mt-6 pt-4 border-t border-gray-200/60 space-y-1">
               <Link
                 href="/"
                 className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm text-gray-500 hover:bg-gray-100/80 hover:text-gray-700 transition-all duration-200"
@@ -87,6 +147,15 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 </svg>
                 홈으로 돌아가기
               </Link>
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm text-red-500 hover:bg-red-50 hover:text-red-600 transition-all duration-200 w-full"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                로그아웃
+              </button>
             </div>
           </div>
         </aside>
