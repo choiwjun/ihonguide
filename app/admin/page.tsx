@@ -37,44 +37,50 @@ export default function AdminDashboardPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // TODO: API에서 통계 데이터 불러오기
-    // 현재는 더미 데이터
-    setStats({
-      totalConsultations: 156,
-      todayConsultations: 12,
-      pendingConsultations: 8,
-      totalBlogPosts: 45,
-      totalUsers: 1234,
-    });
+    const fetchDashboardData = async () => {
+      try {
+        // 상담 목록 가져오기
+        const response = await fetch('/api/admin/consultations?pageSize=50');
+        const result = await response.json();
 
-    setRecentConsultations([
-      {
-        id: '1',
-        ticketNumber: 'CST-20260127-0001',
-        name: '홍길동',
-        consultationType: '이혼상담',
-        status: '접수완료',
-        createdAt: '2026-01-27T10:30:00Z',
-      },
-      {
-        id: '2',
-        ticketNumber: 'CST-20260127-0002',
-        name: '김철수',
-        consultationType: '양육비상담',
-        status: '상담중',
-        createdAt: '2026-01-27T09:15:00Z',
-      },
-      {
-        id: '3',
-        ticketNumber: 'CST-20260126-0005',
-        name: '이영희',
-        consultationType: '재산분할상담',
-        status: '접수완료',
-        createdAt: '2026-01-26T16:45:00Z',
-      },
-    ]);
+        if (result.data?.consultations) {
+          const consultations = result.data.consultations;
+          const today = new Date().toISOString().slice(0, 10);
 
-    setIsLoading(false);
+          // 통계 계산
+          const todayCount = consultations.filter((c: any) =>
+            c.createdAt?.slice(0, 10) === today
+          ).length;
+          const pendingCount = consultations.filter((c: any) =>
+            c.status === 'pending'
+          ).length;
+
+          setStats({
+            totalConsultations: result.data.total || 0,
+            todayConsultations: todayCount,
+            pendingConsultations: pendingCount,
+            totalBlogPosts: 0,
+            totalUsers: 0,
+          });
+
+          // 최근 5개만 표시
+          setRecentConsultations(consultations.slice(0, 5).map((c: any) => ({
+            id: c.id,
+            ticketNumber: c.ticketNumber,
+            name: c.name,
+            consultationType: c.consultationType,
+            status: c.status,
+            createdAt: c.createdAt,
+          })));
+        }
+      } catch (error) {
+        console.error('Failed to fetch dashboard data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDashboardData();
   }, []);
 
   const statCards = [
@@ -105,9 +111,11 @@ export default function AdminDashboardPage() {
   ];
 
   const statusMap: Record<string, { label: string; color: string }> = {
-    접수완료: { label: '접수완료', color: 'bg-blue-100 text-blue-700' },
-    상담중: { label: '상담중', color: 'bg-yellow-100 text-yellow-700' },
-    상담완료: { label: '상담완료', color: 'bg-green-100 text-green-700' },
+    pending: { label: '접수대기', color: 'bg-blue-100 text-blue-700' },
+    contacted: { label: '연락완료', color: 'bg-purple-100 text-purple-700' },
+    in_progress: { label: '상담중', color: 'bg-yellow-100 text-yellow-700' },
+    completed: { label: '상담완료', color: 'bg-green-100 text-green-700' },
+    cancelled: { label: '취소', color: 'bg-gray-100 text-gray-700' },
   };
 
   if (isLoading) {
@@ -152,47 +160,53 @@ export default function AdminDashboardPage() {
           </Link>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-gray-200">
-                <th className="text-left py-3 px-2 font-medium text-gray-600">접수번호</th>
-                <th className="text-left py-3 px-2 font-medium text-gray-600">이름</th>
-                <th className="text-left py-3 px-2 font-medium text-gray-600">유형</th>
-                <th className="text-left py-3 px-2 font-medium text-gray-600">상태</th>
-                <th className="text-left py-3 px-2 font-medium text-gray-600">신청일</th>
-              </tr>
-            </thead>
-            <tbody>
-              {recentConsultations.map((consultation) => (
-                <tr key={consultation.id} className="border-b border-gray-100">
-                  <td className="py-3 px-2">
-                    <Link
-                      href={`/admin/consultations/${consultation.id}`}
-                      className="font-mono text-brand-primary hover:underline"
-                    >
-                      {consultation.ticketNumber}
-                    </Link>
-                  </td>
-                  <td className="py-3 px-2">{consultation.name}</td>
-                  <td className="py-3 px-2">{consultation.consultationType}</td>
-                  <td className="py-3 px-2">
-                    <span
-                      className={`px-2 py-0.5 text-xs rounded ${
-                        statusMap[consultation.status]?.color || 'bg-gray-100 text-gray-700'
-                      }`}
-                    >
-                      {statusMap[consultation.status]?.label || consultation.status}
-                    </span>
-                  </td>
-                  <td className="py-3 px-2 text-gray-500">
-                    {new Date(consultation.createdAt).toLocaleDateString('ko-KR')}
-                  </td>
+        {recentConsultations.length === 0 ? (
+          <div className="text-center py-8 text-gray-500">
+            아직 상담 신청이 없습니다.
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-2 font-medium text-gray-600">접수번호</th>
+                  <th className="text-left py-3 px-2 font-medium text-gray-600">이름</th>
+                  <th className="text-left py-3 px-2 font-medium text-gray-600">유형</th>
+                  <th className="text-left py-3 px-2 font-medium text-gray-600">상태</th>
+                  <th className="text-left py-3 px-2 font-medium text-gray-600">신청일</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {recentConsultations.map((consultation) => (
+                  <tr key={consultation.id} className="border-b border-gray-100">
+                    <td className="py-3 px-2">
+                      <Link
+                        href={`/admin/consultations/${consultation.id}`}
+                        className="font-mono text-brand-primary hover:underline"
+                      >
+                        {consultation.ticketNumber}
+                      </Link>
+                    </td>
+                    <td className="py-3 px-2">{consultation.name}</td>
+                    <td className="py-3 px-2">{consultation.consultationType}</td>
+                    <td className="py-3 px-2">
+                      <span
+                        className={`px-2 py-0.5 text-xs rounded ${
+                          statusMap[consultation.status]?.color || 'bg-gray-100 text-gray-700'
+                        }`}
+                      >
+                        {statusMap[consultation.status]?.label || consultation.status}
+                      </span>
+                    </td>
+                    <td className="py-3 px-2 text-gray-500">
+                      {new Date(consultation.createdAt).toLocaleDateString('ko-KR')}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </Card>
     </div>
   );
