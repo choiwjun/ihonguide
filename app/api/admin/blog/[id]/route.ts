@@ -6,7 +6,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createApiClient } from '@/lib/supabase/api';
+import { createAdminClient } from '@/lib/supabase/admin';
 import { verifyAdminAuth, unauthorizedResponse } from '@/lib/auth/admin';
 
 interface UpdateBlogPostRequest {
@@ -35,7 +35,7 @@ export async function GET(
 
   try {
     const { id } = await params;
-    const supabase = createApiClient();
+    const supabase = createAdminClient();
 
     if (!supabase) {
       return NextResponse.json(
@@ -111,7 +111,7 @@ export async function PATCH(
 
   try {
     const { id } = await params;
-    const supabase = createApiClient();
+    const supabase = createAdminClient();
 
     if (!supabase) {
       return NextResponse.json(
@@ -227,7 +227,7 @@ export async function DELETE(
 
   try {
     const { id } = await params;
-    const supabase = createApiClient();
+    const supabase = createAdminClient();
 
     if (!supabase) {
       return NextResponse.json(

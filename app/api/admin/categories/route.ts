@@ -4,7 +4,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createApiClient } from '@/lib/supabase/api';
+import { createAdminClient } from '@/lib/supabase/admin';
 import { verifyAdminAuth, unauthorizedResponse } from '@/lib/auth/admin';
 
 /**
@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const supabase = createApiClient();
+    const supabase = createAdminClient();
 
     if (!supabase) {
       // Supabase 미설정 시 기본 카테고리 반환

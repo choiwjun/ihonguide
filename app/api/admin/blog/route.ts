@@ -5,7 +5,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createApiClient } from '@/lib/supabase/api';
+import { createAdminClient } from '@/lib/supabase/admin';
 import { verifyAdminAuth, unauthorizedResponse } from '@/lib/auth/admin';
 
 interface CreateBlogPostRequest {
@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
     const page = Math.max(1, parseInt(searchParams.get('page') || '1'));
     const pageSize = Math.min(50, Math.max(1, parseInt(searchParams.get('pageSize') || '20')));
 
-    const supabase = createApiClient();
+    const supabase = createAdminClient();
 
     // Supabase 미설정 시 빈 목록 반환
     if (!supabase) {
@@ -131,7 +131,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const supabase = createApiClient();
+    const supabase = createAdminClient();
 
     if (!supabase) {
       return NextResponse.json(
