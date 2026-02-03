@@ -28,7 +28,18 @@ export default function ConsultationPage() {
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
+      // 응답이 비어있는지 확인
+      const text = await response.text();
+      if (!text) {
+        throw new Error('서버 응답이 비어있습니다. 잠시 후 다시 시도해주세요.');
+      }
+
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error('서버 응답을 처리할 수 없습니다. 잠시 후 다시 시도해주세요.');
+      }
 
       if (!response.ok) {
         throw new Error(data.error || '상담 신청 처리 중 오류가 발생했습니다.');
