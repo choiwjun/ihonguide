@@ -9,7 +9,7 @@ import { generateMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = generateMetadata({
   title: '개인정보처리방침',
-  description: '아이혼가이드 개인정보처리방침입니다.',
+  description: '이혼준비 개인정보처리방침입니다.',
   noIndex: false,
 });
 
@@ -25,7 +25,7 @@ export default function PrivacyPage() {
           <section className="mb-8">
             <h2 className="text-lg font-semibold text-gray-900 mb-3">1. 개인정보의 수집 및 이용 목적</h2>
             <p className="text-gray-700 leading-relaxed mb-3">
-              아이혼가이드(이하 &quot;회사&quot;)는 다음의 목적을 위해 개인정보를 수집합니다:
+              이혼준비비(이하 &quot;회사&quot;)는 다음의 목적을 위해 개인정보를 수집합니다:
             </p>
             <ul className="list-disc list-inside text-gray-700 space-y-2">
               <li>상담 신청 접수 및 처리</li>
@@ -102,7 +102,7 @@ export default function PrivacyPage() {
               개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 관련 문의사항을 처리합니다.
             </p>
             <ul className="list-none text-gray-700 space-y-1 mt-3">
-              <li>이메일: privacy@ihonjunbi.com</li>
+              <li>이메일: dclab@digicore-lab.com</li>
             </ul>
           </section>
 

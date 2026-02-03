@@ -28,7 +28,7 @@ export const metadata: Metadata = generateMetadata({
     ...ASSET_COST_KEYWORDS,
   ],
 });
-
+/*
 const GUIDE_SECTIONS = [
   /* 이혼 준비 시작하기 영역 - 주석 처리
   {
@@ -41,7 +41,7 @@ const GUIDE_SECTIONS = [
       { title: '이혼 준비 시 주의사항', href: '/blog/divorce-caution' },
     ],
   },
-  */
+  
   {
     title: '이혼 유형별 절차',
     icon: '⚖️',
@@ -93,7 +93,7 @@ const GUIDE_SECTIONS = [
     ],
   },
 ];
-
+*/
 export default function GuidePage() {
   return (
     <Container size="lg" className="py-12">
