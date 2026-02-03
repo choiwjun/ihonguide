@@ -69,11 +69,7 @@ export function ConsultationSuccess({ result, onReset }: ConsultationSuccessProp
           </svg>
           <div className="text-sm text-blue-800">
             <p className="font-medium mb-1">안내 사항</p>
-            <ul className="list-disc list-inside space-y-1">
-              <li>영업일 기준 1-2일 이내 연락드립니다.</li>
-              <li>접수 번호를 통해 상담 진행 상황을 확인하실 수 있습니다.</li>
-              <li>추가 문의는 고객센터(1588-0000)로 연락주세요.</li>
-            </ul>
+            <p>영업일 기준 1-2일 이내 연락드릴 수 있도록 하겠습니다.</p>
           </div>
         </div>
       </Card>
