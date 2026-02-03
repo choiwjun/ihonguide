@@ -5,7 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createApiClient } from '@/lib/supabase/api';
-import { sanitizeText } from '@/lib/utils/sanitize';
+import { sanitizeTextServer } from '@/lib/utils/sanitize';
 import type { ConsultationInput, ConsultationType } from '@/types/consultation';
 
 interface ConsultationRequestBody extends Partial<ConsultationInput> {
@@ -178,11 +178,11 @@ export async function POST(request: NextRequest) {
 
     // 입력값 sanitize 및 저장
     const savedData = await saveConsultation(supabase, {
-      name: sanitizeText(body.name!.trim()),
+      name: sanitizeTextServer(body.name!.trim()),
       phone: body.phone!.replace(/\D/g, ''),
-      email: body.email ? sanitizeText(body.email.trim()) : undefined,
+      email: body.email ? sanitizeTextServer(body.email.trim()) : undefined,
       consultationType: body.consultationType as ConsultationType,
-      description: sanitizeText(body.message!.trim()),
+      description: sanitizeTextServer(body.message!.trim()),
       ticketNumber,
     });
 
