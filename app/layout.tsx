@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 import { Providers } from './providers';
 import { Header, Footer } from '@/components/layout';
 import { SkipLink } from '@/components/a11y';
@@ -32,6 +33,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko" className={notoSerifKr.variable}>
       <head>
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-CRKKWXM4KT"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-CRKKWXM4KT');
+          `}
+        </Script>
+
         {/* Pretendard 폰트 - preload로 성능 최적화 */}
         <link
           rel="preload"
