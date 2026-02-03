@@ -192,29 +192,6 @@ export default function GuidePage() {
         </div>
       </section>
 
-      {/* 가이드 섹션들 */}
-      <div className="space-y-12">
-        {GUIDE_SECTIONS.map((section) => (
-          <div key={section.title}>
-            <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-              <span className="text-3xl">{section.icon}</span>
-              {section.title}
-            </h2>
-            <div className="grid md:grid-cols-2 gap-4">
-              {section.items.map((item) => (
-                <Link key={item.href} href={item.href}>
-                  <Card className="p-4 hover:shadow-md transition-all hover:border-teal-200 cursor-pointer">
-                    <h3 className="font-medium text-gray-900 hover:text-teal-700 transition-colors">
-                      {item.title}
-                    </h3>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-
       {/* 하단 CTA */}
       <div className="mt-16 text-center">
         <Card className="p-8 bg-gradient-to-br from-teal-50 to-blue-50 border-teal-200">
