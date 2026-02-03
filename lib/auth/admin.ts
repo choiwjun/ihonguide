@@ -3,21 +3,28 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
+import { createHmac, randomBytes } from 'crypto';
 
 const ADMIN_TOKEN_NAME = 'admin_token';
 const TOKEN_MAX_AGE = 4 * 60 * 60; // 4시간 (초 단위)
+
+/**
+ * 토큰 서명 생성 (HMAC-SHA256)
+ */
+function createSignature(data: string): string {
+  const secret = process.env.ADMIN_PASSWORD || '';
+  return createHmac('sha256', secret).update(data).digest('hex');
+}
 
 /**
  * 관리자 토큰 생성
  */
 export function generateAdminToken(): string {
   const timestamp = Date.now().toString(36);
-  const random = Math.random().toString(36).substring(2, 15);
-  const secret = process.env.ADMIN_PASSWORD || '';
-  // 간단한 해시 생성
-  const hash = Buffer.from(`${timestamp}:${random}:${secret}`).toString('base64');
-  return `${timestamp}.${random}.${hash}`;
+  const random = randomBytes(16).toString('hex'); // 암호학적으로 안전한 난수
+  const payload = `${timestamp}.${random}`;
+  const signature = createSignature(payload);
+  return `${payload}.${signature}`;
 }
 
 /**
@@ -30,39 +37,29 @@ export function verifyAdminToken(token: string): boolean {
     const parts = token.split('.');
     if (parts.length !== 3) return false;
 
-    const [timestamp] = parts;
+    const [timestamp, random, signature] = parts;
+
+    // 1. 만료 시간 확인
     const tokenTime = parseInt(timestamp, 36);
     const elapsed = Date.now() - tokenTime;
-
-    // 4시간 초과 시 만료
     if (elapsed > TOKEN_MAX_AGE * 1000) return false;
 
-    return true;
+    // 2. 서명 검증
+    const payload = `${timestamp}.${random}`;
+    const expectedSignature = createSignature(payload);
+
+    // 타이밍 공격 방지를 위한 상수 시간 비교
+    if (signature.length !== expectedSignature.length) return false;
+
+    let result = 0;
+    for (let i = 0; i < signature.length; i++) {
+      result |= signature.charCodeAt(i) ^ expectedSignature.charCodeAt(i);
+    }
+
+    return result === 0;
   } catch {
     return false;
   }
-}
-
-/**
- * 관리자 인증 쿠키 설정
- */
-export async function setAdminAuthCookie(token: string): Promise<void> {
-  const cookieStore = await cookies();
-  cookieStore.set(ADMIN_TOKEN_NAME, token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
-    maxAge: TOKEN_MAX_AGE,
-    path: '/',
-  });
-}
-
-/**
- * 관리자 인증 쿠키 삭제
- */
-export async function clearAdminAuthCookie(): Promise<void> {
-  const cookieStore = await cookies();
-  cookieStore.delete(ADMIN_TOKEN_NAME);
 }
 
 /**

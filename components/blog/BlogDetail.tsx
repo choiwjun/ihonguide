@@ -8,6 +8,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Card, Button } from '@/components/ui';
 import { BlogCard } from './BlogCard';
+import { sanitizeHtml } from '@/lib/utils/sanitize';
 import type { BlogPost, BlogPostSummary } from '@/types/blog';
 
 interface BlogDetailProps {
@@ -75,7 +76,7 @@ export function BlogDetail({ post, relatedPosts }: BlogDetailProps) {
         <Card>
           <div
             className="prose prose-gray max-w-none"
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
           />
         </Card>
       </article>

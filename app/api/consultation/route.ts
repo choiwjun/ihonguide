@@ -5,6 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createApiClient } from '@/lib/supabase/api';
+import { sanitizeText } from '@/lib/utils/sanitize';
 import type { ConsultationInput, ConsultationType } from '@/types/consultation';
 
 interface ConsultationRequestBody extends Partial<ConsultationInput> {
@@ -88,6 +89,15 @@ function validateInput(body: ConsultationRequestBody): { valid: boolean; error?:
     return { valid: false, error: '상담 내용은 10자 이상 입력해주세요.' };
   }
 
+  if (message.trim().length > 5000) {
+    return { valid: false, error: '상담 내용은 5000자 이하로 입력해주세요.' };
+  }
+
+  // 이름 최대 길이 검증
+  if (name.trim().length > 50) {
+    return { valid: false, error: '이름은 50자 이하로 입력해주세요.' };
+  }
+
   // 개인정보 동의 필수
   if (privacyConsent !== true) {
     return { valid: false, error: '개인정보 수집 및 이용에 동의해주세요.' };
@@ -166,13 +176,13 @@ export async function POST(request: NextRequest) {
     // 접수 번호 생성
     const ticketNumber = generateTicketNumber();
 
-    // 결과 저장
+    // 입력값 sanitize 및 저장
     const savedData = await saveConsultation(supabase, {
-      name: body.name!.trim(),
+      name: sanitizeText(body.name!.trim()),
       phone: body.phone!.replace(/\D/g, ''),
-      email: body.email?.trim(),
+      email: body.email ? sanitizeText(body.email.trim()) : undefined,
       consultationType: body.consultationType as ConsultationType,
-      description: body.message!.trim(),
+      description: sanitizeText(body.message!.trim()),
       ticketNumber,
     });
 
