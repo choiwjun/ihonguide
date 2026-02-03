@@ -33,6 +33,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko" className={notoSerifKr.variable}>
       <head>
+        {/* Naver 사이트 인증 */}
+        <meta name="naver-site-verification" content="f5c4e6f2f4d864f010281b3b72f192bfc9557165" />
+
         {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-CRKKWXM4KT"
