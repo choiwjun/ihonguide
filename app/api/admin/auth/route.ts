@@ -6,11 +6,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 // 환경변수에서 관리자 계정 정보 가져오기
-const ADMIN_ID = process.env.ADMIN_ID || 'admin';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin1234';
+const ADMIN_ID = process.env.ADMIN_ID;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
 export async function POST(request: NextRequest) {
   try {
+    // 환경변수 미설정 시 로그인 불가
+    if (!ADMIN_ID || !ADMIN_PASSWORD) {
+      return NextResponse.json(
+        { error: '관리자 계정이 설정되지 않았습니다.' },
+        { status: 500 }
+      );
+    }
+
     const body = await request.json();
     const { id, password } = body;
 
