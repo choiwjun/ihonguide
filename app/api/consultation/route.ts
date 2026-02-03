@@ -5,7 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createApiClient } from '@/lib/supabase/api';
-import { sanitizeTextServer } from '@/lib/utils/sanitize';
+import { sanitizeTextServer } from '@/lib/utils/sanitize-server';
 import type { ConsultationInput, ConsultationType } from '@/types/consultation';
 
 interface ConsultationRequestBody extends Partial<ConsultationInput> {
