@@ -5,8 +5,8 @@
 import { Metadata } from 'next';
 
 const SITE_NAME = '이혼준비';
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ihonguide.com';
-const DEFAULT_DESCRIPTION = '이혼 준비부터 양육비 계산까지, 법률 전문가가 함께하는 이혼 가이드. 무료 진단과 상담으로 현명한 이혼을 준비하세요.';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ihonjunbi.com';
+const DEFAULT_DESCRIPTION = '이혼 준비부터 진단, 양육비 계산, 재산분할까지. 이혼 절차, 준비 방법, 비용을 한 곳에서 확인하세요. 전문 변호사가 감수한 정보로 현명한 이혼을 준비할 수 있습니다.';
 
 interface GenerateMetadataOptions {
   title: string;
@@ -29,7 +29,21 @@ export function generateMetadata({
   canonical,
 }: GenerateMetadataOptions): Metadata {
   const fullTitle = `${title} | ${SITE_NAME}`;
-  const defaultKeywords = ['이혼', '양육비', '재산분할', '위자료', '협의이혼', '이혼상담', '법률상담'];
+  const defaultKeywords = [
+    '이혼준비',
+    '이혼 준비',
+    '이혼 절차',
+    '이혼 방법',
+    '양육비',
+    '양육비 계산기',
+    '재산분할',
+    '위자료',
+    '협의이혼',
+    '재판이혼',
+    '이혼상담',
+    '이혼 고민',
+    '법률상담',
+  ];
 
   return {
     title: fullTitle,
@@ -127,7 +141,28 @@ export const defaultMetadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description: DEFAULT_DESCRIPTION,
-  keywords: ['이혼', '양육비', '재산분할', '위자료', '협의이혼', '이혼상담', '법률상담', '이혼준비'],
+  keywords: [
+    '이혼준비',
+    '이혼 준비',
+    '이혼 절차',
+    '이혼 방법',
+    '이혼 과정',
+    '이혼 준비 방법',
+    '이혼준비 체크리스트',
+    '이혼 고민',
+    '이혼 상담',
+    '양육비',
+    '양육비 계산기',
+    '양육권',
+    '재산분할',
+    '위자료',
+    '협의이혼',
+    '재판이혼',
+    '이혼 소송',
+    '이혼상담',
+    '법률상담',
+    '이혼 무료 상담',
+  ],
   metadataBase: new URL(SITE_URL),
   openGraph: {
     title: SITE_NAME,

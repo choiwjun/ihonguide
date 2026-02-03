@@ -32,7 +32,7 @@ export function Footer() {
         <div>
           <h4 className="text-white font-semibold mb-4">서비스</h4>
           <nav className="space-y-2 text-stone-400">
-            <Link href="/calculator" className="block hover:text-[#0f766e] transition-colors">
+            <Link href="/calculator/property" className="block hover:text-[#0f766e] transition-colors">
               재산분할 계산기
             </Link>
             <Link href="/calculator" className="block hover:text-[#0f766e] transition-colors">
@@ -60,7 +60,7 @@ export function Footer() {
             <Link href="/privacy" className="block hover:text-[#0f766e] transition-colors">
               개인정보처리방침
             </Link>
-            <a href="mailto:support@ihonguide.com" className="block hover:text-[#0f766e] transition-colors">
+            <a href="mailto:support@ihonjunbi.com" className="block hover:text-[#0f766e] transition-colors">
               문의하기
             </a>
           </nav>

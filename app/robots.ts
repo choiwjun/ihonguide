@@ -4,7 +4,7 @@
 
 import { MetadataRoute } from 'next';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ihonguide.com';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ihonjunbi.com';
 
 export default function robots(): MetadataRoute.Robots {
   return {

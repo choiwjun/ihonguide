@@ -102,7 +102,7 @@ export default function PrivacyPage() {
               개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 관련 문의사항을 처리합니다.
             </p>
             <ul className="list-none text-gray-700 space-y-1 mt-3">
-              <li>이메일: privacy@ihonguide.com</li>
+              <li>이메일: privacy@ihonjunbi.com</li>
             </ul>
           </section>
 

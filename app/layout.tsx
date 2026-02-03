@@ -2,8 +2,17 @@ import type { Metadata, Viewport } from 'next';
 import { Providers } from './providers';
 import { Header, Footer } from '@/components/layout';
 import { SkipLink } from '@/components/a11y';
+import {
+  JsonLd,
+  createOrganizationJsonLd,
+  createWebSiteJsonLd,
+  createFAQJsonLd,
+  createHowToJsonLd,
+  createDefinitionJsonLd,
+} from '@/components/seo/JsonLd';
 import { notoSerifKr, PRETENDARD_CSS_URL } from '@/lib/fonts';
 import { defaultMetadata } from '@/lib/metadata';
+import { FAQ_ITEMS, HOWTO_DIVORCE_PREPARATION, DEFINITIONS } from '@/lib/aeo-data';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -36,6 +45,36 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-screen flex flex-col bg-[#F9F8F6] font-sans antialiased">
         <SkipLink />
+        {/* 구조적 데이터 */}
+        <JsonLd data={createOrganizationJsonLd()} />
+        <JsonLd data={createWebSiteJsonLd()} />
+        
+        {/* AEO: FAQ 구조적 데이터 */}
+        <JsonLd
+          data={createFAQJsonLd(
+            FAQ_ITEMS.map((item) => ({
+              question: item.question,
+              answer: item.answer,
+            }))
+          )}
+        />
+        {/* AEO: 이혼 준비 절차 (HowTo) */}
+        <JsonLd
+          data={createHowToJsonLd({
+            name: HOWTO_DIVORCE_PREPARATION.name,
+            description: HOWTO_DIVORCE_PREPARATION.description,
+            step: HOWTO_DIVORCE_PREPARATION.step,
+            url: HOWTO_DIVORCE_PREPARATION.url,
+          })}
+        />
+        {/* AEO: 용어 정의 (DefinedTerm) */}
+        {DEFINITIONS.map((item) => (
+          <JsonLd
+            key={item.term}
+            data={createDefinitionJsonLd(item.term, item.definition)}
+          />
+        ))}
+        
         <Providers>
           <Header />
           <main id="main-content" className="flex-1" tabIndex={-1}>

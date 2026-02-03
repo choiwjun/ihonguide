@@ -8,3 +8,4 @@ export { ProblemSolutionSection } from './ProblemSolutionSection';
 export { FeaturesSection } from './FeaturesSection';
 export { TrustSection } from './TrustSection';
 export { CTASection } from './CTASection';
+export { AeoSummarySection } from './AeoSummarySection';

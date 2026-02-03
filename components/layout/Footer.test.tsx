@@ -33,7 +33,15 @@ describe('Footer', () => {
       expect(link).toHaveAttribute('href', '/diagnosis');
     });
 
-    it('should render calculator link', () => {
+    it('should render property calculator link', () => {
+      render(<Footer />);
+
+      const link = screen.getByRole('link', { name: '재산분할 계산기' });
+      expect(link).toBeInTheDocument();
+      expect(link).toHaveAttribute('href', '/calculator/property');
+    });
+
+    it('should render child support calculator link', () => {
       render(<Footer />);
 
       const link = screen.getByRole('link', { name: '양육비 계산기' });
@@ -73,7 +81,7 @@ describe('Footer', () => {
       render(<Footer />);
 
       const emailLink = screen.getByRole('link', { name: '문의하기' });
-      expect(emailLink).toHaveAttribute('href', 'mailto:support@ihonguide.com');
+      expect(emailLink).toHaveAttribute('href', 'mailto:support@ihonjunbi.com');
     });
   });
 
