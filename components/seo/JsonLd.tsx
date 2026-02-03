@@ -135,7 +135,7 @@ export function createHowToJsonLd({
 }: {
   name: string;
   description: string;
-  step: Array<{ name: string; text: string }>;
+  step: readonly { name: string; text: string }[];
   url?: string;
 }) {
   return {

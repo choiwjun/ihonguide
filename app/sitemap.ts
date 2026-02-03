@@ -4,14 +4,20 @@
 
 import { MetadataRoute } from 'next';
 import { createApiClient } from '@/lib/supabase/api';
-import type { BlogPostSummary } from '@/types/blog';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ihonjunbi.com';
+
+/** 사이트맵용 블로그 포스트 최소 정보 */
+interface SitemapBlogPost {
+  slug: string;
+  updatedAt: string | null;
+  publishedAt: string | null;
+}
 
 /**
  * 블로그 포스트 목록 가져오기
  */
-async function fetchBlogPosts(): Promise<BlogPostSummary[]> {
+async function fetchBlogPosts(): Promise<SitemapBlogPost[]> {
   const supabase = createApiClient();
 
   // Supabase가 설정되지 않은 경우 빈 배열 반환
@@ -106,7 +112,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const posts = await fetchBlogPosts();
   const blogPages: MetadataRoute.Sitemap = posts.map((post) => ({
     url: `${SITE_URL}/blog/${post.slug}`,
-    lastModified: post.updatedAt ? new Date(post.updatedAt) : new Date(post.publishedAt),
+    lastModified: new Date(
+      post.updatedAt ?? post.publishedAt ?? Date.now()
+    ),
     changeFrequency: 'weekly',
     priority: 0.7,
   }));
