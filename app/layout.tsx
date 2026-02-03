@@ -50,6 +50,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           `}
         </Script>
 
+        {/* Google AdSense */}
+        <Script
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5459873026938354"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+
         {/* Pretendard 폰트 - preload로 성능 최적화 */}
         <link
           rel="preload"
