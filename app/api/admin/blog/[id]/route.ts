@@ -7,6 +7,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createApiClient } from '@/lib/supabase/api';
+import { verifyAdminAuth, unauthorizedResponse } from '@/lib/auth/admin';
 
 interface UpdateBlogPostRequest {
   title?: string;
@@ -26,6 +27,12 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  // 관리자 인증 확인
+  const isAuthed = await verifyAdminAuth(request);
+  if (!isAuthed) {
+    return unauthorizedResponse();
+  }
+
   try {
     const { id } = await params;
     const supabase = createApiClient();
@@ -96,6 +103,12 @@ export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  // 관리자 인증 확인
+  const isAuthed = await verifyAdminAuth(request);
+  if (!isAuthed) {
+    return unauthorizedResponse();
+  }
+
   try {
     const { id } = await params;
     const supabase = createApiClient();
@@ -206,6 +219,12 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  // 관리자 인증 확인
+  const isAuthed = await verifyAdminAuth(request);
+  if (!isAuthed) {
+    return unauthorizedResponse();
+  }
+
   try {
     const { id } = await params;
     const supabase = createApiClient();

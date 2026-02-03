@@ -3,13 +3,20 @@
  * GET /api/admin/categories - 카테고리 목록 조회
  */
 
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { createApiClient } from '@/lib/supabase/api';
+import { verifyAdminAuth, unauthorizedResponse } from '@/lib/auth/admin';
 
 /**
  * GET /api/admin/categories - 카테고리 목록 조회
  */
-export async function GET() {
+export async function GET(request: NextRequest) {
+  // 관리자 인증 확인
+  const isAuthed = await verifyAdminAuth(request);
+  if (!isAuthed) {
+    return unauthorizedResponse();
+  }
+
   try {
     const supabase = createApiClient();
 

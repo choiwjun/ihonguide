@@ -54,7 +54,14 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     router.push('/admin/login');
   }, [pathname, router]);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    // 서버 측 쿠키 삭제
+    try {
+      await fetch('/api/admin/auth', { method: 'DELETE' });
+    } catch {
+      // 오류 무시 - 클라이언트 측 로그아웃은 계속 진행
+    }
+    // 클라이언트 측 세션 삭제
     sessionStorage.removeItem('adminAuth');
     sessionStorage.removeItem('adminAuthTime');
     router.push('/admin/login');

@@ -6,6 +6,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createApiClient } from '@/lib/supabase/api';
+import { verifyAdminAuth, unauthorizedResponse } from '@/lib/auth/admin';
 
 interface CreateBlogPostRequest {
   title: string;
@@ -22,6 +23,12 @@ interface CreateBlogPostRequest {
  * GET /api/admin/blog - 관리자용 게시물 목록 조회 (모든 상태)
  */
 export async function GET(request: NextRequest) {
+  // 관리자 인증 확인
+  const isAuthed = await verifyAdminAuth(request);
+  if (!isAuthed) {
+    return unauthorizedResponse();
+  }
+
   try {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status'); // 'all', 'draft', 'published'
@@ -117,6 +124,12 @@ export async function GET(request: NextRequest) {
  * POST /api/admin/blog - 게시물 생성
  */
 export async function POST(request: NextRequest) {
+  // 관리자 인증 확인
+  const isAuthed = await verifyAdminAuth(request);
+  if (!isAuthed) {
+    return unauthorizedResponse();
+  }
+
   try {
     const supabase = createApiClient();
 
