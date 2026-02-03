@@ -6,9 +6,9 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { Container } from '@/components/layout';
 import { Card } from '@/components/ui';
-import { AnswerBlock, DefinitionCard, HowToSteps } from '@/components/seo';
+import { DefinitionCard, HowToSteps } from '@/components/seo';
 import { generateMetadata } from '@/lib/metadata';
-import { FAQ_ITEMS, HOWTO_DIVORCE_PREPARATION, DEFINITIONS } from '@/lib/aeo-data';
+import { HOWTO_DIVORCE_PREPARATION, DEFINITIONS } from '@/lib/aeo-data';
 import {
   MAIN_HUB_KEYWORDS,
   LONG_TAIL_KEYWORDS,
@@ -160,7 +160,7 @@ export default function GuidePage() {
         />
       </section>
 
-      {/* AEO: 자주 묻는 질문 (FAQ) - 질문형 H2로 답변 노출 */}
+      {/* AEO: 자주 묻는 질문 (FAQ) - 주석 처리
       <section className="mb-16" aria-labelledby="faq-heading">
         <h2 id="faq-heading" className="text-2xl font-bold text-gray-900 mb-6">
           자주 묻는 질문
@@ -175,6 +175,7 @@ export default function GuidePage() {
           ))}
         </div>
       </section>
+      */}
 
       {/* AEO: 용어 정의 */}
       <section className="mb-16" aria-labelledby="definitions-heading">
