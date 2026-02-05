@@ -666,13 +666,13 @@ export default function InternationalDivorcePage() {
           <Link href="/consultation" className="flex-1">
             <Button className="w-full">전문가 상담 신청</Button>
           </Link>
-          <Button
+          {/* <Button
             variant="ghost"
             onClick={() => window.print()}
             className="flex-1"
           >
             결과 출력
-          </Button>
+          </Button> */}
         </div>
       </div>
     );

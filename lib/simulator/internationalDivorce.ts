@@ -801,16 +801,16 @@ export function assessEnforcement(
     serviceDifficulty = 'easy';
   }
 
-  // 연락 불가능한 경우
+  // 적대적인 경우 (연락 불가능 체크 전에 처리)
+  if (input.cooperation.level === 'hostile') {
+    if (serviceDifficulty === 'easy') serviceDifficulty = 'moderate';
+    else if (serviceDifficulty === 'difficult') serviceDifficulty = 'very_difficult';
+  }
+
+  // 연락 불가능한 경우 (최우선 - 무조건 very_difficult)
   if (!input.cooperation.communicationPossible) {
     serviceDifficulty = 'very_difficult';
     treaties.push('공시송달 필요 가능성');
-  }
-
-  // 적대적인 경우
-  if (input.cooperation.level === 'hostile') {
-    if (serviceDifficulty === 'easy') serviceDifficulty = 'moderate';
-    else if (serviceDifficulty === 'moderate') serviceDifficulty = 'difficult';
   }
 
   // 집행 가능성 평가

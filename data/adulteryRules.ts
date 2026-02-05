@@ -281,7 +281,7 @@ export const PROCEDURE_STEPS = {
       estimatedDuration: '1-3개월',
     },
   ],
-} as const;
+};
 
 /** 예상 소송 비용 (원) */
 export const LITIGATION_COST = {

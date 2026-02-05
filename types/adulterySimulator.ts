@@ -192,11 +192,11 @@ export interface ProcedureInfo {
   /** 예상 비용 */
   estimatedCost: { min: number; max: number };
   /** 진행 단계 */
-  steps: Array<{
-    order: number;
-    title: string;
-    description: string;
-    estimatedDuration: string;
+  steps: ReadonlyArray<{
+    readonly order: number;
+    readonly title: string;
+    readonly description: string;
+    readonly estimatedDuration: string;
   }>;
 }
 

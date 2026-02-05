@@ -41,6 +41,12 @@ export function Footer() {
             <Link href="/diagnosis" className="block hover:text-[#0f766e] transition-colors">
               이혼 유형 진단
             </Link>
+            <Link href="/simulator/adultery" className="block hover:text-[#0f766e] transition-colors">
+              상간녀 소송
+            </Link>
+            <Link href="/simulator/international-divorce" className="block hover:text-[#0f766e] transition-colors">
+              국제이혼
+            </Link>
             <Link href="/consultation" className="block hover:text-[#0f766e] transition-colors">
               상담 신청
             </Link>
