@@ -29,29 +29,33 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    // 로그인 페이지는 인증 체크 안함
+    // 로그인 페이지는 인증 체크 스킵 (early return)
     if (pathname === '/admin/login') {
-      setIsAuthenticated(true);
       return;
     }
 
-    // 인증 상태 확인
-    const auth = sessionStorage.getItem('adminAuth');
-    const authTime = sessionStorage.getItem('adminAuthTime');
+    // 비동기로 상태 업데이트하여 cascading render 방지
+    const checkAuth = () => {
+      const auth = sessionStorage.getItem('adminAuth');
+      const authTime = sessionStorage.getItem('adminAuthTime');
 
-    if (auth === 'true' && authTime) {
-      const elapsed = Date.now() - parseInt(authTime);
-      if (elapsed < SESSION_DURATION) {
-        setIsAuthenticated(true);
-        return;
+      if (auth === 'true' && authTime) {
+        const elapsed = Date.now() - parseInt(authTime);
+        if (elapsed < SESSION_DURATION) {
+          setIsAuthenticated(true);
+          return;
+        }
       }
-    }
 
-    // 인증 안됨 - 로그인 페이지로 이동
-    sessionStorage.removeItem('adminAuth');
-    sessionStorage.removeItem('adminAuthTime');
-    setIsAuthenticated(false);
-    router.push('/admin/login');
+      // 인증 안됨 - 로그인 페이지로 이동
+      sessionStorage.removeItem('adminAuth');
+      sessionStorage.removeItem('adminAuthTime');
+      setIsAuthenticated(false);
+      router.push('/admin/login');
+    };
+
+    // 다음 틱에 실행하여 동기 setState 경고 방지
+    queueMicrotask(checkAuth);
   }, [pathname, router]);
 
   const handleLogout = async () => {

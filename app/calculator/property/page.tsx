@@ -457,8 +457,8 @@ export default function PropertyDivisionPage() {
     </Card>
   );
 
-  // 계산 로직
-  const calculateDivision = useCallback(() => {
+  // 계산 로직 (버튼 클릭 시에만 호출되므로 메모이제이션 불필요)
+  const calculateDivision = () => {
     const { assets, debts, contributions, marriageYears, hasChildren, childCustodian } = formData;
 
     // 총 재산 계산 (만원 → 원)
@@ -528,7 +528,7 @@ export default function PropertyDivisionPage() {
       factors,
     });
     setStep(4);
-  }, [formData]);
+  };
 
   // Step 4: 결과
   const renderResult = () => {

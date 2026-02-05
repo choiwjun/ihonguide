@@ -21,6 +21,8 @@ export function JsonLd({ data }: JsonLdProps) {
  * 조직 정보 생성
  */
 export function createOrganizationJsonLd() {
+  const contactPhone = process.env.NEXT_PUBLIC_CONTACT_PHONE;
+
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -28,11 +30,13 @@ export function createOrganizationJsonLd() {
     url: SITE_URL,
     logo: `${SITE_URL}/logo.png`,
     description: '이혼 준비부터 양육비 계산까지, 법률 전문가가 함께하는 이혼 가이드',
-    contactPoint: {
-      '@type': 'ContactPoint',
-      telephone: '+82-XXX-XXXX',
-      contactType: 'customer service',
-    },
+    ...(contactPhone && {
+      contactPoint: {
+        '@type': 'ContactPoint',
+        telephone: contactPhone,
+        contactType: 'customer service',
+      },
+    }),
     sameAs: [
       'https://www.facebook.com/ihonjunbi',
       'https://www.instagram.com/ihonjunbi',

@@ -71,7 +71,6 @@ async function saveDiagnosisResult(
   }
 ): Promise<string | null> {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: savedResult, error: saveError } = await (supabase as any)
       .from('diagnosis_results')
       .insert({
