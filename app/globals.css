@@ -315,3 +315,54 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
+
+/* ===========================================
+   Print Styles
+   =========================================== */
+
+@media print {
+  /* Hide navigation and non-essential elements */
+  nav,
+  header,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Reset backgrounds for print */
+  body {
+    background: white;
+  }
+
+  /* Ensure cards print properly */
+  .glass-card,
+  .card-glass {
+    background: white;
+    border: 1px solid #e5e7eb;
+    box-shadow: none;
+    page-break-inside: avoid;
+  }
+
+  /* Print-friendly colors */
+  .text-teal-600 {
+    color: #0f766e !important;
+  }
+
+  /* Avoid page breaks in important sections */
+  h1, h2, h3 {
+    page-break-after: avoid;
+  }
+
+  /* Ensure links show URLs */
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #64748b;
+  }
+
+  /* Don't show URLs for internal navigation */
+  a[href^="#"]:after,
+  a[href^="/"]:after {
+    content: "";
+  }
+}

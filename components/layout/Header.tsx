@@ -9,6 +9,8 @@ const NAV_ITEMS = [
   { href: '/diagnosis', label: '이혼 유형 진단' },
   { href: '/calculator', label: '양육비 계산기' },
   { href: '/calculator/property', label: '재산분할 계산기' },
+  { href: '/simulator/adultery', label: '상간녀 소송' },
+  { href: '/simulator/international-divorce', label: '국제이혼' },
   // { href: '/blog', label: '블로그' },
   { href: '/consultation', label: '상담 신청' },
 ];

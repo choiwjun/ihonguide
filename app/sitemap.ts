@@ -77,6 +77,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.85,
     },
     {
+      url: `${SITE_URL}/simulator/adultery`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.85,
+    },
+    {
+      url: `${SITE_URL}/simulator/international-divorce`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.85,
+    },
+    {
       url: `${SITE_URL}/consultation`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
