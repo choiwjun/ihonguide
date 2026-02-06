@@ -42,15 +42,21 @@ export default function EditBlogPostPage() {
       try {
         // 게시물과 카테고리를 병렬로 가져오기
         const [postResponse, categoriesResponse] = await Promise.all([
-          fetch(`/api/admin/blog/${postId}`),
-          fetch('/api/admin/categories'),
+          fetch(`/api/admin/blog/${postId}`, { credentials: 'include' }),
+          fetch('/api/admin/categories', { credentials: 'include' }),
         ]);
+
+        if (!postResponse.ok) {
+          const errData = await postResponse.json().catch(() => null);
+          setError(errData?.error || `API 오류 (${postResponse.status})`);
+          return;
+        }
 
         const postResult = await postResponse.json();
         const categoriesResult = await categoriesResponse.json();
 
-        if (postResult.error || !postResult.data) {
-          setError(postResult.error || '게시물을 찾을 수 없습니다.');
+        if (!postResult.data) {
+          setError('게시물 데이터가 없습니다.');
           return;
         }
 
