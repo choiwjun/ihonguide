@@ -77,56 +77,83 @@ export default function InternationalDivorcePage() {
     setPhase('calculating');
 
     try {
-      // TODO: 실제 API 연동
-      // const response = await fetch('/api/simulator/international-divorce', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(input),
-      // });
-      // const data = await response.json();
+      // 페이지 입력을 API 입력 형식으로 변환
+      const residenceDuration =
+        input.marriageDuration >= 5 ? 'more_than_5_years' :
+        input.marriageDuration >= 3 ? '3_to_5_years' :
+        input.marriageDuration >= 1 ? '1_to_3_years' : 'less_than_1_year';
 
-      // 임시 시뮬레이션 로직
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      const mockResult: SimulationResult = {
-        applicableLaw: input.residenceCountry === 'KR' ? '대한민국 민법' : '국제사법 준거법',
-        jurisdiction: input.residenceCountry === 'KR' ? '대한민국 가정법원' : '거주 국가 법원',
-        estimatedDuration: '6개월 ~ 18개월',
-        estimatedCost: {
-          min: 5000000,
-          max: 15000000,
-          currency: 'KRW',
+      const apiInput = {
+        petitioner: {
+          nationality: input.myNationality,
+          currentResidence: input.residenceCountry,
+          residenceDuration,
         },
-        requiredDocuments: [
-          '혼인관계증명서 (영문)',
-          '가족관계증명서 (영문)',
-          '주민등록등본 (영문)',
-          '외국인 배우자 여권 사본',
-          '혼인신고 증명서 (해당국)',
-          '재산 목록 및 증빙서류',
-        ],
-        procedureSteps: [
-          '준거법 결정 및 관할 법원 확인',
-          '필수 서류 준비 (공증 및 아포스티유)',
-          '이혼 소송 제기 또는 협의서 작성',
-          '법원 심리 진행 (통역 필요 시)',
-          '판결문 또는 협의서 확정',
-          '양국 공문서 등록 및 신고',
-        ],
-        considerations: [
-          '양국의 법률이 상충할 경우 국제사법에 따라 준거법이 결정됩니다.',
-          '자녀가 있는 경우 헤이그 협약 가입국 여부를 확인해야 합니다.',
-          '재산이 여러 국가에 분산되어 있으면 각국 법률에 따라 별도 절차가 필요합니다.',
-          '언어 장벽으로 인해 공인 통역사가 필요할 수 있습니다.',
-        ],
-        warnings: [
-          '본 시뮬레이션은 일반적인 가이드라인이며, 실제 사례는 매우 복잡할 수 있습니다.',
-          '국제이혼은 국제사법, 민사소송법, 각국 가족법이 복합적으로 적용됩니다.',
-          '반드시 국제이혼 전문 변호사와 상담하시기 바랍니다.',
-        ],
+        respondent: {
+          nationality: input.spouseNationality,
+          currentResidence: input.residenceCountry,
+          residenceDuration,
+        },
+        marriage: {
+          marriageCountry: input.marriageCountry,
+          marriageType: 'civil',
+          duration: input.marriageDuration,
+          registeredInKorea: input.marriageCountry === 'KR' || input.myNationality === 'KR',
+        },
+        children: input.hasChildren ? {
+          count: 1,
+          ages: [5],
+          currentResidence: input.childrenResidence || input.residenceCountry,
+          custody: 'undecided',
+        } : undefined,
+        assets: [] as { type: string; location: string; estimatedValue: number }[],
+        cooperation: {
+          level: 'neutral',
+          communicationPossible: true,
+          willingToNegotiate: true,
+        },
+        preferredJurisdiction: input.preferredJurisdiction || undefined,
       };
 
-      setResult(mockResult);
+      const response = await fetch('/api/simulator/international-divorce', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(apiInput),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || '시뮬레이션 처리 중 오류가 발생했습니다.');
+      }
+
+      // API 응답을 UI 형식으로 변환 (비용: USD → KRW)
+      const USD_TO_KRW = 1300;
+      const apiResult = data.data;
+
+      const mapped: SimulationResult = {
+        applicableLaw: apiResult.applicableLaw.lawName,
+        jurisdiction: apiResult.jurisdiction.possibleCountries
+          .filter((c: { priority: string }) => c.priority === 'primary')
+          .map((c: { countryName: string }) => c.countryName + ' 법원')
+          .join(', ') || '관할 법원 확인 필요',
+        estimatedDuration: `${apiResult.estimates.duration.min}개월 ~ ${apiResult.estimates.duration.max}개월`,
+        estimatedCost: {
+          min: apiResult.estimates.costs.total.min * USD_TO_KRW,
+          max: apiResult.estimates.costs.total.max * USD_TO_KRW,
+          currency: 'KRW',
+        },
+        requiredDocuments: apiResult.requiredDocuments.flatMap(
+          (doc: { documents: string[] }) => doc.documents
+        ),
+        procedureSteps: apiResult.procedure.steps.map(
+          (step: { title: string }) => step.title
+        ),
+        considerations: apiResult.recommendations,
+        warnings: apiResult.warnings,
+      };
+
+      setResult(mapped);
       setPhase('result');
     } catch (err) {
       setError(err instanceof Error ? err.message : '시뮬레이션 중 오류가 발생했습니다.');
