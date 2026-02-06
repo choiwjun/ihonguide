@@ -27,7 +27,7 @@ export interface CountryInfo {
   languageBarrier: 'none' | 'low' | 'medium' | 'high';
   /** 평균 소요 기간 (개월) */
   averageDuration: { min: number; max: number };
-  /** 평균 변호사 비용 (USD) */
+  /** 평균 변호사 비용 (KRW) */
   averageLegalCost: { min: number; max: number };
   /** 조약 가입 */
   treaties: string[];
@@ -52,7 +52,7 @@ export const COUNTRY_DATA: Record<CountryCode, CountryInfo> = {
     residenceRequirement: '거주 기간 제한 없음 (한국인의 경우)',
     languageBarrier: 'none',
     averageDuration: { min: 6, max: 18 },
-    averageLegalCost: { min: 5_000, max: 20_000 },
+    averageLegalCost: { min: 6_500_000, max: 26_000_000 },
     treaties: ['헤이그 아동탈취 협약', '일본-한국 사법공조 조약'],
     features: [
       '재산분할 50% 기준',
@@ -71,7 +71,7 @@ export const COUNTRY_DATA: Record<CountryCode, CountryInfo> = {
     residenceRequirement: '6개월 ~ 1년 (주에 따라 다름)',
     languageBarrier: 'medium',
     averageDuration: { min: 12, max: 36 },
-    averageLegalCost: { min: 10_000, max: 50_000 },
+    averageLegalCost: { min: 13_000_000, max: 65_000_000 },
     treaties: ['헤이그 아동탈취 협약', '헤이그 송달협약'],
     features: [
       '주마다 법이 다름 (Community Property vs Equitable Distribution)',
@@ -91,7 +91,7 @@ export const COUNTRY_DATA: Record<CountryCode, CountryInfo> = {
     residenceRequirement: '거주 기간 제한 없음',
     languageBarrier: 'high',
     averageDuration: { min: 6, max: 24 },
-    averageLegalCost: { min: 3_000, max: 15_000 },
+    averageLegalCost: { min: 3_900_000, max: 19_500_000 },
     treaties: ['헤이그 아동탈취 협약', '한-일 사법공조 조약'],
     features: [
       '협의이혼 가능 (조정 이혼)',
@@ -111,7 +111,7 @@ export const COUNTRY_DATA: Record<CountryCode, CountryInfo> = {
     residenceRequirement: '1년 이상 거주',
     languageBarrier: 'high',
     averageDuration: { min: 6, max: 18 },
-    averageLegalCost: { min: 2_000, max: 10_000 },
+    averageLegalCost: { min: 2_600_000, max: 13_000_000 },
     treaties: ['헤이그 송달협약'],
     features: [
       '협의이혼 가능 (단, 외국인은 소송 이혼 필요)',
@@ -130,7 +130,7 @@ export const COUNTRY_DATA: Record<CountryCode, CountryInfo> = {
     residenceRequirement: '1년 이상 거주',
     languageBarrier: 'low',
     averageDuration: { min: 12, max: 24 },
-    averageLegalCost: { min: 15_000, max: 40_000 },
+    averageLegalCost: { min: 19_500_000, max: 52_000_000 },
     treaties: ['헤이그 아동탈취 협약', '헤이그 송달협약'],
     features: [
       '무과실 이혼 가능',
@@ -149,7 +149,7 @@ export const COUNTRY_DATA: Record<CountryCode, CountryInfo> = {
     residenceRequirement: '1년 이상 거주',
     languageBarrier: 'low',
     averageDuration: { min: 12, max: 24 },
-    averageLegalCost: { min: 8_000, max: 30_000 },
+    averageLegalCost: { min: 10_400_000, max: 39_000_000 },
     treaties: ['헤이그 아동탈취 협약'],
     features: [
       '재산분할 50% 기준 (주마다 다름)',
@@ -168,7 +168,7 @@ export const COUNTRY_DATA: Record<CountryCode, CountryInfo> = {
     residenceRequirement: '12개월 이상 거주',
     languageBarrier: 'low',
     averageDuration: { min: 12, max: 24 },
-    averageLegalCost: { min: 10_000, max: 35_000 },
+    averageLegalCost: { min: 13_000_000, max: 45_500_000 },
     treaties: ['헤이그 아동탈취 협약'],
     features: [
       '별거 기간 필요 (12개월)',
@@ -187,7 +187,7 @@ export const COUNTRY_DATA: Record<CountryCode, CountryInfo> = {
     residenceRequirement: '6개월 이상 거주',
     languageBarrier: 'high',
     averageDuration: { min: 12, max: 30 },
-    averageLegalCost: { min: 8_000, max: 25_000 },
+    averageLegalCost: { min: 10_400_000, max: 32_500_000 },
     treaties: ['헤이그 아동탈취 협약', '헤이그 송달협약'],
     features: [
       '협의이혼 가능',
@@ -205,7 +205,7 @@ export const COUNTRY_DATA: Record<CountryCode, CountryInfo> = {
     residenceRequirement: '6개월 이상 거주',
     languageBarrier: 'high',
     averageDuration: { min: 12, max: 24 },
-    averageLegalCost: { min: 7_000, max: 20_000 },
+    averageLegalCost: { min: 9_100_000, max: 26_000_000 },
     treaties: ['헤이그 아동탈취 협약', '헤이그 송달협약'],
     features: [
       '별거 기간 필요 (1년)',
@@ -223,7 +223,7 @@ export const COUNTRY_DATA: Record<CountryCode, CountryInfo> = {
     residenceRequirement: '거주 기간 제한 없음',
     languageBarrier: 'high',
     averageDuration: { min: 6, max: 18 },
-    averageLegalCost: { min: 1_000, max: 5_000 },
+    averageLegalCost: { min: 1_300_000, max: 6_500_000 },
     treaties: [],
     features: [
       '협의이혼 가능',
@@ -241,7 +241,7 @@ export const COUNTRY_DATA: Record<CountryCode, CountryInfo> = {
     residenceRequirement: '거주 기간 제한 없음',
     languageBarrier: 'medium',
     averageDuration: { min: 12, max: 36 },
-    averageLegalCost: { min: 2_000, max: 8_000 },
+    averageLegalCost: { min: 2_600_000, max: 10_400_000 },
     treaties: ['헤이그 송달협약'],
     features: [
       '이혼 불가 (혼인무효 또는 별거만 가능)',
@@ -259,7 +259,7 @@ export const COUNTRY_DATA: Record<CountryCode, CountryInfo> = {
     residenceRequirement: '거주 기간 제한 없음',
     languageBarrier: 'high',
     averageDuration: { min: 6, max: 18 },
-    averageLegalCost: { min: 1_500, max: 6_000 },
+    averageLegalCost: { min: 1_950_000, max: 7_800_000 },
     treaties: [],
     features: [
       '협의이혼 가능',
@@ -277,7 +277,7 @@ export const COUNTRY_DATA: Record<CountryCode, CountryInfo> = {
     residenceRequirement: '국가마다 다름',
     languageBarrier: 'high',
     averageDuration: { min: 12, max: 36 },
-    averageLegalCost: { min: 5_000, max: 30_000 },
+    averageLegalCost: { min: 6_500_000, max: 39_000_000 },
     treaties: [],
     features: ['국가마다 법이 다름'],
     advantages: [],
@@ -360,23 +360,23 @@ export const ASSET_RELATED_DOCUMENTS = [
 // 비용 산정 기준
 // ============================================
 
-/** 번역 비용 (USD/페이지) */
+/** 번역 비용 (KRW/페이지) */
 export const TRANSLATION_COST_PER_PAGE = {
-  simple: 30,    // 간단한 서류
-  complex: 50,   // 복잡한 서류
+  simple: 39_000,    // 간단한 서류
+  complex: 65_000,   // 복잡한 서류
 } as const;
 
-/** 아포스티유/영사확인 비용 (USD) */
+/** 아포스티유/영사확인 비용 (KRW) */
 export const APOSTILLE_COST = {
-  apostille: 50,           // 아포스티유
-  consularConfirmation: 80, // 영사확인
+  apostille: 65_000,            // 아포스티유
+  consularConfirmation: 104_000, // 영사확인
 } as const;
 
-/** 여행 비용 기준 (USD) */
+/** 여행 비용 기준 (KRW) */
 export const TRAVEL_COST_ESTIMATE = {
-  nearby: { min: 500, max: 1_500 },     // 인근 국가 (일본, 중국 등)
-  medium: { min: 1_500, max: 3_000 },   // 중거리 (동남아)
-  far: { min: 3_000, max: 6_000 },      // 장거리 (미주, 유럽)
+  nearby: { min: 650_000, max: 1_950_000 },       // 인근 국가 (일본, 중국 등)
+  medium: { min: 1_950_000, max: 3_900_000 },     // 중거리 (동남아)
+  far: { min: 3_900_000, max: 7_800_000 },        // 장거리 (미주, 유럽)
 } as const;
 
 // ============================================

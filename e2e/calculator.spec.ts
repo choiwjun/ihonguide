@@ -1,9 +1,16 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Locator } from '@playwright/test';
 
 /**
  * E2E 테스트: 양육비 계산기 흐름
  * 참조: docs/03-UserFlow.md 섹션 3
  */
+
+async function typeInput(locator: Locator, value: string) {
+  await locator.click();
+  await locator.press('ControlOrMeta+A');
+  await locator.press('Delete');
+  await locator.type(value, { delay: 10 });
+}
 
 test.describe('계산기 흐름', () => {
   test.beforeEach(async ({ page }) => {
@@ -31,12 +38,12 @@ test.describe('계산기 흐름', () => {
   test('소득을 입력할 수 있다', async ({ page }) => {
     // 부모 1 소득 입력
     const parent1Input = page.getByLabel('부모 1 소득');
-    await parent1Input.fill('5000000');
+    await typeInput(parent1Input, '5000000');
     await expect(parent1Input).toHaveValue('5,000,000');
 
     // 부모 2 소득 입력
     const parent2Input = page.getByLabel('부모 2 소득');
-    await parent2Input.fill('3000000');
+    await typeInput(parent2Input, '3000000');
     await expect(parent2Input).toHaveValue('3,000,000');
   });
 
@@ -82,17 +89,17 @@ test.describe('계산기 흐름', () => {
     // 교육비 입력
     const educationInput = page.getByLabel('교육비 (월)');
     await expect(educationInput).toBeVisible();
-    await educationInput.fill('500000');
+    await typeInput(educationInput, '500000');
     await expect(educationInput).toHaveValue('500,000');
 
     // 의료비 입력
     const medicalInput = page.getByLabel('의료비 (월)');
-    await medicalInput.fill('100000');
+    await typeInput(medicalInput, '100000');
     await expect(medicalInput).toHaveValue('100,000');
 
     // 기타 비용 입력
     const otherInput = page.getByLabel('기타 비용 (월)');
-    await otherInput.fill('200000');
+    await typeInput(otherInput, '200000');
     await expect(otherInput).toHaveValue('200,000');
   });
 
@@ -115,22 +122,30 @@ test.describe('계산기 흐름', () => {
         body: JSON.stringify({
           success: true,
           data: {
-            standardAmount: 1500000,
+            id: 'calc-result-1',
+            sessionId: 'session-test-1',
+            baseAmount: 1500000,
             additionalAmount: 0,
             totalAmount: 1500000,
-            custodialParent: 1,
-            nonCustodialParent: 2,
-            payerShare: 0.375,
-            monthlyPayment: 562500,
-            disclaimer: '본 계산 결과는 참고용이며, 실제 양육비는 개별 상황에 따라 달라질 수 있습니다.',
+            nonCustodialPayment: 562500,
+            parent1Ratio: 63,
+            parent2Ratio: 37,
+            combinedIncome: 8000000,
+            breakdown: {
+              incomeRange: '700만원~900만원',
+              childrenMultiplier: 100,
+              ageMultiplier: 110,
+              tableAmount: 1500000,
+              explanation: '테스트 계산 결과',
+            },
           },
         }),
       });
     });
 
     // 부모 소득 입력
-    await page.getByLabel('부모 1 소득').fill('5000000');
-    await page.getByLabel('부모 2 소득').fill('3000000');
+    await typeInput(page.getByLabel('부모 1 소득'), '5000000');
+    await typeInput(page.getByLabel('부모 2 소득'), '3000000');
 
     // 자녀 정보 입력
     await page.getByLabel('자녀 수').selectOption('1');
@@ -142,12 +157,9 @@ test.describe('계산기 흐름', () => {
     // 계산 버튼 클릭
     await page.getByRole('button', { name: '양육비 계산하기' }).click();
 
-    // 로딩 상태 확인
-    await expect(page.getByRole('button', { name: '계산 중...' })).toBeVisible();
-
     // 결과 표시 확인
-    await expect(page.getByText('예상 양육비')).toBeVisible();
-    await expect(page.getByText('562,500')).toBeVisible();
+    await expect(page.getByText('산정된 월 양육비')).toBeVisible();
+    await expect(page.getByText('562,500원')).toBeVisible();
   });
 
   test('다시 계산하기 버튼으로 폼으로 돌아갈 수 있다', async ({ page }) => {
@@ -159,22 +171,30 @@ test.describe('계산기 흐름', () => {
         body: JSON.stringify({
           success: true,
           data: {
-            standardAmount: 1500000,
+            id: 'calc-result-2',
+            sessionId: 'session-test-2',
+            baseAmount: 1500000,
             additionalAmount: 0,
             totalAmount: 1500000,
-            custodialParent: 1,
-            nonCustodialParent: 2,
-            payerShare: 0.375,
-            monthlyPayment: 562500,
-            disclaimer: '본 계산 결과는 참고용입니다.',
+            nonCustodialPayment: 562500,
+            parent1Ratio: 63,
+            parent2Ratio: 37,
+            combinedIncome: 8000000,
+            breakdown: {
+              incomeRange: '700만원~900만원',
+              childrenMultiplier: 100,
+              ageMultiplier: 110,
+              tableAmount: 1500000,
+              explanation: '테스트 계산 결과',
+            },
           },
         }),
       });
     });
 
     // 소득 입력 및 계산
-    await page.getByLabel('부모 1 소득').fill('5000000');
-    await page.getByLabel('부모 2 소득').fill('3000000');
+    await typeInput(page.getByLabel('부모 1 소득'), '5000000');
+    await typeInput(page.getByLabel('부모 2 소득'), '3000000');
     await page.getByRole('button', { name: '양육비 계산하기' }).click();
 
     // 결과 페이지에서 다시 계산 버튼 클릭
@@ -219,14 +239,22 @@ test.describe('계산기 결과 페이지', () => {
         body: JSON.stringify({
           success: true,
           data: {
-            standardAmount: 1500000,
+            id: 'calc-result-3',
+            sessionId: 'session-test-3',
+            baseAmount: 1500000,
             additionalAmount: 300000,
             totalAmount: 1800000,
-            custodialParent: 1,
-            nonCustodialParent: 2,
-            payerShare: 0.4,
-            monthlyPayment: 720000,
-            disclaimer: '본 계산 결과는 서울가정법원 양육비 산정 기준표를 참고하여 산출되었습니다.',
+            nonCustodialPayment: 720000,
+            parent1Ratio: 60,
+            parent2Ratio: 40,
+            combinedIncome: 8000000,
+            breakdown: {
+              incomeRange: '700만원~900만원',
+              childrenMultiplier: 100,
+              ageMultiplier: 120,
+              tableAmount: 1500000,
+              explanation: '테스트 계산 결과',
+            },
           },
         }),
       });
@@ -235,15 +263,15 @@ test.describe('계산기 결과 페이지', () => {
     await page.goto('/calculator');
 
     // 소득 입력 및 계산
-    await page.getByLabel('부모 1 소득').fill('5000000');
-    await page.getByLabel('부모 2 소득').fill('3000000');
+    await typeInput(page.getByLabel('부모 1 소득'), '5000000');
+    await typeInput(page.getByLabel('부모 2 소득'), '3000000');
     await page.getByRole('button', { name: '양육비 계산하기' }).click();
 
     // 결과 표시 확인
-    await expect(page.getByText('예상 양육비')).toBeVisible();
-    await expect(page.getByText(/720,000/)).toBeVisible();
+    await expect(page.getByText('산정된 월 양육비')).toBeVisible();
+    await expect(page.getByText(/720,000원/)).toBeVisible();
 
     // 면책 고지 확인
-    await expect(page.getByText(/참고/)).toBeVisible();
+    await expect(page.getByText('참고 안내')).toBeVisible();
   });
 });

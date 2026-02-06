@@ -5,6 +5,14 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { validateEnv, getEnvConfig, isProduction, getSafeErrorMessage } from './env';
 
+function setNodeEnv(value: NodeJS.ProcessEnv['NODE_ENV']) {
+  Object.defineProperty(process.env, 'NODE_ENV', {
+    value,
+    writable: true,
+    configurable: true,
+  });
+}
+
 describe('validateEnv', () => {
   const originalEnv = process.env;
 
@@ -102,17 +110,17 @@ describe('isProduction', () => {
   });
 
   it('should return true in production', () => {
-    process.env.NODE_ENV = 'production';
+    setNodeEnv('production');
     expect(isProduction()).toBe(true);
   });
 
   it('should return false in development', () => {
-    process.env.NODE_ENV = 'development';
+    setNodeEnv('development');
     expect(isProduction()).toBe(false);
   });
 
   it('should return false in test', () => {
-    process.env.NODE_ENV = 'test';
+    setNodeEnv('test');
     expect(isProduction()).toBe(false);
   });
 });
@@ -129,7 +137,7 @@ describe('getSafeErrorMessage', () => {
   });
 
   it('should return generic message in production', () => {
-    process.env.NODE_ENV = 'production';
+    setNodeEnv('production');
     const error = new Error('Sensitive database error');
 
     const message = getSafeErrorMessage(error);
@@ -138,7 +146,7 @@ describe('getSafeErrorMessage', () => {
   });
 
   it('should return actual error message in development', () => {
-    process.env.NODE_ENV = 'development';
+    setNodeEnv('development');
     const error = new Error('Database connection failed');
 
     const message = getSafeErrorMessage(error);
@@ -147,7 +155,7 @@ describe('getSafeErrorMessage', () => {
   });
 
   it('should handle non-Error objects', () => {
-    process.env.NODE_ENV = 'development';
+    setNodeEnv('development');
 
     expect(getSafeErrorMessage('string error')).toBe('string error');
     expect(getSafeErrorMessage(123)).toBe('123');

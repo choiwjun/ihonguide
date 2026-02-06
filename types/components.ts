@@ -71,13 +71,14 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   /** 인터랙티브 모드 (호버 효과) */
   interactive?: boolean;
   /** 패딩 크기 */
-  padding?: 'sm' | 'md' | 'lg';
+  padding?: 'none' | 'sm' | 'md' | 'lg';
 }
 
 /**
  * Card 패딩 크기별 스타일 설정
  */
 export const CARD_PADDINGS = {
+  none: 'p-0',
   sm: 'p-4',
   md: 'p-6',
   lg: 'p-8',

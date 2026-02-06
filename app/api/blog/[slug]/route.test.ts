@@ -6,7 +6,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { GET } from './route';
 import { NextRequest } from 'next/server';
 
-// 체이닝 가능한 mock 객체
+const createApiClientMock = vi.fn();
+
 const createChainMock = () => {
   const mock = {
     select: vi.fn(),
@@ -19,15 +20,15 @@ const createChainMock = () => {
     then: vi.fn(),
   };
 
-  // 모든 메서드가 자기 자신을 반환하도록 설정 (체이닝 가능)
   mock.select.mockReturnValue(mock);
   mock.eq.mockReturnValue(mock);
   mock.order.mockReturnValue(mock);
   mock.neq.mockReturnValue(mock);
   mock.update.mockReturnValue(mock);
-  // then은 Promise 체이닝을 위해 필요
-  mock.then.mockImplementation((cb) => {
-    cb && cb();
+  mock.then.mockImplementation((cb: (() => void) | undefined) => {
+    if (cb) {
+      cb();
+    }
     return mock;
   });
 
@@ -36,10 +37,8 @@ const createChainMock = () => {
 
 let mockChain: ReturnType<typeof createChainMock>;
 
-vi.mock('@/lib/supabase/client', () => ({
-  createClient: () => ({
-    from: vi.fn(() => mockChain),
-  }),
+vi.mock('@/lib/supabase/api', () => ({
+  createApiClient: () => createApiClientMock(),
 }));
 
 describe('GET /api/blog/[slug]', () => {
@@ -89,11 +88,12 @@ describe('GET /api/blog/[slug]', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockChain = createChainMock();
-
-    // 단일 게시물 조회 결과 (terminal method)
     mockChain.single.mockResolvedValue({ data: mockPost, error: null });
-    // 관련 게시물 목록 조회 결과 (terminal method)
     mockChain.limit.mockResolvedValue({ data: mockRelatedPosts, error: null });
+
+    createApiClientMock.mockReturnValue({
+      from: vi.fn(() => mockChain),
+    });
   });
 
   it('should return blog post by slug', async () => {

@@ -1,94 +1,65 @@
 /**
- * 관리자 블로그 API 테스트 - PUT/DELETE /api/admin/blog/[id]
+ * 관리자 블로그 API 테스트 - PATCH/DELETE /api/admin/blog/[id]
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { NextRequest } from 'next/server';
-import { PUT, DELETE } from './route';
+import { NextRequest, NextResponse } from 'next/server';
+import { PATCH, DELETE } from './route';
 
-// Supabase 모킹
-const mockGetUser = vi.fn();
-const mockFrom = vi.fn();
+const verifyAdminAuthMock = vi.fn();
+const createAdminClientMock = vi.fn();
+const fromMock = vi.fn();
 
-vi.mock('@/lib/supabase/server', () => ({
-  createClient: vi.fn(() => Promise.resolve({
-    auth: {
-      getUser: mockGetUser,
-    },
-    from: mockFrom,
-  })),
+vi.mock('@/lib/auth/admin', () => ({
+  verifyAdminAuth: (...args: unknown[]) => verifyAdminAuthMock(...args),
+  unauthorizedResponse: () =>
+    NextResponse.json(
+      { error: '인증이 필요합니다.' },
+      { status: 401 }
+    ),
 }));
 
-describe('PUT /api/admin/blog/[id]', () => {
+vi.mock('@/lib/supabase/admin', () => ({
+  createAdminClient: () => createAdminClientMock(),
+}));
+
+describe('PATCH /api/admin/blog/[id]', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    verifyAdminAuthMock.mockResolvedValue(true);
+    fromMock.mockReset();
+    createAdminClientMock.mockReturnValue({ from: fromMock });
   });
 
   it('should require authentication', async () => {
-    mockGetUser.mockResolvedValue({
-      data: { user: null },
-      error: { message: 'Not authenticated' },
-    });
+    verifyAdminAuthMock.mockResolvedValueOnce(false);
 
     const request = new NextRequest('http://localhost/api/admin/blog/1', {
-      method: 'PUT',
+      method: 'PATCH',
       body: JSON.stringify({ title: 'Updated' }),
     });
 
-    const response = await PUT(request, { params: Promise.resolve({ id: '1' }) });
+    const response = await PATCH(request, { params: Promise.resolve({ id: '1' }) });
     const data = await response.json();
 
     expect(response.status).toBe(401);
     expect(data.error).toBe('인증이 필요합니다.');
   });
 
-  it('should require admin role', async () => {
-    mockGetUser.mockResolvedValue({
-      data: {
-        user: {
-          id: 'user-1',
-          user_metadata: { role: 'user' },
-        },
-      },
-      error: null,
-    });
-
-    const request = new NextRequest('http://localhost/api/admin/blog/1', {
-      method: 'PUT',
-      body: JSON.stringify({ title: 'Updated' }),
-    });
-
-    const response = await PUT(request, { params: Promise.resolve({ id: '1' }) });
-    const data = await response.json();
-
-    expect(response.status).toBe(403);
-    expect(data.error).toBe('관리자 권한이 필요합니다.');
-  });
-
   it('should return 404 if post not found', async () => {
-    mockGetUser.mockResolvedValue({
-      data: {
-        user: {
-          id: 'admin-1',
-          user_metadata: { role: 'admin' },
-        },
-      },
-      error: null,
-    });
-
-    const mockChain = {
+    const existingChain = {
       select: vi.fn().mockReturnThis(),
       eq: vi.fn().mockReturnThis(),
       single: vi.fn().mockResolvedValue({ data: null, error: { code: 'PGRST116' } }),
     };
-    mockFrom.mockReturnValue(mockChain);
+    fromMock.mockReturnValueOnce(existingChain);
 
     const request = new NextRequest('http://localhost/api/admin/blog/999', {
-      method: 'PUT',
+      method: 'PATCH',
       body: JSON.stringify({ title: 'Updated' }),
     });
 
-    const response = await PUT(request, { params: Promise.resolve({ id: '999' }) });
+    const response = await PATCH(request, { params: Promise.resolve({ id: '999' }) });
     const data = await response.json();
 
     expect(response.status).toBe(404);
@@ -96,46 +67,33 @@ describe('PUT /api/admin/blog/[id]', () => {
   });
 
   it('should update blog post successfully', async () => {
-    mockGetUser.mockResolvedValue({
-      data: {
-        user: {
-          id: 'admin-1',
-          user_metadata: { role: 'admin' },
-        },
-      },
-      error: null,
-    });
-
-    let callCount = 0;
-    const mockChain = {
+    const existingChain = {
       select: vi.fn().mockReturnThis(),
       eq: vi.fn().mockReturnThis(),
-      neq: vi.fn().mockReturnThis(),
-      update: vi.fn().mockReturnThis(),
-      single: vi.fn().mockImplementation(() => {
-        callCount++;
-        if (callCount === 1) {
-          // 기존 게시물 조회
-          return Promise.resolve({
-            data: { id: '1', status: 'draft', published_at: null },
-            error: null,
-          });
-        }
-        // 업데이트 후 반환
-        return Promise.resolve({
-          data: { id: '1', title: 'Updated Title', status: 'published' },
-          error: null,
-        });
+      single: vi.fn().mockResolvedValue({
+        data: { id: '1', status: 'draft', published_at: null },
+        error: null,
       }),
     };
-    mockFrom.mockReturnValue(mockChain);
+
+    const updateChain = {
+      update: vi.fn().mockReturnThis(),
+      eq: vi.fn().mockReturnThis(),
+      select: vi.fn().mockReturnThis(),
+      single: vi.fn().mockResolvedValue({
+        data: { id: '1', title: 'Updated Title', status: 'published' },
+        error: null,
+      }),
+    };
+
+    fromMock.mockReturnValueOnce(existingChain).mockReturnValueOnce(updateChain);
 
     const request = new NextRequest('http://localhost/api/admin/blog/1', {
-      method: 'PUT',
+      method: 'PATCH',
       body: JSON.stringify({ title: 'Updated Title', status: 'published' }),
     });
 
-    const response = await PUT(request, { params: Promise.resolve({ id: '1' }) });
+    const response = await PATCH(request, { params: Promise.resolve({ id: '1' }) });
     const data = await response.json();
 
     expect(response.status).toBe(200);
@@ -144,45 +102,33 @@ describe('PUT /api/admin/blog/[id]', () => {
   });
 
   it('should check for duplicate slug on update', async () => {
-    mockGetUser.mockResolvedValue({
-      data: {
-        user: {
-          id: 'admin-1',
-          user_metadata: { role: 'admin' },
-        },
-      },
-      error: null,
-    });
+    const existingChain = {
+      select: vi.fn().mockReturnThis(),
+      eq: vi.fn().mockReturnThis(),
+      single: vi.fn().mockResolvedValue({
+        data: { id: '1', status: 'draft', published_at: null },
+        error: null,
+      }),
+    };
 
-    let callCount = 0;
-    const mockChain = {
+    const duplicateChain = {
       select: vi.fn().mockReturnThis(),
       eq: vi.fn().mockReturnThis(),
       neq: vi.fn().mockReturnThis(),
-      single: vi.fn().mockImplementation(() => {
-        callCount++;
-        if (callCount === 1) {
-          // 기존 게시물 조회
-          return Promise.resolve({
-            data: { id: '1', status: 'draft', published_at: null },
-            error: null,
-          });
-        }
-        // slug 중복 체크 - 다른 게시물에서 이미 사용 중
-        return Promise.resolve({
-          data: { id: '2' },
-          error: null,
-        });
+      single: vi.fn().mockResolvedValue({
+        data: { id: '2' },
+        error: null,
       }),
     };
-    mockFrom.mockReturnValue(mockChain);
+
+    fromMock.mockReturnValueOnce(existingChain).mockReturnValueOnce(duplicateChain);
 
     const request = new NextRequest('http://localhost/api/admin/blog/1', {
-      method: 'PUT',
+      method: 'PATCH',
       body: JSON.stringify({ slug: 'existing-slug' }),
     });
 
-    const response = await PUT(request, { params: Promise.resolve({ id: '1' }) });
+    const response = await PATCH(request, { params: Promise.resolve({ id: '1' }) });
     const data = await response.json();
 
     expect(response.status).toBe(400);
@@ -193,13 +139,13 @@ describe('PUT /api/admin/blog/[id]', () => {
 describe('DELETE /api/admin/blog/[id]', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    verifyAdminAuthMock.mockResolvedValue(true);
+    fromMock.mockReset();
+    createAdminClientMock.mockReturnValue({ from: fromMock });
   });
 
   it('should require authentication', async () => {
-    mockGetUser.mockResolvedValue({
-      data: { user: null },
-      error: { message: 'Not authenticated' },
-    });
+    verifyAdminAuthMock.mockResolvedValueOnce(false);
 
     const request = new NextRequest('http://localhost/api/admin/blog/1', {
       method: 'DELETE',
@@ -212,44 +158,19 @@ describe('DELETE /api/admin/blog/[id]', () => {
     expect(data.error).toBe('인증이 필요합니다.');
   });
 
-  it('should require admin role', async () => {
-    mockGetUser.mockResolvedValue({
-      data: {
-        user: {
-          id: 'user-1',
-          user_metadata: { role: 'user' },
-        },
-      },
-      error: null,
-    });
-
-    const request = new NextRequest('http://localhost/api/admin/blog/1', {
-      method: 'DELETE',
-    });
-
-    const response = await DELETE(request, { params: Promise.resolve({ id: '1' }) });
-    const data = await response.json();
-
-    expect(response.status).toBe(403);
-    expect(data.error).toBe('관리자 권한이 필요합니다.');
-  });
-
   it('should delete blog post successfully', async () => {
-    mockGetUser.mockResolvedValue({
-      data: {
-        user: {
-          id: 'admin-1',
-          user_metadata: { role: 'admin' },
-        },
-      },
-      error: null,
-    });
+    const existingChain = {
+      select: vi.fn().mockReturnThis(),
+      eq: vi.fn().mockReturnThis(),
+      single: vi.fn().mockResolvedValue({ data: { id: '1' }, error: null }),
+    };
 
-    const mockChain = {
+    const deleteChain = {
       delete: vi.fn().mockReturnThis(),
       eq: vi.fn().mockResolvedValue({ error: null }),
     };
-    mockFrom.mockReturnValue(mockChain);
+
+    fromMock.mockReturnValueOnce(existingChain).mockReturnValueOnce(deleteChain);
 
     const request = new NextRequest('http://localhost/api/admin/blog/1', {
       method: 'DELETE',
@@ -263,21 +184,18 @@ describe('DELETE /api/admin/blog/[id]', () => {
   });
 
   it('should handle delete errors', async () => {
-    mockGetUser.mockResolvedValue({
-      data: {
-        user: {
-          id: 'admin-1',
-          user_metadata: { role: 'admin' },
-        },
-      },
-      error: null,
-    });
+    const existingChain = {
+      select: vi.fn().mockReturnThis(),
+      eq: vi.fn().mockReturnThis(),
+      single: vi.fn().mockResolvedValue({ data: { id: '1' }, error: null }),
+    };
 
-    const mockChain = {
+    const deleteChain = {
       delete: vi.fn().mockReturnThis(),
       eq: vi.fn().mockResolvedValue({ error: { message: 'Delete failed' } }),
     };
-    mockFrom.mockReturnValue(mockChain);
+
+    fromMock.mockReturnValueOnce(existingChain).mockReturnValueOnce(deleteChain);
 
     const request = new NextRequest('http://localhost/api/admin/blog/1', {
       method: 'DELETE',

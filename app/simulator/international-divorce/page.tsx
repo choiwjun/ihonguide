@@ -127,8 +127,7 @@ export default function InternationalDivorcePage() {
         throw new Error(data.error || '시뮬레이션 처리 중 오류가 발생했습니다.');
       }
 
-      // API 응답을 UI 형식으로 변환 (비용: USD → KRW)
-      const USD_TO_KRW = 1300;
+      // API 응답을 UI 형식으로 변환
       const apiResult = data.data;
 
       const mapped: SimulationResult = {
@@ -139,8 +138,8 @@ export default function InternationalDivorcePage() {
           .join(', ') || '관할 법원 확인 필요',
         estimatedDuration: `${apiResult.estimates.duration.min}개월 ~ ${apiResult.estimates.duration.max}개월`,
         estimatedCost: {
-          min: apiResult.estimates.costs.total.min * USD_TO_KRW,
-          max: apiResult.estimates.costs.total.max * USD_TO_KRW,
+          min: apiResult.estimates.costs.total.min,
+          max: apiResult.estimates.costs.total.max,
           currency: 'KRW',
         },
         requiredDocuments: apiResult.requiredDocuments.flatMap(

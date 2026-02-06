@@ -4,7 +4,7 @@
  * 양육비 계산 결과 히스토리 컴포넌트
  */
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { Card, Button } from '@/components/ui';
 
@@ -22,26 +22,18 @@ interface CalculatorResult {
 }
 
 export function CalculatorHistory() {
-  const [results, setResults] = useState<CalculatorResult[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    // TODO: API에서 계산 결과 불러오기
-    // 현재는 로컬 스토리지에서 불러옴
-    const savedResults = localStorage.getItem('calculatorHistory');
-    if (savedResults) {
-      setResults(JSON.parse(savedResults));
+  const [results] = useState<CalculatorResult[]>(() => {
+    if (typeof window === 'undefined') {
+      return [];
     }
-    setIsLoading(false);
-  }, []);
 
-  if (isLoading) {
-    return (
-      <Card>
-        <div className="text-center py-8 text-gray-500">불러오는 중...</div>
-      </Card>
-    );
-  }
+    try {
+      const savedResults = localStorage.getItem('calculatorHistory');
+      return savedResults ? (JSON.parse(savedResults) as CalculatorResult[]) : [];
+    } catch {
+      return [];
+    }
+  });
 
   if (results.length === 0) {
     return (

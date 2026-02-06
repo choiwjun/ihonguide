@@ -6,7 +6,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { GET } from './route';
 import { NextRequest } from 'next/server';
 
-// 체이닝 가능한 mock 객체
+const createApiClientMock = vi.fn();
+
 const createChainMock = () => {
   const mock = {
     select: vi.fn(),
@@ -15,7 +16,6 @@ const createChainMock = () => {
     range: vi.fn(),
   };
 
-  // 모든 메서드가 자기 자신을 반환하도록 설정 (체이닝 가능)
   mock.select.mockReturnValue(mock);
   mock.eq.mockReturnValue(mock);
   mock.order.mockReturnValue(mock);
@@ -25,10 +25,8 @@ const createChainMock = () => {
 
 let mockChain: ReturnType<typeof createChainMock>;
 
-vi.mock('@/lib/supabase/client', () => ({
-  createClient: () => ({
-    from: vi.fn(() => mockChain),
-  }),
+vi.mock('@/lib/supabase/api', () => ({
+  createApiClient: () => createApiClientMock(),
 }));
 
 describe('GET /api/blog', () => {
@@ -73,6 +71,9 @@ describe('GET /api/blog', () => {
     vi.clearAllMocks();
     mockChain = createChainMock();
     mockChain.range.mockResolvedValue({ data: mockPosts, error: null, count: 2 });
+    createApiClientMock.mockReturnValue({
+      from: vi.fn(() => mockChain),
+    });
   });
 
   it('should return blog posts list', async () => {
@@ -89,7 +90,6 @@ describe('GET /api/blog', () => {
     const request = new NextRequest('http://localhost:3000/api/blog?page=2&pageSize=5');
     await GET(request);
 
-    // range가 올바른 offset으로 호출되었는지 확인 (page 2, pageSize 5 = offset 5-9)
     expect(mockChain.range).toHaveBeenCalledWith(5, 9);
   });
 
@@ -97,7 +97,6 @@ describe('GET /api/blog', () => {
     const request = new NextRequest('http://localhost:3000/api/blog?category=procedure');
     await GET(request);
 
-    // eq가 카테고리 필터와 status 모두로 호출되어야 함
     expect(mockChain.eq).toHaveBeenCalledWith('status', 'published');
     expect(mockChain.eq).toHaveBeenCalledWith('blog_categories.slug', 'procedure');
   });
@@ -152,7 +151,6 @@ describe('GET /api/blog', () => {
     expect(post.categoryId).toBeDefined();
     expect(post.viewCount).toBeDefined();
     expect(post.publishedAt).toBeDefined();
-    // snake_case가 없어야 함
     expect(post.featured_image).toBeUndefined();
     expect(post.category_id).toBeUndefined();
   });

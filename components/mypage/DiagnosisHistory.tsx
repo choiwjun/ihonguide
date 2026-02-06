@@ -4,7 +4,7 @@
  * 진단 결과 히스토리 컴포넌트
  */
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { Card, Button } from '@/components/ui';
 
@@ -19,26 +19,18 @@ interface DiagnosisResult {
 }
 
 export function DiagnosisHistory() {
-  const [results, setResults] = useState<DiagnosisResult[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    // TODO: API에서 진단 결과 불러오기
-    // 현재는 로컬 스토리지에서 불러옴
-    const savedResults = localStorage.getItem('diagnosisHistory');
-    if (savedResults) {
-      setResults(JSON.parse(savedResults));
+  const [results] = useState<DiagnosisResult[]>(() => {
+    if (typeof window === 'undefined') {
+      return [];
     }
-    setIsLoading(false);
-  }, []);
 
-  if (isLoading) {
-    return (
-      <Card>
-        <div className="text-center py-8 text-gray-500">불러오는 중...</div>
-      </Card>
-    );
-  }
+    try {
+      const savedResults = localStorage.getItem('diagnosisHistory');
+      return savedResults ? (JSON.parse(savedResults) as DiagnosisResult[]) : [];
+    } catch {
+      return [];
+    }
+  });
 
   if (results.length === 0) {
     return (

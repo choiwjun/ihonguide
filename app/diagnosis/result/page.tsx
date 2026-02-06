@@ -4,61 +4,64 @@
  * 이혼 유형 진단 결과 페이지
  */
 
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useMemo, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Container } from '@/components/layout';
 import { Card, Button } from '@/components/ui';
 import type { DiagnosisResult } from '@/types/diagnosis';
 
+function readStoredResult(key: string): DiagnosisResult | null {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  const raw = sessionStorage.getItem(key);
+  if (!raw) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(raw) as DiagnosisResult;
+  } catch {
+    return null;
+  }
+}
+
 function ResultContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [result, setResult] = useState<DiagnosisResult | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
   const sessionId = searchParams.get('sessionId');
 
   useEffect(() => {
-    // sessionId가 없으면 진단 페이지로 리다이렉트
     if (!sessionId) {
       router.replace('/diagnosis');
-      return;
     }
-
-    // 세션 스토리지에서 결과 가져오기 (API 응답 캐시)
-    const cachedResult = sessionStorage.getItem(`diagnosis_${sessionId}`);
-    if (cachedResult) {
-      try {
-        setResult(JSON.parse(cachedResult));
-        setLoading(false);
-        return;
-      } catch {
-        // 파싱 실패 시 무시
-      }
-    }
-
-    // TODO: API에서 결과 가져오기 (GET /api/diagnosis/:sessionId)
-    // 현재는 로컬 스토리지에 저장된 마지막 결과 사용
-    const lastResult = sessionStorage.getItem('lastDiagnosisResult');
-    if (lastResult) {
-      try {
-        setResult(JSON.parse(lastResult));
-      } catch {
-        setError('결과를 불러올 수 없습니다.');
-      }
-    } else {
-      setError('결과를 찾을 수 없습니다.');
-    }
-    setLoading(false);
   }, [sessionId, router]);
 
-  if (loading) {
+  const { result, error } = useMemo(() => {
+    if (!sessionId) {
+      return { result: null as DiagnosisResult | null, error: null as string | null };
+    }
+
+    const cachedResult = readStoredResult(`diagnosis_${sessionId}`);
+    if (cachedResult) {
+      return { result: cachedResult, error: null };
+    }
+
+    const fallbackResult = readStoredResult('lastDiagnosisResult');
+    if (fallbackResult) {
+      return { result: fallbackResult, error: null };
+    }
+
+    return { result: null, error: '결과를 찾을 수 없습니다.' };
+  }, [sessionId]);
+
+  if (!sessionId) {
     return (
       <div className="flex flex-col items-center justify-center py-16 space-y-4">
         <div className="w-8 h-8 border-4 border-brand-primary border-t-transparent rounded-full animate-spin" />
-        <p className="text-gray-600">결과를 불러오는 중...</p>
+        <p className="text-gray-600">진단 페이지로 이동 중...</p>
       </div>
     );
   }

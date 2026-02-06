@@ -35,7 +35,7 @@ test.describe('진단 흐름', () => {
     await expect(page.getByText('배우자와 이혼에 대해 대화가 가능한가요?')).toBeVisible();
 
     // 진행 표시 확인
-    await expect(page.getByText('1 / 10')).toBeVisible();
+    await expect(page.getByRole('list', { name: '10단계 중 1단계 진행 중' })).toBeVisible();
   });
 
   test('질문에 답변하면 다음 버튼이 활성화된다', async ({ page }) => {

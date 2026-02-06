@@ -66,7 +66,7 @@ export function Footer() {
             <Link href="/privacy" className="block hover:text-[#0f766e] transition-colors">
               개인정보처리방침
             </Link>
-            <a href="mailto:dclab@digicore-lab.com" className="block hover:text-[#0f766e] transition-colors">
+            <a href="mailto:support@ihonjunbi.com" className="block hover:text-[#0f766e] transition-colors">
               문의하기
             </a>
           </nav>

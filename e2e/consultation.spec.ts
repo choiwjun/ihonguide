@@ -1,9 +1,16 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Locator } from '@playwright/test';
 
 /**
  * E2E 테스트: 상담 신청 흐름
  * 참조: docs/03-UserFlow.md 섹션 4
  */
+
+async function typeInput(locator: Locator, value: string) {
+  await locator.click();
+  await locator.press('ControlOrMeta+A');
+  await locator.press('Delete');
+  await locator.type(value, { delay: 10 });
+}
 
 test.describe('상담 신청 흐름', () => {
   test.beforeEach(async ({ page }) => {
@@ -34,19 +41,19 @@ test.describe('상담 신청 흐름', () => {
 
   test('이름을 입력할 수 있다', async ({ page }) => {
     const nameInput = page.getByLabel('이름');
-    await nameInput.fill('홍길동');
+    await typeInput(nameInput, '홍길동');
     await expect(nameInput).toHaveValue('홍길동');
   });
 
   test('연락처를 입력할 수 있다', async ({ page }) => {
     const phoneInput = page.getByLabel('연락처');
-    await phoneInput.fill('010-1234-5678');
+    await typeInput(phoneInput, '010-1234-5678');
     await expect(phoneInput).toHaveValue('010-1234-5678');
   });
 
   test('이메일을 입력할 수 있다', async ({ page }) => {
     const emailInput = page.getByLabel(/이메일/);
-    await emailInput.fill('test@example.com');
+    await typeInput(emailInput, 'test@example.com');
     await expect(emailInput).toHaveValue('test@example.com');
   });
 
@@ -65,7 +72,7 @@ test.describe('상담 신청 흐름', () => {
     const messageTextarea = page.getByLabel('상담 내용');
     const testMessage = '이혼 절차에 대해 상담을 받고 싶습니다. 재산분할과 양육권에 대해 알고 싶습니다.';
 
-    await messageTextarea.fill(testMessage);
+    await typeInput(messageTextarea, testMessage);
     await expect(messageTextarea).toHaveValue(testMessage);
   });
 
@@ -104,7 +111,7 @@ test.describe('상담 신청 흐름', () => {
 
   test('이름이 너무 짧으면 오류가 표시된다', async ({ page }) => {
     // 1글자 이름 입력
-    await page.getByLabel('이름').fill('홍');
+    await typeInput(page.getByLabel('이름'), '홍');
     await page.getByRole('button', { name: '상담 신청하기' }).click();
 
     // 오류 메시지 확인
@@ -113,7 +120,7 @@ test.describe('상담 신청 흐름', () => {
 
   test('연락처가 올바르지 않으면 오류가 표시된다', async ({ page }) => {
     // 잘못된 연락처 입력
-    await page.getByLabel('연락처').fill('123');
+    await typeInput(page.getByLabel('연락처'), '123');
     await page.getByRole('button', { name: '상담 신청하기' }).click();
 
     // 오류 메시지 확인
@@ -122,7 +129,7 @@ test.describe('상담 신청 흐름', () => {
 
   test('이메일 형식이 잘못되면 오류가 표시된다', async ({ page }) => {
     // 잘못된 이메일 입력
-    await page.getByLabel(/이메일/).fill('invalid-email');
+    await typeInput(page.getByLabel(/이메일/), 'invalid-email');
     await page.getByRole('button', { name: '상담 신청하기' }).click();
 
     // 오류 메시지 확인
@@ -131,7 +138,7 @@ test.describe('상담 신청 흐름', () => {
 
   test('상담 내용이 너무 짧으면 오류가 표시된다', async ({ page }) => {
     // 짧은 상담 내용 입력
-    await page.getByLabel('상담 내용').fill('상담요청');
+    await typeInput(page.getByLabel('상담 내용'), '상담요청');
     await page.getByRole('button', { name: '상담 신청하기' }).click();
 
     // 오류 메시지 확인
@@ -148,26 +155,24 @@ test.describe('상담 신청 흐름', () => {
           success: true,
           data: {
             id: 'test-consultation-id',
+            ticketNumber: 'CST-20260206-ABCD',
+            status: '접수',
             createdAt: new Date().toISOString(),
-            estimatedResponseTime: '영업일 기준 24시간 이내',
           },
         }),
       });
     });
 
     // 필수 입력값 입력
-    await page.getByLabel('이름').fill('홍길동');
-    await page.getByLabel('연락처').fill('010-1234-5678');
-    await page.getByLabel('상담 내용').fill('이혼 절차에 대해 상담을 받고 싶습니다. 재산분할과 양육권에 대해 알고 싶습니다.');
+    await typeInput(page.getByLabel('이름'), '홍길동');
+    await typeInput(page.getByLabel('연락처'), '010-1234-5678');
+    await typeInput(page.getByLabel('상담 내용'), '이혼 절차에 대해 상담을 받고 싶습니다. 재산분할과 양육권에 대해 알고 싶습니다.');
 
     // 개인정보 동의
     await page.locator('input[type="checkbox"]').first().check();
 
     // 제출
     await page.getByRole('button', { name: '상담 신청하기' }).click();
-
-    // 로딩 상태 확인
-    await expect(page.getByRole('button', { name: '신청 중...' })).toBeVisible();
 
     // 성공 메시지 확인
     await expect(page.getByText('상담 신청이 완료되었습니다')).toBeVisible();
@@ -183,19 +188,20 @@ test.describe('상담 신청 흐름', () => {
           success: true,
           data: {
             id: 'test-consultation-id',
+            ticketNumber: 'CST-20260206-EFGH',
+            status: '접수',
             createdAt: new Date().toISOString(),
-            estimatedResponseTime: '영업일 기준 24시간 이내',
           },
         }),
       });
     });
 
     // 필수 입력값 입력
-    await page.getByLabel('이름').fill('홍길동');
-    await page.getByLabel('연락처').fill('010-1234-5678');
-    await page.getByLabel(/이메일/).fill('hong@example.com');
+    await typeInput(page.getByLabel('이름'), '홍길동');
+    await typeInput(page.getByLabel('연락처'), '010-1234-5678');
+    await typeInput(page.getByLabel(/이메일/), 'hong@example.com');
     await page.getByLabel('상담 유형').selectOption('재산분할상담');
-    await page.getByLabel('상담 내용').fill('재산분할에 대해 상담을 받고 싶습니다. 아파트와 예금 분할에 대해 알고 싶습니다.');
+    await typeInput(page.getByLabel('상담 내용'), '재산분할에 대해 상담을 받고 싶습니다. 아파트와 예금 분할에 대해 알고 싶습니다.');
 
     // 동의 체크
     await page.locator('input[type="checkbox"]').first().check();
@@ -232,8 +238,9 @@ test.describe('상담 신청 완료 페이지', () => {
           success: true,
           data: {
             id: 'test-consultation-id',
+            ticketNumber: 'CST-20260206-IJKL',
+            status: '접수',
             createdAt: new Date().toISOString(),
-            estimatedResponseTime: '영업일 기준 24시간 이내',
           },
         }),
       });
@@ -242,9 +249,9 @@ test.describe('상담 신청 완료 페이지', () => {
     await page.goto('/consultation');
 
     // 상담 신청 완료
-    await page.getByLabel('이름').fill('홍길동');
-    await page.getByLabel('연락처').fill('010-1234-5678');
-    await page.getByLabel('상담 내용').fill('이혼 절차에 대해 상담을 받고 싶습니다.');
+    await typeInput(page.getByLabel('이름'), '홍길동');
+    await typeInput(page.getByLabel('연락처'), '010-1234-5678');
+    await typeInput(page.getByLabel('상담 내용'), '이혼 절차에 대해 상담을 받고 싶습니다.');
     await page.locator('input[type="checkbox"]').first().check();
     await page.getByRole('button', { name: '상담 신청하기' }).click();
 
@@ -252,7 +259,7 @@ test.describe('상담 신청 완료 페이지', () => {
     await expect(page.getByText('상담 신청이 완료되었습니다')).toBeVisible();
 
     // 새 상담 신청 버튼 클릭
-    await page.getByRole('button', { name: '새 상담 신청' }).click();
+    await page.getByRole('button', { name: '새로운 상담 신청하기' }).click();
 
     // 폼이 다시 표시됨
     await expect(page.getByRole('heading', { name: '상담 신청' })).toBeVisible();

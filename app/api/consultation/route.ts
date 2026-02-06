@@ -191,7 +191,8 @@ export async function POST(request: NextRequest) {
       data: {
         id: savedData?.id ?? null,
         ticketNumber: savedData?.ticketNumber ?? ticketNumber,
-        status: 'pending',
+        // DB 상태코드(pending)와 별개로 사용자 응답은 한국어 상태값으로 반환
+        status: '접수',
         createdAt: new Date().toISOString(),
       },
     });

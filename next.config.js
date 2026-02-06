@@ -1,15 +1,21 @@
 /** @type {import('next').NextConfig} */
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 // 보안 헤더 설정
 const securityHeaders = [
   {
     key: 'X-DNS-Prefetch-Control',
     value: 'on',
   },
-  {
-    key: 'Strict-Transport-Security',
-    value: 'max-age=63072000; includeSubDomains; preload',
-  },
+  ...(isProduction
+    ? [
+        {
+          key: 'Strict-Transport-Security',
+          value: 'max-age=63072000; includeSubDomains; preload',
+        },
+      ]
+    : []),
   {
     key: 'X-Frame-Options',
     value: 'SAMEORIGIN',
@@ -43,7 +49,7 @@ const securityHeaders = [
       "frame-ancestors 'self'",
       "form-action 'self'",
       "base-uri 'self'",
-      "upgrade-insecure-requests",
+      ...(isProduction ? ['upgrade-insecure-requests'] : []),
     ].join('; '),
   },
 ];

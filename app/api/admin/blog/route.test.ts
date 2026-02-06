@@ -3,55 +3,38 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { POST } from './route';
 
-// Supabase 모킹
-const mockGetUser = vi.fn();
-const mockFrom = vi.fn();
+const verifyAdminAuthMock = vi.fn();
+const createAdminClientMock = vi.fn();
+const fromMock = vi.fn();
 
-vi.mock('@/lib/supabase/server', () => ({
-  createClient: vi.fn(() => Promise.resolve({
-    auth: {
-      getUser: mockGetUser,
-    },
-    from: mockFrom,
-  })),
+vi.mock('@/lib/auth/admin', () => ({
+  verifyAdminAuth: (...args: unknown[]) => verifyAdminAuthMock(...args),
+  unauthorizedResponse: () =>
+    NextResponse.json(
+      { error: '인증이 필요합니다.' },
+      { status: 401 }
+    ),
+}));
+
+vi.mock('@/lib/supabase/admin', () => ({
+  createAdminClient: () => createAdminClientMock(),
 }));
 
 describe('POST /api/admin/blog', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    verifyAdminAuthMock.mockResolvedValue(true);
+    fromMock.mockReset();
+    createAdminClientMock.mockReturnValue({
+      from: fromMock,
+    });
   });
 
   it('should require authentication', async () => {
-    mockGetUser.mockResolvedValue({
-      data: { user: null },
-      error: { message: 'Not authenticated' },
-    });
-
-    const request = new NextRequest('http://localhost/api/admin/blog', {
-      method: 'POST',
-      body: JSON.stringify({ title: 'Test', content: 'Test content' }),
-    });
-
-    const response = await POST(request);
-    const data = await response.json();
-
-    expect(response.status).toBe(401);
-    expect(data.error).toBe('인증이 필요합니다.');
-  });
-
-  it('should require admin role', async () => {
-    mockGetUser.mockResolvedValue({
-      data: {
-        user: {
-          id: 'user-1',
-          user_metadata: { role: 'user' },
-        },
-      },
-      error: null,
-    });
+    verifyAdminAuthMock.mockResolvedValueOnce(false);
 
     const request = new NextRequest('http://localhost/api/admin/blog', {
       method: 'POST',
@@ -61,21 +44,11 @@ describe('POST /api/admin/blog', () => {
     const response = await POST(request);
     const data = await response.json();
 
-    expect(response.status).toBe(403);
-    expect(data.error).toBe('관리자 권한이 필요합니다.');
+    expect(response.status).toBe(401);
+    expect(data.error).toBe('인증이 필요합니다.');
   });
 
   it('should validate required fields', async () => {
-    mockGetUser.mockResolvedValue({
-      data: {
-        user: {
-          id: 'admin-1',
-          user_metadata: { role: 'admin' },
-        },
-      },
-      error: null,
-    });
-
     const request = new NextRequest('http://localhost/api/admin/blog', {
       method: 'POST',
       body: JSON.stringify({ title: '', content: '', status: 'draft' }),
@@ -89,16 +62,6 @@ describe('POST /api/admin/blog', () => {
   });
 
   it('should validate content is required', async () => {
-    mockGetUser.mockResolvedValue({
-      data: {
-        user: {
-          id: 'admin-1',
-          user_metadata: { role: 'admin' },
-        },
-      },
-      error: null,
-    });
-
     const request = new NextRequest('http://localhost/api/admin/blog', {
       method: 'POST',
       body: JSON.stringify({ title: 'Test Title', content: '', status: 'draft' }),
@@ -112,23 +75,12 @@ describe('POST /api/admin/blog', () => {
   });
 
   it('should check for duplicate slug', async () => {
-    mockGetUser.mockResolvedValue({
-      data: {
-        user: {
-          id: 'admin-1',
-          user_metadata: { role: 'admin' },
-        },
-      },
-      error: null,
-    });
-
-    // Slug 중복 체크 모킹
-    const mockChain = {
+    const slugCheckChain = {
       select: vi.fn().mockReturnThis(),
       eq: vi.fn().mockReturnThis(),
       single: vi.fn().mockResolvedValue({ data: { id: 'existing-post' }, error: null }),
     };
-    mockFrom.mockReturnValue(mockChain);
+    fromMock.mockReturnValueOnce(slugCheckChain);
 
     const request = new NextRequest('http://localhost/api/admin/blog', {
       method: 'POST',
@@ -148,41 +100,27 @@ describe('POST /api/admin/blog', () => {
   });
 
   it('should create a new blog post successfully', async () => {
-    mockGetUser.mockResolvedValue({
-      data: {
-        user: {
-          id: 'admin-1',
-          user_metadata: { role: 'admin' },
-        },
-      },
-      error: null,
-    });
-
-    // Slug 체크 (없음) → 게시물 생성
-    let callCount = 0;
-    const mockChain = {
+    const slugCheckChain = {
       select: vi.fn().mockReturnThis(),
       eq: vi.fn().mockReturnThis(),
-      single: vi.fn().mockImplementation(() => {
-        callCount++;
-        if (callCount === 1) {
-          // slug 중복 체크 - 없음
-          return Promise.resolve({ data: null, error: null });
-        }
-        // insert 후 select
-        return Promise.resolve({
-          data: {
-            id: 'new-post-id',
-            title: 'New Post',
-            slug: 'new-post',
-            status: 'draft',
-          },
-          error: null,
-        });
-      }),
-      insert: vi.fn().mockReturnThis(),
+      single: vi.fn().mockResolvedValue({ data: null, error: null }),
     };
-    mockFrom.mockReturnValue(mockChain);
+
+    const insertChain = {
+      insert: vi.fn().mockReturnThis(),
+      select: vi.fn().mockReturnThis(),
+      single: vi.fn().mockResolvedValue({
+        data: {
+          id: 'new-post-id',
+          title: 'New Post',
+          slug: 'new-post',
+          status: 'draft',
+        },
+        error: null,
+      }),
+    };
+
+    fromMock.mockReturnValueOnce(slugCheckChain).mockReturnValueOnce(insertChain);
 
     const request = new NextRequest('http://localhost/api/admin/blog', {
       method: 'POST',
@@ -202,30 +140,19 @@ describe('POST /api/admin/blog', () => {
   });
 
   it('should handle database errors', async () => {
-    mockGetUser.mockResolvedValue({
-      data: {
-        user: {
-          id: 'admin-1',
-          user_metadata: { role: 'admin' },
-        },
-      },
-      error: null,
-    });
-
-    let callCount = 0;
-    const mockChain = {
+    const slugCheckChain = {
       select: vi.fn().mockReturnThis(),
       eq: vi.fn().mockReturnThis(),
-      single: vi.fn().mockImplementation(() => {
-        callCount++;
-        if (callCount === 1) {
-          return Promise.resolve({ data: null, error: null });
-        }
-        return Promise.resolve({ data: null, error: { message: 'DB error' } });
-      }),
-      insert: vi.fn().mockReturnThis(),
+      single: vi.fn().mockResolvedValue({ data: null, error: null }),
     };
-    mockFrom.mockReturnValue(mockChain);
+
+    const insertChain = {
+      insert: vi.fn().mockReturnThis(),
+      select: vi.fn().mockReturnThis(),
+      single: vi.fn().mockResolvedValue({ data: null, error: { message: 'DB error' } }),
+    };
+
+    fromMock.mockReturnValueOnce(slugCheckChain).mockReturnValueOnce(insertChain);
 
     const request = new NextRequest('http://localhost/api/admin/blog', {
       method: 'POST',

@@ -218,7 +218,7 @@ export function determineJurisdiction(
     const assetsInCountry = input.assets.filter((a) => a.location === country);
     if (assetsInCountry.length > 0) {
       const totalValue = assetsInCountry.reduce((sum, a) => sum + a.estimatedValue, 0);
-      bases.push(`재산 소재지 (약 $${totalValue.toLocaleString()})`);
+      bases.push(`재산 소재지 (약 ${totalValue.toLocaleString()}원)`);
     }
 
     if (bases.length > 0) {
@@ -442,7 +442,7 @@ export function analyzeComplexity(
   if (input.assets.length > 0) {
     complexityScore += 10;
     const totalValue = input.assets.reduce((sum, a) => sum + a.estimatedValue, 0);
-    factors.push(`재산 분할 필요 (총 $${totalValue.toLocaleString()})`);
+    factors.push(`재산 분할 필요 (총 ${totalValue.toLocaleString()}원)`);
 
     // 재산이 여러 국가에 분산
     const assetCountries = new Set(input.assets.map((a) => a.location));
@@ -635,13 +635,13 @@ export function estimateTimeAndCost(
 
   // 송달 비용
   if (!HAGUE_SERVICE_CONVENTION_COUNTRIES.includes(input.respondent.currentResidence)) {
-    otherMin += 500;
-    otherMax += 1500;
+    otherMin += 650_000;
+    otherMax += 1_950_000;
   }
 
   // 공증 및 기타 행정 비용
-  otherMin += 500;
-  otherMax += 1000;
+  otherMin += 650_000;
+  otherMax += 1_300_000;
 
   return {
     duration: {
@@ -971,7 +971,7 @@ export function analyzeRisks(
       assetSeverity = 'high';
       assetDescription = '재산 은닉 위험';
       assetMitigation = ASSET_WARNINGS.hiding.replace('⚠️ ', '');
-    } else if (totalValue > 500_000) {
+    } else if (totalValue > 650_000_000) {
       assetSeverity = 'medium';
       assetDescription = '고액 재산 분할 - 정밀한 평가 필요';
       assetMitigation = '전문 감정평가 및 세무 자문 필요';

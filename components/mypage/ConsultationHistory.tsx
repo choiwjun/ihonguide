@@ -4,7 +4,7 @@
  * 상담 신청 히스토리 컴포넌트
  */
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { Card, Button } from '@/components/ui';
 
@@ -23,26 +23,18 @@ const statusMap: Record<string, { label: string; color: string }> = {
 };
 
 export function ConsultationHistory() {
-  const [requests, setRequests] = useState<ConsultationRequest[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    // TODO: API에서 상담 신청 내역 불러오기
-    // 현재는 로컬 스토리지에서 불러옴
-    const savedRequests = localStorage.getItem('consultationHistory');
-    if (savedRequests) {
-      setRequests(JSON.parse(savedRequests));
+  const [requests] = useState<ConsultationRequest[]>(() => {
+    if (typeof window === 'undefined') {
+      return [];
     }
-    setIsLoading(false);
-  }, []);
 
-  if (isLoading) {
-    return (
-      <Card>
-        <div className="text-center py-8 text-gray-500">불러오는 중...</div>
-      </Card>
-    );
-  }
+    try {
+      const savedRequests = localStorage.getItem('consultationHistory');
+      return savedRequests ? (JSON.parse(savedRequests) as ConsultationRequest[]) : [];
+    } catch {
+      return [];
+    }
+  });
 
   if (requests.length === 0) {
     return (

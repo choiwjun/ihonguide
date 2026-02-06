@@ -4,7 +4,7 @@
  * 저장된 블로그 글 컴포넌트
  */
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { Card, Button } from '@/components/ui';
 
@@ -21,26 +21,18 @@ interface SavedPost {
 }
 
 export function SavedPosts() {
-  const [posts, setPosts] = useState<SavedPost[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    // TODO: API에서 저장된 글 불러오기
-    // 현재는 로컬 스토리지에서 불러옴
-    const savedPosts = localStorage.getItem('savedPosts');
-    if (savedPosts) {
-      setPosts(JSON.parse(savedPosts));
+  const [posts] = useState<SavedPost[]>(() => {
+    if (typeof window === 'undefined') {
+      return [];
     }
-    setIsLoading(false);
-  }, []);
 
-  if (isLoading) {
-    return (
-      <Card>
-        <div className="text-center py-8 text-gray-500">불러오는 중...</div>
-      </Card>
-    );
-  }
+    try {
+      const savedPosts = localStorage.getItem('savedPosts');
+      return savedPosts ? (JSON.parse(savedPosts) as SavedPost[]) : [];
+    } catch {
+      return [];
+    }
+  });
 
   if (posts.length === 0) {
     return (

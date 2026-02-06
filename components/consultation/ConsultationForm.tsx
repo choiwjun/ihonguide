@@ -101,7 +101,7 @@ export function ConsultationForm({ onSubmit, isSubmitting }: ConsultationFormPro
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} noValidate className="space-y-4">
         {/* 이름 */}
         <div>
           <Input
@@ -142,10 +142,11 @@ export function ConsultationForm({ onSubmit, isSubmitting }: ConsultationFormPro
 
         {/* 상담 유형 */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="consultationType" className="block text-sm font-medium text-gray-700 mb-1">
             상담 유형
           </label>
           <select
+            id="consultationType"
             value={formData.consultationType}
             onChange={handleChange('consultationType')}
             className="w-full h-12 px-4 bg-white border border-gray-300 rounded-lg text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-all"
@@ -160,10 +161,11 @@ export function ConsultationForm({ onSubmit, isSubmitting }: ConsultationFormPro
 
         {/* 상담 내용 */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
             상담 내용
           </label>
           <textarea
+            id="message"
             value={formData.message}
             onChange={handleChange('message')}
             placeholder="상담받고 싶은 내용을 자세히 적어주세요."

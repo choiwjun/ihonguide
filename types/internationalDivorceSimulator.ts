@@ -129,7 +129,7 @@ export interface AssetInfo {
   type: AssetType;
   /** 재산 소재지 */
   location: CountryCode;
-  /** 추정 가치 (USD) */
+  /** 추정 가치 (KRW) */
   estimatedValue: number;
 }
 
@@ -221,15 +221,15 @@ export interface DurationEstimate {
 
 /** 예상 비용 */
 export interface CostEstimate {
-  /** 변호사 비용 (USD) */
+  /** 변호사 비용 (KRW) */
   legal: { min: number; max: number };
-  /** 번역 비용 (USD) */
+  /** 번역 비용 (KRW) */
   translation: { min: number; max: number };
-  /** 여행 비용 (USD) */
+  /** 여행 비용 (KRW) */
   travel: { min: number; max: number };
-  /** 기타 비용 (USD) */
+  /** 기타 비용 (KRW) */
   other: { min: number; max: number };
-  /** 총 비용 (USD) */
+  /** 총 비용 (KRW) */
   total: { min: number; max: number };
 }
 
