@@ -5,7 +5,7 @@
 /**
  * 상담 유형
  */
-export type ConsultationType = '이혼상담' | '양육비상담' | '재산분할상담' | '기타';
+export type ConsultationType = '이혼상담' | '양육비상담' | '재산분할상담' | '상간녀소송' | '국제이혼' | '기타';
 
 /**
  * 상담 신청 입력 데이터
@@ -73,5 +73,7 @@ export const CONSULTATION_TYPE_OPTIONS: { value: ConsultationType; label: string
   { value: '이혼상담', label: '이혼 절차 상담' },
   { value: '양육비상담', label: '양육비 상담' },
   { value: '재산분할상담', label: '재산분할 상담' },
+  { value: '상간녀소송', label: '상간녀(남) 소송 상담' },
+  { value: '국제이혼', label: '국제이혼 상담' },
   { value: '기타', label: '기타 상담' },
 ];

@@ -12,7 +12,7 @@ interface ConsultationRequestBody extends Partial<ConsultationInput> {
   message?: string;
 }
 
-const VALID_CONSULTATION_TYPES: ConsultationType[] = ['이혼상담', '양육비상담', '재산분할상담', '기타'];
+const VALID_CONSULTATION_TYPES: ConsultationType[] = ['이혼상담', '양육비상담', '재산분할상담', '상간녀소송', '국제이혼', '기타'];
 
 /**
  * 접수 번호 생성
