@@ -40,60 +40,34 @@ export default function EditBlogPostPage() {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        // TODO: API에서 카테고리와 게시물 데이터 불러오기
-        const mockCategories: BlogCategory[] = [
-          { id: '1', name: '절차', slug: 'procedure' },
-          { id: '2', name: '양육권', slug: 'custody' },
-          { id: '3', name: '재산분할', slug: 'property' },
-          { id: '4', name: '위자료', slug: 'alimony' },
-          { id: '5', name: '기타', slug: 'etc' },
-        ];
+        // 게시물과 카테고리를 병렬로 가져오기
+        const [postResponse, categoriesResponse] = await Promise.all([
+          fetch(`/api/admin/blog/${postId}`),
+          fetch('/api/admin/categories'),
+        ]);
 
-        // 더미 게시물 데이터
-        const mockPosts: Record<string, BlogPostData> = {
-          '1': {
-            id: '1',
-            title: '이혼 절차 완벽 가이드 2026',
-            slug: 'divorce-procedure-guide',
-            content: '# 이혼 절차 안내\n\n이혼은 크게 협의이혼과 재판상 이혼으로 나뉩니다...',
-            excerpt: '이혼 절차의 모든 것을 알려드립니다.',
-            categoryId: '1',
-            metaTitle: '이혼 절차 완벽 가이드 2026 | 아이혼가이드',
-            metaDescription: '협의이혼과 재판상 이혼의 차이점, 필요 서류, 소요 기간 등 이혼 절차의 모든 것을 상세히 안내합니다.',
-            status: 'published',
-          },
-          '2': {
-            id: '2',
-            title: '양육비 계산 방법과 기준',
-            slug: 'child-support-calculation',
-            content: '# 양육비 계산\n\n양육비는 부모의 소득과 자녀의 나이에 따라 결정됩니다...',
-            excerpt: '양육비 계산 방법을 알려드립니다.',
-            categoryId: '2',
-            metaTitle: '양육비 계산 방법과 기준 | 아이혼가이드',
-            metaDescription: '대한민국 법원의 양육비 산정 기준표를 바탕으로 양육비 계산 방법을 상세히 안내합니다.',
-            status: 'published',
-          },
-          '3': {
-            id: '3',
-            title: '재산분할 시 알아야 할 5가지',
-            slug: 'property-division-tips',
-            content: '# 재산분할 가이드\n\n재산분할 시 알아야 할 중요한 사항들...',
-            excerpt: '재산분할에 대한 핵심 정보를 알려드립니다.',
-            categoryId: '3',
-            metaTitle: '재산분할 시 알아야 할 5가지 | 아이혼가이드',
-            metaDescription: '이혼 시 재산분할에서 꼭 알아야 할 5가지 핵심 사항을 정리했습니다.',
-            status: 'draft',
-          },
-        };
+        const postResult = await postResponse.json();
+        const categoriesResult = await categoriesResponse.json();
 
-        const postData = mockPosts[postId];
-        if (!postData) {
-          setError('게시물을 찾을 수 없습니다.');
+        if (postResult.error || !postResult.data) {
+          setError(postResult.error || '게시물을 찾을 수 없습니다.');
           return;
         }
 
-        setCategories(mockCategories);
-        setPost(postData);
+        const postData = postResult.data;
+        setPost({
+          id: postData.id,
+          title: postData.title,
+          slug: postData.slug,
+          content: postData.content || '',
+          excerpt: postData.excerpt || '',
+          categoryId: postData.category?.id || '',
+          metaTitle: postData.metaTitle || '',
+          metaDescription: postData.metaDescription || '',
+          status: postData.status,
+        });
+
+        setCategories(categoriesResult.data || []);
       } catch {
         setError('데이터를 불러오는데 실패했습니다.');
       } finally {

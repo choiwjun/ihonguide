@@ -95,7 +95,7 @@ export function BlogEditor({ post, categories, isEdit = false }: BlogEditorProps
       };
 
       const url = isEdit ? `/api/admin/blog/${post?.id}` : '/api/admin/blog';
-      const method = isEdit ? 'PUT' : 'POST';
+      const method = isEdit ? 'PATCH' : 'POST';
 
       const response = await fetch(url, {
         method,
