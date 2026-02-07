@@ -108,6 +108,9 @@ export type Database = {
           user_id: string | null;
           name: string;
           phone: string;
+          email: string | null;
+          consultation_type: string | null;
+          ticket_number: string | null;
           preferred_time: string | null;
           status: 'pending' | 'contacted' | 'completed';
           current_situation: string | null;
@@ -123,6 +126,9 @@ export type Database = {
           user_id?: string | null;
           name: string;
           phone: string;
+          email?: string | null;
+          consultation_type?: string | null;
+          ticket_number?: string | null;
           preferred_time?: string | null;
           status?: 'pending' | 'contacted' | 'completed';
           current_situation?: string | null;
@@ -138,6 +144,9 @@ export type Database = {
           user_id?: string | null;
           name?: string;
           phone?: string;
+          email?: string | null;
+          consultation_type?: string | null;
+          ticket_number?: string | null;
           preferred_time?: string | null;
           status?: 'pending' | 'contacted' | 'completed';
           current_situation?: string | null;

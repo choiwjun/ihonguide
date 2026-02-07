@@ -123,29 +123,31 @@ async function saveConsultation(
   if (!supabase) return null;
 
   try {
-    const { data: savedResult, error: saveError } = await (supabase as any)
-      .from('consultations')
-      .insert({
-        name: data.name,
-        phone: data.phone,
-        email: data.email || null,
-        consultation_type: data.consultationType,
-        description: data.description,
-        ticket_number: data.ticketNumber,
-        status: 'pending',
-      })
-      .select('id, ticket_number')
-      .single();
+    // supabase-js v2.93+ 와 Database 타입 호환 문제로 as any 사용
+    // Database 타입(types/database.ts)에 컬럼 정의는 반영 완료
+    const response: { data: { id: string; ticket_number: string } | null; error: { message: string } | null } =
+      await (supabase as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+        .from('consultations')
+        .insert({
+          name: data.name,
+          phone: data.phone,
+          email: data.email || null,
+          consultation_type: data.consultationType,
+          description: data.description,
+          ticket_number: data.ticketNumber,
+          status: 'pending',
+        })
+        .select('id, ticket_number')
+        .single();
 
-    if (saveError) {
-      console.error('Failed to save consultation:', saveError.message);
+    if (response.error) {
+      console.error('Failed to save consultation:', response.error.message);
       return null;
     }
 
-    const result = savedResult as any;
     return {
-      id: result?.id ?? '',
-      ticketNumber: result?.ticket_number ?? data.ticketNumber,
+      id: response.data?.id ?? '',
+      ticketNumber: response.data?.ticket_number ?? data.ticketNumber,
     };
   } catch (error) {
     console.error('Error saving consultation:', error);
