@@ -273,7 +273,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       body = await request.json();
     } catch {
       return NextResponse.json(
-        { error: '유효하지 않은 JSON 형식입니다.' },
+        { success: false, error: '유효하지 않은 JSON 형식입니다.' },
         { status: 400 }
       );
     }
@@ -282,7 +282,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const validation = validateInput(body);
     if (!validation.valid) {
       return NextResponse.json(
-        { error: validation.error },
+        { success: false, error: validation.error },
         { status: 400 }
       );
     }
@@ -303,7 +303,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     console.error('Adultery simulator API error:', error);
 
     return NextResponse.json(
-      { error: '시뮬레이션 처리 중 오류가 발생했습니다.' },
+      { success: false, error: '시뮬레이션 처리 중 오류가 발생했습니다.' },
       { status: 500 }
     );
   }

@@ -165,7 +165,7 @@ export async function POST(request: NextRequest) {
     const validation = validateInput(body);
     if (!validation.valid) {
       return NextResponse.json(
-        { error: validation.error },
+        { success: false, error: validation.error },
         { status: 400 }
       );
     }
@@ -199,7 +199,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Consultation API error:', error);
     return NextResponse.json(
-      { error: '상담 신청 처리 중 오류가 발생했습니다.' },
+      { success: false, error: '상담 신청 처리 중 오류가 발생했습니다.' },
       { status: 500 }
     );
   }

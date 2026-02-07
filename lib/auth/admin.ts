@@ -12,7 +12,10 @@ const TOKEN_MAX_AGE = 4 * 60 * 60; // 4시간 (초 단위)
  * 토큰 서명 생성 (HMAC-SHA256)
  */
 function createSignature(data: string): string {
-  const secret = process.env.ADMIN_PASSWORD || '';
+  const secret = process.env.ADMIN_PASSWORD;
+  if (!secret) {
+    throw new Error('ADMIN_PASSWORD 환경 변수가 설정되지 않았습니다.');
+  }
   return createHmac('sha256', secret).update(data).digest('hex');
 }
 

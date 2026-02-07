@@ -15,6 +15,7 @@ const loginAttempts = new Map<string, RateLimitEntry>();
 const MAX_ATTEMPTS = 5; // 최대 시도 횟수
 const WINDOW_MS = 15 * 60 * 1000; // 15분 윈도우
 const CLEANUP_INTERVAL = 5 * 60 * 1000; // 5분마다 정리
+const MAX_ENTRIES = 10_000; // Map 최대 항목 수 (메모리 보호)
 
 // 오래된 항목 정리 (메모리 누수 방지)
 setInterval(() => {
@@ -72,6 +73,17 @@ export function recordLoginAttempt(ip: string): void {
   const entry = loginAttempts.get(ip);
 
   if (!entry || now > entry.resetTime) {
+    // 메모리 보호: 최대 항목 수 초과 시 만료된 항목 정리
+    if (loginAttempts.size >= MAX_ENTRIES) {
+      for (const [key, val] of loginAttempts.entries()) {
+        if (now > val.resetTime) loginAttempts.delete(key);
+      }
+      // 정리 후에도 초과면 가장 오래된 항목 제거
+      if (loginAttempts.size >= MAX_ENTRIES) {
+        const firstKey = loginAttempts.keys().next().value;
+        if (firstKey) loginAttempts.delete(firstKey);
+      }
+    }
     loginAttempts.set(ip, {
       count: 1,
       resetTime: now + WINDOW_MS,

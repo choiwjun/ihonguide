@@ -108,7 +108,7 @@ export async function POST(request: NextRequest) {
     // 응답 검증
     if (!validateAnswers(answers)) {
       return NextResponse.json(
-        { error: '유효하지 않은 응답 형식입니다.' },
+        { success: false, error: '유효하지 않은 응답 형식입니다.' },
         { status: 400 }
       );
     }
@@ -116,7 +116,7 @@ export async function POST(request: NextRequest) {
     // 질문 ID 검증
     if (!validateQuestionIds(answers)) {
       return NextResponse.json(
-        { error: '유효하지 않은 질문 ID가 포함되어 있습니다.' },
+        { success: false, error: '유효하지 않은 질문 ID가 포함되어 있습니다.' },
         { status: 400 }
       );
     }
@@ -124,7 +124,7 @@ export async function POST(request: NextRequest) {
     // 최소 응답 수 검증 (최소 5개 이상)
     if (answers.length < 5) {
       return NextResponse.json(
-        { error: '최소 5개 이상의 질문에 응답해야 합니다.' },
+        { success: false, error: '최소 5개 이상의 질문에 응답해야 합니다.' },
         { status: 400 }
       );
     }
@@ -175,7 +175,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Diagnosis API error:', error);
     return NextResponse.json(
-      { error: '진단 처리 중 오류가 발생했습니다.' },
+      { success: false, error: '진단 처리 중 오류가 발생했습니다.' },
       { status: 500 }
     );
   }

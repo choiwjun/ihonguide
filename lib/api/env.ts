@@ -12,6 +12,8 @@ interface EnvConfig {
 const requiredEnvVars = [
   'NEXT_PUBLIC_SUPABASE_URL',
   'NEXT_PUBLIC_SUPABASE_ANON_KEY',
+  'ADMIN_ID',
+  'ADMIN_PASSWORD',
 ] as const;
 
 /**

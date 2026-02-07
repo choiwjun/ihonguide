@@ -28,6 +28,8 @@ describe('validateEnv', () => {
   it('should return valid when all required env vars exist', () => {
     process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://test.supabase.co';
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = 'test-key';
+    process.env.ADMIN_ID = 'admin';
+    process.env.ADMIN_PASSWORD = 'password';
 
     const result = validateEnv();
 
@@ -38,6 +40,8 @@ describe('validateEnv', () => {
   it('should return errors for missing SUPABASE_URL', () => {
     delete process.env.NEXT_PUBLIC_SUPABASE_URL;
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = 'test-key';
+    process.env.ADMIN_ID = 'admin';
+    process.env.ADMIN_PASSWORD = 'password';
 
     const result = validateEnv();
 
@@ -48,6 +52,8 @@ describe('validateEnv', () => {
   it('should return errors for missing SUPABASE_ANON_KEY', () => {
     process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://test.supabase.co';
     delete process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    process.env.ADMIN_ID = 'admin';
+    process.env.ADMIN_PASSWORD = 'password';
 
     const result = validateEnv();
 
@@ -55,14 +61,28 @@ describe('validateEnv', () => {
     expect(result.errors).toContain('Missing required environment variable: NEXT_PUBLIC_SUPABASE_ANON_KEY');
   });
 
-  it('should return multiple errors when multiple vars are missing', () => {
-    delete process.env.NEXT_PUBLIC_SUPABASE_URL;
-    delete process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  it('should return errors for missing ADMIN_ID', () => {
+    process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://test.supabase.co';
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = 'test-key';
+    delete process.env.ADMIN_ID;
+    process.env.ADMIN_PASSWORD = 'password';
 
     const result = validateEnv();
 
     expect(result.valid).toBe(false);
-    expect(result.errors).toHaveLength(2);
+    expect(result.errors).toContain('Missing required environment variable: ADMIN_ID');
+  });
+
+  it('should return multiple errors when multiple vars are missing', () => {
+    delete process.env.NEXT_PUBLIC_SUPABASE_URL;
+    delete process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    delete process.env.ADMIN_ID;
+    delete process.env.ADMIN_PASSWORD;
+
+    const result = validateEnv();
+
+    expect(result.valid).toBe(false);
+    expect(result.errors).toHaveLength(4);
   });
 });
 
